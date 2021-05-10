@@ -1,0 +1,2 @@
+public class ApiError {
+}
