@@ -1,9 +1,9 @@
 import XCTest
 
-import codecTests
-import flowTests
+import CodecTests
+import FlowTests
 
 var tests = [XCTestCaseEntry]()
-tests += flowTests.allTests()
-tests += codecTests.allTests()
+tests += CodecTests.allTests()
+tests += FlowTests.allTests()
 XCTMain(tests)
