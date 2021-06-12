@@ -1,5 +1,4 @@
-import NIO
-import NIOHTTP1
+import MicroExpress;
 
 import Codec;
 import Server;
@@ -8,12 +7,19 @@ public class NioHttpProcessor: HttpProcessor {
     private let _defaultHost = "127.0.0.1";
     private let _defaultPort = 8080;
 
-    //private let _handler = HttpHandlers();
+    private let _app: Express;
 
     public init() {
+        _app = Express();
     }
 
     public func WireUp(controller: Controller) -> HttpProcessor {
+        _app.get(controller.GetRoute()) { _, res, _ in
+            _ = try! controller.Logic(withRequest: RequestContextBuilder().Build());
+
+            res.send("asdf asdfas Hello World \(controller.GetRoute())");
+        }
+
         return self;
     }
 
@@ -21,7 +27,7 @@ public class NioHttpProcessor: HttpProcessor {
         return self;
     }
 
-    public func WireUp(middleware: Middleware) -> HttpProcessor {
+    public func WireUp(middleware: Server.Middleware) -> HttpProcessor {
         return self;
     }
 
@@ -34,5 +40,6 @@ public class NioHttpProcessor: HttpProcessor {
     }
 
     public func Start() throws {
+        _app.listen(_defaultPort);
     }
 }

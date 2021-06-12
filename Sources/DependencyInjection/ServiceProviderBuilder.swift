@@ -6,7 +6,9 @@ public class ServiceProviderBuilder {
     }
 
     public func Register<T>(_ logic: @escaping (ServiceProvider) -> T) throws -> ServiceProviderBuilder {
-        _types[String(describing: T.self)] = logic;
+        let type: String = String(describing: T.self);
+
+        _types[type] = logic;
 
         return self;
     }

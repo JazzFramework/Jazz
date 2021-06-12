@@ -1,10 +1,8 @@
-import Foundation;
-
 public class ServiceProvider {
     private let _types: [String: (ServiceProvider) -> Any];
     private var _builtTypes: [String: Any];
 
-    public init(withTypes types: [String: (ServiceProvider) -> Any]) {
+    internal init(withTypes types: [String: (ServiceProvider) -> Any]) {
         _types = types;
         _builtTypes = [:];
     }
@@ -18,7 +16,9 @@ public class ServiceProvider {
             }
         }
 
-        if let instance = _types[key] {
+        if let instanceBuilder = _types[key] {
+            let instance = instanceBuilder(self);
+
             if let instanceType = instance as? T {
                 _builtTypes[key] = instanceType;
 

@@ -1,12 +1,14 @@
 import Foundation;
 
 open class Codec<T>: Encoder, Decoder {
+    public init() {}
+
     open func DecodeType(data: Stream, for mediatype: MediaType) -> T?
     {
         return nil;
     }
 
-    open func EncodeType(data: T, into stream: Stream, for mediatype: MediaType)
+    open func EncodeType(data: T, into stream: TextOutputStream, for mediatype: MediaType)
     {
     }
 
@@ -24,9 +26,9 @@ open class Codec<T>: Encoder, Decoder {
 
     public final func Encode(data: Any, for mediatype: MediaType) -> Stream? {
         if let type = data as? T {
-            let stream: Stream = Stream();
+            let stream: OutputStream = OutputStream();
 
-            EncodeType(data: type, into: stream, for: mediatype);
+            EncodeType(data: type, into: stream as! TextOutputStream, for: mediatype);
 
             return stream;
         }
