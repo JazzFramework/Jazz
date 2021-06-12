@@ -26,4 +26,26 @@ public class JsonWriter {
     public func WriteDivider() {
         _stream.write(",");
     }
+
+    public func Write(key: String) {
+        _stream.write("\"");
+
+        _stream.write(Escape(string: key));
+
+        _stream.write("\"");
+
+        _stream.write(":");
+    }
+
+    public func Write(value: String) {
+        _stream.write("\"");
+
+        _stream.write(Escape(string: value));
+
+        _stream.write("\"");
+    }
+
+    private func Escape(string: String) -> String {
+        return string;
+    }
 }
