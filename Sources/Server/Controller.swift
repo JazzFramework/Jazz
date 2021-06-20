@@ -2,7 +2,7 @@ open class Controller {
     public init() {}
 
     open func GetMethod() -> HttpMethod {
-        return HttpMethod.get;
+        return .get;
     }
 
     open func GetRoute() -> String {

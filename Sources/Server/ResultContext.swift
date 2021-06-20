@@ -1,27 +1,27 @@
 import Context
 
 public class ResultContext: BaseContext {
-    private let _statusCode: Int;
+    private let _statusCode: UInt;
     private let _body: Any?;
 
-    internal init(withStatusCode statusCode: Int) {
+    internal init(withStatusCode statusCode: UInt) {
         _statusCode = statusCode;
         _body = nil;
     }
 
     internal init(
-        withStatusCode statusCode: Int,
+        withStatusCode statusCode: UInt,
         withBody body: Any
     ) {
         _statusCode = statusCode;
         _body = body;
     }
 
-    public func GetStatusCode() -> Int {
+    public func GetStatusCode() -> UInt {
         return _statusCode;
     }
 
     public func GetBody() -> Any? {
-        return _statusCode;
+        return _body;
     }
 }

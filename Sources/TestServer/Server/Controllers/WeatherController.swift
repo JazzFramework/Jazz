@@ -2,7 +2,7 @@ import Server;
 
 public class WeatherController: Controller {
     public override func GetMethod() -> HttpMethod {
-        return .get;
+        return .post;
     }
 
     public override func GetRoute() -> String {

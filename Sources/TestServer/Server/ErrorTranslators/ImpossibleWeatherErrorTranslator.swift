@@ -12,7 +12,7 @@ public class ImpossibleWeatherErrorTranslator: ErrorTranslator {
     public override func Handle(error: Error) -> ResultContext {
         return ResultContextBuilder()
             .With(body: ApiError())
-            .With(statusCode: 500)
+            .With(statusCode: 400)
             .Build();
     }
 }

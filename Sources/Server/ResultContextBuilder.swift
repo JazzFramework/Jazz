@@ -1,11 +1,11 @@
 public class ResultContextBuilder {
-    private var _statusCode: Int = 204;
+    private var _statusCode: UInt = 204;
     private var _body: Any? = nil;
 
     public init() {
     }
 
-    public func With(statusCode: Int) -> ResultContextBuilder {
+    public func With(statusCode: UInt) -> ResultContextBuilder {
         _statusCode = statusCode;
 
         return self;
