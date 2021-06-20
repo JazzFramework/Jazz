@@ -21,12 +21,12 @@ internal class ToUpperStage: BaseStage {
         super.init(withTransactions: transactions);
     }
 
-    open override func Execute(for context: FlowContext) -> StageResult {
+    public override func Execute(for context: FlowContext) -> StageResult {
         guard let stringContext: StringContext = _contextResolver.Resolve(for: context) else {
             return ToUpperStage.MISSING_CONTEXT_RESULT;
         }
 
-        let mutatedValue: String = stringContext.GetValue().uppercased();
+        let mutatedValue: String = stringContext.Value.uppercased();
 
         context.Adopt(subcontext: StringContext(mutatedValue));
 

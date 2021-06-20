@@ -21,12 +21,12 @@ internal class ReverseStage: BaseStage {
         super.init(withTransactions: transactions);
     }
 
-    open override func Execute(for context: FlowContext) -> StageResult {
+    public override func Execute(for context: FlowContext) -> StageResult {
         guard let stringContext: StringContext = _contextResolver.Resolve(for: context) else {
             return ReverseStage.MISSING_CONTEXT_RESULT;
         }
 
-        let mutatedValue: String = String(stringContext.GetValue().reversed());
+        let mutatedValue: String = String(stringContext.Value.reversed());
 
         context.Adopt(subcontext: StringContext(mutatedValue));
 

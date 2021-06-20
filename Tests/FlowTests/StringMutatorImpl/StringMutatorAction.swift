@@ -31,7 +31,7 @@ internal class StringMutatorAction: StringMutator {
         {
             case DuplicateStringStage.SUCCESS_RESULT.GetId():
                 if let stringContext: StringContext = _resultResolver.Resolve(for: context) {
-                    return stringContext.GetValue();
+                    return stringContext.Value;
                 }
                 break;
             default:
