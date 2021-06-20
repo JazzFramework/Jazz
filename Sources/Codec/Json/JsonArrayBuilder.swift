@@ -1,11 +1,11 @@
 public class JsonArrayBuilder {
-    private var _data: [JsonTokenable];
+    private var _data: [JsonToken];
 
     public init() {
         _data = [];
     }
 
-    public func With(_ data: JsonTokenable) -> JsonArrayBuilder {
+    public func With(_ data: JsonToken) -> JsonArrayBuilder {
         _data.append(data);
 
         return self;

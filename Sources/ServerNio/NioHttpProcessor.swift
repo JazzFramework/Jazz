@@ -15,7 +15,8 @@ public class NioHttpProcessor: HttpProcessor {
 
     public func WireUp(controller: Controller) -> HttpProcessor {
         _app.get(controller.GetRoute()) { _, res, _ in
-            _ = try! controller.Logic(withRequest: RequestContextBuilder().Build());
+            let result: ResultContext =
+                try! controller.Logic(withRequest: RequestContextBuilder().Build());
 
             res.send("asdf asdfas Hello World \(controller.GetRoute())");
         }

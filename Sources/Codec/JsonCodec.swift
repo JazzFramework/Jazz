@@ -12,7 +12,7 @@ open class JsonCodec<T>: Codec<T> {
     }
 
     public final override func DecodeType(
-        data: Stream,
+        data: InputStream,
         for mediaType: MediaType
     ) -> T? {
         let jsonObject: JsonObject = _reader.Parse(data);
@@ -22,7 +22,7 @@ open class JsonCodec<T>: Codec<T> {
 
     public final override func EncodeType(
         data: T,
-        into stream: TextOutputStream,
+        into stream: OutputStream,
         for mediaType: MediaType
     ) {
         let jsonObject: JsonObject = EncodeJson(data: data, for: mediaType);

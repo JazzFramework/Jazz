@@ -1,4 +1,4 @@
-public class JsonProperty: JsonTokenable {
+public class JsonProperty: JsonToken {
     private let _data: String;
         
     public init(withData data: String) {

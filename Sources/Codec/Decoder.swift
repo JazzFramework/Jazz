@@ -5,5 +5,5 @@ public protocol Decoder {
 
     func CanHandle<TType>(type: TType.Type) -> Bool;
 
-    func Decode(data: Stream, for mediatype: MediaType) -> Any?;
+    func Decode(data: InputStream, for mediatype: MediaType) -> Any?;
 }

@@ -1,11 +1,11 @@
-public class JsonArray: JsonTokenable {
-    private var _data: [JsonTokenable];
+public class JsonArray: JsonToken {
+    private var _data: [JsonToken];
 
-    internal init(withData data: [JsonTokenable]) {
+    internal init(withData data: [JsonToken]) {
         _data = data;
     }
 
-    subscript(index: Int) -> JsonTokenable? {
+    subscript(index: Int) -> JsonToken? {
         get {
             return _data[index];
         }

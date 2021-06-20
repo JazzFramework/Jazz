@@ -5,5 +5,5 @@ public protocol Encoder {
 
     func CanHandle<TType>(type: TType.Type) -> Bool;
 
-    func Encode(data: Any, for mediatype: MediaType) -> Stream?;
+    func Encode(data: Any, for mediatype: MediaType, into stream: OutputStream) -> Bool;
 }

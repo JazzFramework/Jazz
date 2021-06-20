@@ -3,7 +3,7 @@ import Foundation;
 public class JsonObjectWriter {
     public init() {}
 
-    public func Populate(_ jsonObject: JsonObject, into stream: TextOutputStream) {
+    public func Populate(_ jsonObject: JsonObject, into stream: OutputStream) {
         let writer = JsonWriter(into: stream);
 
         Write(jsonObject: jsonObject, with: writer);
@@ -14,7 +14,7 @@ public class JsonObjectWriter {
 
         var shouldWriteDivider: Bool = false;
         for key: String in jsonObject.GetKeys() {
-            if let token: JsonTokenable = jsonObject[key] {
+            if let token: JsonToken = jsonObject[key] {
                 if shouldWriteDivider {
                     writer.WriteDivider();
                 }
@@ -37,7 +37,7 @@ public class JsonObjectWriter {
 
         var shouldWriteDivider: Bool = false;
         for index in 0...jsonArray.GetCount() {
-            if let token: JsonTokenable = jsonArray[index] {
+            if let token: JsonToken = jsonArray[index] {
                 if shouldWriteDivider {
                     writer.WriteDivider();
                 }
@@ -57,7 +57,7 @@ public class JsonObjectWriter {
         writer.Write(value: jsonProperty.GetString());
     }
 
-    private func Write(token: JsonTokenable, with writer: JsonWriter) {
+    private func Write(token: JsonToken, with writer: JsonWriter) {
         if let jsonObject: JsonObject = token as? JsonObject {
             Write(jsonObject: jsonObject, with: writer);
         }

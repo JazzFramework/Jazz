@@ -1,11 +1,11 @@
-public class JsonObject: JsonTokenable {
-    private var _data: [String: JsonTokenable];
+public class JsonObject: JsonToken {
+    private var _data: [String: JsonToken];
 
-    internal init(withData data: [String: JsonTokenable]) {
+    internal init(withData data: [String: JsonToken]) {
         _data = data;
     }
 
-    subscript(key: String) -> JsonTokenable? {
+    public subscript(key: String) -> JsonToken? {
         get {
             return _data[key];
         }

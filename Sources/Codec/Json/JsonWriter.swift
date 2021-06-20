@@ -1,51 +1,56 @@
 import Foundation;
 
 public class JsonWriter {
-    private var _stream: TextOutputStream;
+    private var _stream: OutputStream;
 
-    public init(into stream: TextOutputStream) {
+    public init(into stream: OutputStream) {
         _stream = stream;
     }
 
     public func StartObject() {
-        _stream.write("{");
+        Write(_stream, "{");
     }
 
     public func EndObject() {
-        _stream.write("}");
+        Write(_stream, "}");
     }
 
     public func StartArray() {
-        _stream.write("[");
+        Write(_stream, "[");
     }
 
     public func EndArray() {
-        _stream.write("]");
+        Write(_stream, "]");
     }
 
     public func WriteDivider() {
-        _stream.write(",");
+        Write(_stream, ",");
     }
 
     public func Write(key: String) {
-        _stream.write("\"");
+        Write(_stream, "\"");
 
-        _stream.write(Escape(string: key));
+        Write(_stream, Escape(string: key));
 
-        _stream.write("\"");
+        Write(_stream, "\"");
 
-        _stream.write(":");
+        Write(_stream, ":");
     }
 
     public func Write(value: String) {
-        _stream.write("\"");
+        Write(_stream, "\"");
 
-        _stream.write(Escape(string: value));
+        Write(_stream, Escape(string: value));
 
-        _stream.write("\"");
+        Write(_stream, "\"");
+    }
+
+    private func Write(_ stream: OutputStream, _ data: String) {
+        let encodedDataArray = [UInt8](data.utf8)
+        stream.write(encodedDataArray, maxLength: encodedDataArray.count);
     }
 
     private func Escape(string: String) -> String {
-        return string;
+        return string.replacingOccurrences(of: "\"", with:"\\\"") 
     }
 }

@@ -1,22 +1,26 @@
 import Server;
 
-public class WeatherController: Controller {
-    public override init() {
-        super.init();
+public class Weather2Controller: Controller {
+    private let _action: GetWeatherAction;
+
+    public init(with action: GetWeatherAction) {
+        _action = action;
     }
 
     public override func GetMethod() -> HttpMethod {
-        return HttpMethod.get;
+        return .get;
     }
 
     public override func GetRoute() -> String {
-        return "/here";
+        return "/this";
     }
 
     public override func Logic(withRequest request: RequestContext) throws -> ResultContext {
+        let weather: Weather = try _action.GetWeather();
+
         return ResultContextBuilder()
             .With(statusCode: 200)
-            .With(body: Weather("1"))
+            .With(body: weather)
             .Build();
     }
 }

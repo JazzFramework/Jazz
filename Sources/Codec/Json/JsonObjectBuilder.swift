@@ -1,5 +1,5 @@
 public class JsonObjectBuilder {
-    private var _data: [String: JsonTokenable];
+    private var _data: [String: JsonToken];
 
     public init() {
         _data = [:];
@@ -19,6 +19,12 @@ public class JsonObjectBuilder {
 
     public func With(_ key: String, array: JsonArray) -> JsonObjectBuilder {
         _data[key] = array;
+
+        return self;
+    }
+
+    public func With(_ key: String, token: JsonToken) -> JsonObjectBuilder {
+        _data[key] = token;
 
         return self;
     }
