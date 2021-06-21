@@ -2,6 +2,7 @@ import Foundation;
 
 #if os(Windows)
 //TODO: Hack impl until a linux version of getBoundStreams exists, or there is a better solution.
+// This isn't actually a bound stream, but will just create an input based on output when input is fetched.
 public class BoundStreams {
     public var input: InputStream
     {
