@@ -1,8 +1,18 @@
 import Codec;
 
 public class WeatherV1JsonCodec: JsonCodec<Weather> {
+    private static let SupportedMediaType: MediaType =
+        MediaType(
+            withType: "application",
+            withSubtype: "json",
+            withParameters: [
+                "structure": "example.weather",
+                "version": "1"
+            ]
+        );
+
     public override func CanHandle(mediaType: MediaType) -> Bool {
-        return true;
+        return WeatherV1JsonCodec.SupportedMediaType == mediaType;
     }
 
     public override func CanHandle(data: Any) -> Bool

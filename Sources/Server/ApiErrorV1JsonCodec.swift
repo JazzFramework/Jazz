@@ -1,8 +1,18 @@
 import Codec;
 
 public class ApiErrorV1JsonCodec: JsonCodec<ApiError> {
+    private static let SupportedMediaType: MediaType =
+        MediaType(
+            withType: "application",
+            withSubtype: "json",
+            withParameters: [
+                "structure": "apierror",
+                "version": "1"
+            ]
+        );
+
     public override func CanHandle(mediaType: MediaType) -> Bool {
-        return true;
+        return ApiErrorV1JsonCodec.SupportedMediaType == mediaType;
     }
 
     public override func CanHandle(data: Any) -> Bool

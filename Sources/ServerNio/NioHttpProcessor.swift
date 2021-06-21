@@ -133,14 +133,11 @@ public class NioHttpProcessor: HttpProcessor {
     } 
 
     private func GetMediaType(for property: String, in request: IncomingMessage) -> MediaType {
-        let mediaType: MediaType =
-            MediaType(
-                withType: "type",
-                withSubtype: "subtype",
-                withParameters: [:]
-            );
+        if let header = request.header.headers[property].first {
+            return MediaType(parseFrom: header);
+        }
 
-        return mediaType;
+        return MediaType(parseFrom: "");
     }
 
     private func Handle(
