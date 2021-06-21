@@ -10,6 +10,8 @@ try AppBuilder()
         .WireUp(controller: {_ in return Weather2Controller(with: GetWeatherActionImpl()); })
         .WireUp(controller: {_ in return WeatherController(); })
 
+        .WireUp(encoder: {_ in return ApiErrorV1JsonCodec(); })
+        .WireUp(decoder: {_ in return ApiErrorV1JsonCodec(); })
         .WireUp(encoder: {_ in return WeatherV1JsonCodec(); })
         .WireUp(decoder: {_ in return WeatherV1JsonCodec(); })
 

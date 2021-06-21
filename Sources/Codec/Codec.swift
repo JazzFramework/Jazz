@@ -15,9 +15,10 @@ open class Codec<T>: Encoder, Decoder {
     open func CanHandle(mediaType: MediaType) -> Bool {
         return false;
     }
-    
-    public final func CanHandle<TType>(type: TType.Type) -> Bool {
-        return type == T.self;
+
+    open func CanHandle(data: Any) -> Bool
+    {
+        return false;
     }
 
     public final func Decode(data: InputStream, for mediatype: MediaType) -> Any? {

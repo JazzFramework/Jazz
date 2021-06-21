@@ -75,9 +75,13 @@ public class NioHttpProcessor: HttpProcessor {
                     try controller.Logic(withRequest: RequestContextBuilder().Build());
 
                 res.status = .noContent;
+
                 if let body = result.GetBody() {
                     for encoder in self._encoders {
-                        if encoder.CanHandle(mediaType: mediaType) {
+                        if
+                            encoder.CanHandle(mediaType: mediaType) &&
+                            encoder.CanHandle(data: body)
+                        {
                             let streams: BoundStreams = BoundStreams();
 
                             if encoder.Encode(data: body, for: mediaType, into: streams.output) {
@@ -100,23 +104,39 @@ public class NioHttpProcessor: HttpProcessor {
             }
             catch
             {
-                for errorTranslator in self._errorTranslators {
-                    if errorTranslator.CanHandle(error: error) {
-                        let result: ResultContext = errorTranslator.Handle(error: error);
-                        res.status = .custom(code: result.GetStatusCode(), reasonPhrase: "");
-                        res.send("");
-
-                        return;
-                    }
-                }
-
-                res.status = .internalServerError;
-                res.send("");
+                self.Handle(error: error, for: res);
             }
         }
 
         return self;
     }
+/*
+    private func Handle(result: ResultContext, with mediaType: MediaType, for res: ServerResponse) throws {
+        if let body = result.GetBody() {
+            for encoder in self._encoders {
+                if
+                    encoder.CanHandle(mediaType: mediaType) &&
+                    encoder.CanHandle(data: body)
+                {
+                    let streams: BoundStreams = BoundStreams();
+
+                    if encoder.Encode(data: body, for: mediaType, into: streams.output) {
+                        let data: Data = try Data(reading: streams.input);
+
+                        res.status = .ok;
+                        res.send(String(decoding: data, as: UTF8.self));
+
+                        return;
+                    }
+
+                    break;
+                }
+            }
+
+            res.status = .notAcceptable;
+        }
+    }
+*/
 
     public func WireUp(errorTranslator: ErrorTranslator) -> HttpProcessor {
         _errorTranslators.append(errorTranslator);
@@ -159,4 +179,20 @@ public class NioHttpProcessor: HttpProcessor {
                 return false;
         }
     } 
+
+    private func Handle(error: Error, for res: ServerResponse)
+    {
+        for errorTranslator in _errorTranslators {
+            if errorTranslator.CanHandle(error: error) {
+                let result: ResultContext = errorTranslator.Handle(error: error);
+                res.status = .custom(code: result.GetStatusCode(), reasonPhrase: "");
+                res.send("");
+
+                return;
+            }
+        }
+
+        res.status = .internalServerError;
+        res.send("");
+    }
 }
