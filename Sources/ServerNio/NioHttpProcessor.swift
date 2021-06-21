@@ -54,6 +54,8 @@ public class NioHttpProcessor: HttpProcessor {
 
     public func WireUp(controller: Controller) -> HttpProcessor {
         _app.use() { req, res, next in
+            let acceptMediaType: MediaType = self.GetMediaType(for: "accept", in: req);
+
             do
             {
                 guard
@@ -64,79 +66,29 @@ public class NioHttpProcessor: HttpProcessor {
                     return next();
                 }
 
-                let mediaType: MediaType =
-                    MediaType(
-                        withType: "type",
-                        withSubtype: "subtype",
-                        withParameters: [:]
-                    );
-
                 let result: ResultContext =
                     try controller.Logic(withRequest: RequestContextBuilder().Build());
 
                 res.status = .noContent;
-
-                if let body = result.GetBody() {
-                    for encoder in self._encoders {
-                        if
-                            encoder.CanHandle(mediaType: mediaType) &&
-                            encoder.CanHandle(data: body)
-                        {
-                            let streams: BoundStreams = BoundStreams();
-
-                            if encoder.Encode(data: body, for: mediaType, into: streams.output) {
-                                let data: Data = try Data(reading: streams.input);
-
-                                res.status = .ok;
-                                res.send(String(decoding: data, as: UTF8.self));
-
-                                return;
-                            }
-
-                            break;
-                        }
-                    }
-
-                    res.status = .notAcceptable;
-                }
-
-                res.send("");
+                try self.Handle(
+                    result: result,
+                    with: acceptMediaType,
+                    targetStatus: .ok,
+                    for: res
+                );
             }
             catch
             {
-                self.Handle(error: error, for: res);
+                self.Handle(
+                    error: error,
+                    with: acceptMediaType,
+                    for: res
+                );
             }
         }
 
         return self;
     }
-/*
-    private func Handle(result: ResultContext, with mediaType: MediaType, for res: ServerResponse) throws {
-        if let body = result.GetBody() {
-            for encoder in self._encoders {
-                if
-                    encoder.CanHandle(mediaType: mediaType) &&
-                    encoder.CanHandle(data: body)
-                {
-                    let streams: BoundStreams = BoundStreams();
-
-                    if encoder.Encode(data: body, for: mediaType, into: streams.output) {
-                        let data: Data = try Data(reading: streams.input);
-
-                        res.status = .ok;
-                        res.send(String(decoding: data, as: UTF8.self));
-
-                        return;
-                    }
-
-                    break;
-                }
-            }
-
-            res.status = .notAcceptable;
-        }
-    }
-*/
 
     public func WireUp(errorTranslator: ErrorTranslator) -> HttpProcessor {
         _errorTranslators.append(errorTranslator);
@@ -180,13 +132,69 @@ public class NioHttpProcessor: HttpProcessor {
         }
     } 
 
-    private func Handle(error: Error, for res: ServerResponse)
+    private func GetMediaType(for property: String, in request: IncomingMessage) -> MediaType {
+        let mediaType: MediaType =
+            MediaType(
+                withType: "type",
+                withSubtype: "subtype",
+                withParameters: [:]
+            );
+
+        return mediaType;
+    }
+
+    private func Handle(
+        result: ResultContext,
+        with mediaType: MediaType,
+        targetStatus status: HTTPResponseStatus,
+        for res: ServerResponse
+    ) throws {
+        if let body = result.GetBody() {
+            for encoder in self._encoders {
+                if
+                    encoder.CanHandle(mediaType: mediaType) &&
+                    encoder.CanHandle(data: body)
+                {
+                    let streams: BoundStreams = BoundStreams();
+
+                    if encoder.Encode(data: body, for: mediaType, into: streams.output) {
+                        let data: Data = try Data(reading: streams.input);
+
+                        res.status = status;
+                        res.send(String(decoding: data, as: UTF8.self));
+
+                        return;
+                    }
+
+                    break;
+                }
+            }
+
+            res.status = .notAcceptable;
+        }
+
+        res.send("");
+    }
+
+    private func Handle(
+        error: Error,
+        with mediaType: MediaType,
+        for res: ServerResponse
+    )
     {
         for errorTranslator in _errorTranslators {
             if errorTranslator.CanHandle(error: error) {
                 let result: ResultContext = errorTranslator.Handle(error: error);
-                res.status = .custom(code: result.GetStatusCode(), reasonPhrase: "");
-                res.send("");
+                let status: HTTPResponseStatus =
+                    .custom(code: result.GetStatusCode(), reasonPhrase: "");
+
+                res.status = status;
+                try! self.Handle(
+                    result: result,
+                    with: mediaType,
+                    targetStatus: status,
+                    for: res
+                );
 
                 return;
             }
