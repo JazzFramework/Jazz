@@ -1,3 +1,5 @@
+import Foundation;
+
 public struct MediaType : CustomStringConvertible, Equatable {
     private let _type: String;
     private let _subtype: String;
@@ -7,8 +9,12 @@ public struct MediaType : CustomStringConvertible, Equatable {
     public var description: String {
         var parameters: [String] = [];
 
-        for (key, value) in _parameter {
-            parameters.append("\(key)=\(value)")
+        let sortedKeys = Array(_parameter.keys).sorted(by: <)
+
+        for key in sortedKeys {
+            if let value = _parameter[key] {
+                parameters.append("\(key)=\(value)");
+            }
         }
 
         return "\(_type)/\(_subtype) \(parameters.joined(separator: "; "))";
@@ -57,6 +63,9 @@ public struct MediaType : CustomStringConvertible, Equatable {
     }
 
     static public func == (lhs: MediaType, rhs: MediaType) -> Bool {
-        return String(describing: lhs) == String(describing: rhs);
+        let str1 = String(describing: lhs);
+        let str2 = String(describing: rhs);
+
+        return str1.caseInsensitiveCompare(str2) == ComparisonResult.orderedSame;
     }
 }
