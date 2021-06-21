@@ -1,7 +1,3 @@
-public enum HttpErrors: Error {
-    case notAcceptable
-}
-
 public class NotAcceptableErrorTranslator: ErrorTranslator {
     public override func CanHandle(error: Error) -> Bool {
         if case HttpErrors.notAcceptable = error {

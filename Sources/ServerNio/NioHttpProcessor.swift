@@ -7,33 +7,6 @@ import MicroExpress;
 import Codec;
 import Server;
 
-extension Data {
-    init(reading input: InputStream) throws {
-        self.init();
-        input.open();
-        defer {
-            input.close();
-        }
-
-        let bufferSize = 1024;
-        let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: bufferSize);
-        defer {
-            buffer.deallocate();
-        }
-        while input.hasBytesAvailable {
-            let read = input.read(buffer, maxLength: bufferSize);
-            if read < 0 {
-                //Stream error occured
-                throw input.streamError!;
-            } else if read == 0 {
-                //EOF
-                break;
-            }
-            self.append(buffer, count: read);
-        }
-    }
-}
-
 public class NioHttpProcessor: HttpProcessor {
     private let _defaultHost = "127.0.0.1";
     private let _defaultPort = 8080;
@@ -68,7 +41,7 @@ public class NioHttpProcessor: HttpProcessor {
                 }
 
                 let result: ResultContext =
-                    try controller.Logic(withRequest: RequestContextBuilder().Build());
+                    try controller.Logic(withRequest: self.Build(request: req));
 
                 res.status = .noContent;
                 try self.Handle(
@@ -117,6 +90,38 @@ public class NioHttpProcessor: HttpProcessor {
         _app.listen(_defaultPort);
     }
 
+    private func Build(request: IncomingMessage) -> RequestContext {
+        /*
+        let mediaType: MediaType =
+            self.GetMediaType(for: "content-type", in: request);
+
+        //if let body = result.GetBody() {
+            for decoder in self._decoders {
+                if
+                    decoder.CanHandle(mediaType: mediaType) &&
+                    decoder.CanHandle(data: body)
+                {
+                    let streams: BoundStreams = BoundStreams();
+/*
+                    if decoder.Encode(data: body, for: mediaType, into: streams.output) {
+                        let data: Data = try Data(reading: streams.input);
+
+                        res.status = status;
+                        res.send(String(decoding: data, as: UTF8.self));
+
+                        return;
+                    }
+*/
+                    break;
+                }
+            }
+
+            //res.status = .unsupportedMediaType;
+        //}
+*/
+        return RequestContextBuilder().Build();
+    }
+
     private func DoesMethodMatch(_ method: HttpMethod, _ other: HTTPMethod) -> Bool {
         switch (other) {
             case .GET:
@@ -132,6 +137,17 @@ public class NioHttpProcessor: HttpProcessor {
                 return false;
         }
     } 
+
+    private func GetMediaType(
+        for property: String,
+        in request: IncomingMessage
+    ) -> MediaType {
+        if let header = request.header.headers[property].first {
+            return MediaType(parseFrom: header);
+        }
+
+        return MediaType(parseFrom: "");
+    }
 
     private func GetMediaTypes(
         for property: String,
@@ -175,7 +191,7 @@ public class NioHttpProcessor: HttpProcessor {
                 }
             }
 
-            res.status = .notAcceptable;
+            throw HttpErrors.notAcceptable;
         }
 
         res.send("");
@@ -194,18 +210,23 @@ public class NioHttpProcessor: HttpProcessor {
                     .custom(code: result.GetStatusCode(), reasonPhrase: "");
 
                 res.status = status;
-                try! self.Handle(
-                    result: result,
-                    with: mediaTypes,
-                    targetStatus: status,
-                    for: res
-                );
-
+                do {
+                    try self.Handle(
+                        result: result,
+                        with: mediaTypes,
+                        targetStatus: status,
+                        for: res
+                    );
+                }
+                catch
+                {
+                    res.send("An error has occured.");
+                }
                 return;
             }
         }
 
         res.status = .internalServerError;
-        res.send("");
+        res.send("An error has occured.");
     }
 }

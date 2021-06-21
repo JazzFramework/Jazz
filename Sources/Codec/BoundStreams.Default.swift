@@ -1,6 +1,6 @@
 import Foundation;
 
-#if !os(Linux)
+#if !os(Linux) && !os(Windows)
 public class BoundStreams {
     public let input: InputStream;
     public let output: OutputStream;
