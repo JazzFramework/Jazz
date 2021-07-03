@@ -9,7 +9,14 @@ public class NotAcceptableErrorTranslator: ErrorTranslator {
 
     public override func Handle(error: Error) -> ResultContext {
         return ResultContextBuilder()
-            .With(body: ApiError())
+            .With(body:
+                ApiError(
+                    withCode: 406,
+                    withTitle: "UnsupportedMediaType",
+                    withDetails: "UnsupportedMediaType",
+                    withMetadata: [:]
+                )
+            )
             .With(statusCode: 406)
             .Build();
     }

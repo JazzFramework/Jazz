@@ -17,6 +17,7 @@ try AppBuilder()
 
         .WireUp(errorTranslator: {_ in return ImpossibleWeatherErrorTranslator(); })
         .WireUp(errorTranslator: {_ in return NotAcceptableErrorTranslator(); })
+        .WireUp(errorTranslator: {_ in return UnsupportedMediaTypeErrorTranslator(); })
         .WireUp(errorTranslator: {_ in return LastResortErrorTranslator(); })
 
         .Run();

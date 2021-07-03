@@ -31,6 +31,11 @@ public class ApiErrorV1JsonCodec: JsonCodec<ApiError> {
     }
 
     public override func DecodeJson(data: JsonObject, for mediatype: MediaType) -> ApiError? {
-        return ApiError();
+        return ApiError(
+            withCode: 406,
+            withTitle: "UnsupportedMediaType",
+            withDetails: "UnsupportedMediaType",
+            withMetadata: [:]
+        );
     }
 }
