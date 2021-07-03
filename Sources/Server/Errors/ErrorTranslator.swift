@@ -5,9 +5,12 @@ open class ErrorTranslator {
         return false;
     }
 
-    open func Handle(error: Error) -> ResultContext {
-        return ResultContextBuilder()
-            .With(statusCode: 500)
-            .Build();
+    open func Handle(error: Error) -> ApiError {
+        return ApiError(
+            withCode: 500,
+            withTitle: "Unknown Error",
+            withDetails: "Unknown Error",
+            withMetadata: [:]
+        );
     }
 }

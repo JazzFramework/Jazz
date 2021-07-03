@@ -9,10 +9,16 @@ public class ImpossibleWeatherErrorTranslator: ErrorTranslator {
         return false;
     }
 
-    public override func Handle(error: Error) -> ResultContext {
-        return ResultContextBuilder()
-            .With(body: ApiError())
-            .With(statusCode: 400)
-            .Build();
+    public override func Handle(error: Error) -> ApiError {
+        return ApiError(
+            withCode: 400,
+            withTitle: "Impossible Weather",
+            withDetails: "Impossible Weather. Cannot Process.",
+            withMetadata: [
+                "Key1": "Value1",
+                "Key2": "Value2",
+                "Key3": "Value3"
+            ]
+        );
     }
 }

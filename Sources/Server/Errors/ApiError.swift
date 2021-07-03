@@ -1,11 +1,11 @@
 public class ApiError {
-    private let _code: Int;
+    private let _code: UInt;
     private let _title: String;
     private let _details: String;
     private let _metadata: [String: String];
 
     public init(
-        withCode code: Int,
+        withCode code: UInt,
         withTitle title: String,
         withDetails details: String,
         withMetadata metadata: [String: String]
@@ -17,7 +17,7 @@ public class ApiError {
         _metadata = metadata;
     }
 
-    public func GetCode() -> Int {
+    public func GetCode() -> UInt {
         return _code;
     }
 

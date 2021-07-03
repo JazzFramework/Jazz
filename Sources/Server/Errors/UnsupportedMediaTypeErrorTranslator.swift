@@ -7,17 +7,12 @@ public class UnsupportedMediaTypeErrorTranslator: ErrorTranslator {
         return false
     }
 
-    public override func Handle(error: Error) -> ResultContext {
-        return ResultContextBuilder()
-            .With(body:
-                ApiError(
-                    withCode: 415,
-                    withTitle: "UnsupportedMediaType",
-                    withDetails: "UnsupportedMediaType",
-                    withMetadata: [:]
-                )
-            )
-            .With(statusCode: 415)
-            .Build();
+    public override func Handle(error: Error) -> ApiError {
+        return ApiError(
+            withCode: 415,
+            withTitle: "UnsupportedMediaType",
+            withDetails: "UnsupportedMediaType",
+            withMetadata: [:]
+        );
     }
 }

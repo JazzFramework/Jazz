@@ -3,17 +3,12 @@ public class LastResortErrorTranslator: ErrorTranslator {
         return true;
     }
 
-    public override func Handle(error: Error) -> ResultContext {
-        return ResultContextBuilder()
-            .With(body:
-                ApiError(
-                    withCode: 500,
-                    withTitle: "Unknown Error",
-                    withDetails: "Unknown Error",
-                    withMetadata: [:]
-                )
-            )
-            .With(statusCode: 500)
-            .Build();
+    public override func Handle(error: Error) -> ApiError {
+        return ApiError(
+            withCode: 500,
+            withTitle: "Unknown Error",
+            withDetails: "Unknown Error",
+            withMetadata: [:]
+        );
     }
 }

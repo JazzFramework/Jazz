@@ -17,13 +17,6 @@ public class WeatherV1JsonCodec: JsonCodec<Weather> {
 
     public override func CanHandle(data: Any) -> Bool
     {
-        /*
-        if let _ = data as? Weather {
-            return true;
-        }
-
-        return false;
-        */
         return data is Weather;
     }
 

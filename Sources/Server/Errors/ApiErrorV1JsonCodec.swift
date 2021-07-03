@@ -17,17 +17,27 @@ public class ApiErrorV1JsonCodec: JsonCodec<ApiError> {
 
     public override func CanHandle(data: Any) -> Bool
     {
-        if let _ = data as? ApiError {
-            return true;
-        }
-
-        return false;
+        return data is ApiError;
     }
 
     public override func EncodeJson(data: ApiError, for mediatype: MediaType) -> JsonObject {
         return JsonObjectBuilder()
-            .With("error", property: JsonProperty(withData: "error"))
+            .With("code", property: JsonProperty(withData: "\(data.GetCode())"))
+            .With("title", property: JsonProperty(withData: data.GetTitle()))
+            .With("details", property: JsonProperty(withData: data.GetDetails()))
+            .With("metadata", object: Encode(metadata: data.GetMetadata()))
             .Build();
+    }
+
+    private func Encode(metadata: [String: String]) -> JsonObject
+    {
+        let builder: JsonObjectBuilder = JsonObjectBuilder();
+
+        for (key, value) in metadata {
+            _ = builder.With(key, property: JsonProperty(withData: value));
+        }
+
+        return builder.Build();
     }
 
     public override func DecodeJson(data: JsonObject, for mediatype: MediaType) -> ApiError? {
