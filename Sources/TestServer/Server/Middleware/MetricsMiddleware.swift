@@ -7,18 +7,18 @@ public class MetricsMiddleware: Middleware {
         for request: RequestContext,
         with next: (RequestContext) throws -> ResultContext
     ) throws -> ResultContext {
-        let start: Int = GetCurrentTimeInMilliseconds();
+        let start: Int = MetricsMiddleware.GetCurrentTimeInMilliseconds();
 
-        let result: ResultContext = try next(request);
+        defer { 
+            let end: Int = MetricsMiddleware.GetCurrentTimeInMilliseconds();
 
-        let end: Int = GetCurrentTimeInMilliseconds();
-
-        print("[\(request.GetMethod())] \(request.GetUrl()) took: \(end - start)ms");
-
-        return result;
+            print("[\(request.GetMethod())] \(request.GetUrl()) took: \(end - start)ms");
+        }
+        
+        return try next(request);
     }
 
-    private func GetCurrentTimeInMilliseconds() -> Int
+    private static func GetCurrentTimeInMilliseconds() -> Int
     {
         let currentDate = Date();
 

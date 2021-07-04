@@ -20,8 +20,8 @@ try AppBuilder()
         .WireUp(errorTranslator: { _ in return UnsupportedMediaTypeErrorTranslator(); })
         .WireUp(errorTranslator: { _ in return LastResortErrorTranslator(); })
 
-        .WireUp(middleware: { _ in return MetricsMiddleware(); })
-        .WireUp(middleware: { _ in return RequestLoggingMiddleware(); })
         .WireUp(middleware: { _ in return AuthMiddleware(); })
+        .WireUp(middleware: { _ in return RequestLoggingMiddleware(); })
+        .WireUp(middleware: { _ in return MetricsMiddleware(); })
 
         .Run();
