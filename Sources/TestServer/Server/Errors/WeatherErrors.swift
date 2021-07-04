@@ -1,3 +1,3 @@
 public enum WeatherErrors: Error {
-    case impossible
+    case impossible(reason: String)
 }

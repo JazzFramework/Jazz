@@ -1,6 +1,6 @@
 import Foundation;
 
-open class Codec<T>: Encoder, Decoder {
+open class Codec<T>: Transcoder {
     public init() {}
 
     open func DecodeType(data: InputStream, for mediatype: MediaType) -> T?

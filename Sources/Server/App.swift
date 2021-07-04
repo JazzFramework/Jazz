@@ -68,31 +68,15 @@ public class App {
         return self;
     }
 
-    public func WireUp<TEncoder: Encoder>(encoder: @escaping (ServiceProvider) -> TEncoder) throws -> App {
-        _ = try _serviceProviderBuilder.Register(encoder);
+    public func WireUp<TTranscoder: Transcoder>(transcoder: @escaping (ServiceProvider) -> TTranscoder) throws -> App {
+        _ = try _serviceProviderBuilder.Register(transcoder);
 
         _queuedLogic.append(
             {
                 httpProcessor, serviceProvider in
 
-                if let encoder: TEncoder = try serviceProvider.Get() {
-                    _ = httpProcessor.WireUp(encoder: encoder);
-                }
-            }
-        );
-
-        return self;
-    }
-
-    public func WireUp<TDecoder: Decoder>(decoder: @escaping (ServiceProvider) -> TDecoder) throws -> App {
-        _ = try _serviceProviderBuilder.Register(decoder);
-
-        _queuedLogic.append(
-            {
-                httpProcessor, serviceProvider in
-
-                if let decoder: TDecoder = try serviceProvider.Get() {
-                    _ = httpProcessor.WireUp(decoder: decoder);
+                if let transcoder: TTranscoder = try serviceProvider.Get() {
+                    _ = httpProcessor.WireUp(transcoder: transcoder);
                 }
             }
         );

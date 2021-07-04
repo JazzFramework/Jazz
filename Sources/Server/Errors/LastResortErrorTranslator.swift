@@ -4,11 +4,6 @@ public class LastResortErrorTranslator: ErrorTranslator {
     }
 
     public override func Handle(error: Error) -> ApiError {
-        return ApiError(
-            withCode: 500,
-            withTitle: "Unknown Error",
-            withDetails: "Unknown Error",
-            withMetadata: [:]
-        );
+        return BuildUnknownError();
     }
 }

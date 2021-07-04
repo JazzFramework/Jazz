@@ -11,13 +11,8 @@ public class ApiErrorV1JsonCodec: JsonCodec<ApiError> {
             ]
         );
 
-    public override func CanHandle(mediaType: MediaType) -> Bool {
-        return ApiErrorV1JsonCodec.SupportedMediaType == mediaType;
-    }
-
-    public override func CanHandle(data: Any) -> Bool
-    {
-        return data is ApiError;
+    public override func GetSupportedMediaType() -> MediaType {
+        return ApiErrorV1JsonCodec.SupportedMediaType;
     }
 
     public override func EncodeJson(data: ApiError, for mediatype: MediaType) -> JsonObject {
@@ -25,27 +20,16 @@ public class ApiErrorV1JsonCodec: JsonCodec<ApiError> {
             .With("code", property: JsonProperty(withData: "\(data.GetCode())"))
             .With("title", property: JsonProperty(withData: data.GetTitle()))
             .With("details", property: JsonProperty(withData: data.GetDetails()))
-            .With("metadata", object: Encode(metadata: data.GetMetadata()))
+            .With("metadata", object: Encode(dictionary: data.GetMetadata()))
             .Build();
-    }
-
-    private func Encode(metadata: [String: String]) -> JsonObject
-    {
-        let builder: JsonObjectBuilder = JsonObjectBuilder();
-
-        for (key, value) in metadata {
-            _ = builder.With(key, property: JsonProperty(withData: value));
-        }
-
-        return builder.Build();
     }
 
     public override func DecodeJson(data: JsonObject, for mediatype: MediaType) -> ApiError? {
         return ApiError(
-            withCode: 406,
-            withTitle: "UnsupportedMediaType",
-            withDetails: "UnsupportedMediaType",
-            withMetadata: [:]
+            withCode: Decode(unsignedInteger: "code", from: data),
+            withTitle: Decode(string: "title", from: data),
+            withDetails: Decode(string: "details", from: data),
+            withMetadata: Decode(dictionary: "metadata", from: data)
         );
     }
 }

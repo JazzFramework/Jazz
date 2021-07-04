@@ -13,15 +13,15 @@ public class NioHttpProcessor: HttpProcessor {
 
     private let _app: Express;
 
-    private var _encoders: [Encoder];
-    private var _decoders: [Decoder];
+    private var _transcoders: [Transcoder];
+    private var _middlewares: [Server.Middleware];
     private var _errorTranslators: [ErrorTranslator];
 
     public init() {
         _app = Express();
 
-        _encoders = [];
-        _decoders = [];
+        _transcoders = [];
+        _middlewares = [];
         _errorTranslators = [];
     }
 
@@ -41,7 +41,7 @@ public class NioHttpProcessor: HttpProcessor {
                 }
 
                 let result: ResultContext =
-                    try controller.Logic(withRequest: self.Build(request: req));
+                    try self.Run(controller: controller.Logic, self.Build(request: req));
 
                 res.status = .noContent;
                 try self.Handle(
@@ -64,6 +64,16 @@ public class NioHttpProcessor: HttpProcessor {
         return self;
     }
 
+    private func Run(
+        controller: @escaping (RequestContext) throws -> ResultContext,
+        _ request: RequestContext
+    ) throws -> ResultContext {
+        let logic: (RequestContext) throws -> ResultContext =
+            controller;
+
+        return try logic(request);
+    }
+
     public func WireUp(errorTranslator: ErrorTranslator) -> HttpProcessor {
         _errorTranslators.append(errorTranslator);
 
@@ -71,17 +81,13 @@ public class NioHttpProcessor: HttpProcessor {
     }
 
     public func WireUp(middleware: Server.Middleware) -> HttpProcessor {
-        return self;
-    }
-
-    public func WireUp(encoder: Encoder) -> HttpProcessor {
-        _encoders.append(encoder);
+        _middlewares.append(middleware);
 
         return self;
     }
 
-    public func WireUp(decoder: Decoder) -> HttpProcessor {
-        _decoders.append(decoder);
+    public func WireUp(transcoder: Transcoder) -> HttpProcessor {
+        _transcoders.append(transcoder);
 
         return self;
     }
@@ -169,15 +175,15 @@ public class NioHttpProcessor: HttpProcessor {
         for res: ServerResponse
     ) throws {
         if let body = result.GetBody() {
-            for encoder in self._encoders {
+            for transcoder in self._transcoders {
                 for mediaType in mediaTypes {
                     if
-                        encoder.CanHandle(mediaType: mediaType) &&
-                        encoder.CanHandle(data: body)
+                        transcoder.CanHandle(mediaType: mediaType) &&
+                        transcoder.CanHandle(data: body)
                     {
                         let streams: BoundStreams = BoundStreams();
 
-                        if encoder.Encode(data: body, for: mediaType, into: streams.output) {
+                        if transcoder.Encode(data: body, for: mediaType, into: streams.output) {
                             let data: Data = try Data(reading: streams.input);
 
                             res.status = status;

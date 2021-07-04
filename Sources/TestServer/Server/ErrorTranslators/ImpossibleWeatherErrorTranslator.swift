@@ -10,15 +10,19 @@ public class ImpossibleWeatherErrorTranslator: ErrorTranslator {
     }
 
     public override func Handle(error: Error) -> ApiError {
-        return ApiError(
-            withCode: 400,
-            withTitle: "Impossible Weather",
-            withDetails: "Impossible Weather. Cannot Process.",
-            withMetadata: [
-                "Key1": "Value1",
-                "Key2": "Value2",
-                "Key3": "Value3"
-            ]
-        );
+        switch(error) {
+            case WeatherErrors.impossible(let reason):
+                return ApiError(
+                    withCode: 400,
+                    withTitle: "Impossible Weather",
+                    withDetails: "\(reason)",
+                    withMetadata: [
+                        "reason": reason
+                    ]
+                );
+
+            default:
+                return BuildUnknownError();
+        }
     }
 }

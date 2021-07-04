@@ -6,6 +6,10 @@ open class ErrorTranslator {
     }
 
     open func Handle(error: Error) -> ApiError {
+        return BuildUnknownError();
+    }
+
+    public final func BuildUnknownError() -> ApiError {
         return ApiError(
             withCode: 500,
             withTitle: "Unknown Error",
