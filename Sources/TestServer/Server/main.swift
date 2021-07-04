@@ -15,6 +15,7 @@ try AppBuilder()
         .WireUp(transcoder: { _ in return WeatherV1JsonCodec(); })
 
         .WireUp(errorTranslator: { _ in return ImpossibleWeatherErrorTranslator(); })
+        .WireUp(errorTranslator: { _ in return NotAuthorizedErrorTranslator(); })
         .WireUp(errorTranslator: { _ in return NotAcceptableErrorTranslator(); })
         .WireUp(errorTranslator: { _ in return UnsupportedMediaTypeErrorTranslator(); })
         .WireUp(errorTranslator: { _ in return LastResortErrorTranslator(); })
