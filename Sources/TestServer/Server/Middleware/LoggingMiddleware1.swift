@@ -5,7 +5,7 @@ public class LoggingMiddleware1: Middleware {
         for request: RequestContext,
         with next: (RequestContext) throws -> ResultContext
     ) throws -> ResultContext {
-        print("logging middlewar 1\n")
+        print("logging middleware 1\n")
 
         return try next(request);
     }

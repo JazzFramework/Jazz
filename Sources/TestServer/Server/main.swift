@@ -19,8 +19,8 @@ try AppBuilder()
         .WireUp(errorTranslator: { _ in return UnsupportedMediaTypeErrorTranslator(); })
         .WireUp(errorTranslator: { _ in return LastResortErrorTranslator(); })
 
-        .WireUp(middleware: { _ in return LoggingMiddleware1(); })
-        .WireUp(middleware: { _ in return LoggingMiddleware2(); })
         .WireUp(middleware: { _ in return LoggingMiddleware3(); })
+        .WireUp(middleware: { _ in return LoggingMiddleware2(); })
+        .WireUp(middleware: { _ in return LoggingMiddleware1(); })
 
         .Run();

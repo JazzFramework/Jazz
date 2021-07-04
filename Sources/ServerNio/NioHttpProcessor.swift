@@ -68,10 +68,22 @@ public class NioHttpProcessor: HttpProcessor {
         controller: @escaping (RequestContext) throws -> ResultContext,
         _ request: RequestContext
     ) throws -> ResultContext {
-        let logic: (RequestContext) throws -> ResultContext =
-            controller;
+        var logics: [(RequestContext) throws -> ResultContext] = [
+            controller
+        ];
 
-        return try logic(request);
+        for middleware in _middlewares {
+            let logic = logics[0];
+
+            let middlewareLogic: (RequestContext) throws -> ResultContext =
+                { req in
+                    return try middleware.Logic(for: req, with: logic);
+                };
+
+            logics.insert(middlewareLogic, at: 0);
+        }
+
+        return try logics[0](request);
     }
 
     public func WireUp(errorTranslator: ErrorTranslator) -> HttpProcessor {
