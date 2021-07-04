@@ -137,7 +137,27 @@ public class NioHttpProcessor: HttpProcessor {
             //res.status = .unsupportedMediaType;
         //}
 */
-        return RequestContextBuilder().Build();
+        return RequestContextBuilder()
+            .With(url: request.header.uri)
+            .With(method: Convert(method: request.header.method))
+            .Build();
+    }
+
+    private func Convert(method: HTTPMethod) -> HttpMethod
+    {
+        switch (method) {
+            case .GET:
+                return .get;
+            case .POST:
+                return .post;
+            case .PUT:
+                return .put;
+            case .DELETE:
+                return .delete;
+
+            default:
+                return .get;
+        }
     }
 
     private func DoesMethodMatch(_ method: HttpMethod, _ other: HTTPMethod) -> Bool {

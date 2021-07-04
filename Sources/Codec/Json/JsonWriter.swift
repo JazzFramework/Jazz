@@ -47,7 +47,7 @@ public class JsonWriter {
 
     private func Write(_ stream: OutputStream, _ data: String) {
         let encodedDataArray = [UInt8](data.utf8)
-        stream.write(encodedDataArray, maxLength: encodedDataArray.count);
+        _ = stream.write(encodedDataArray, maxLength: encodedDataArray.count);
     }
 
     private func Escape(string: String) -> String {
