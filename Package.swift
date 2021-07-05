@@ -150,6 +150,8 @@ let package = Package(
         .target(
             name: "TestServer",
             dependencies: [
+                "DataAccess",
+                "DataAccessInMemory",
                 "Server",
                 "ServerNio"
             ]

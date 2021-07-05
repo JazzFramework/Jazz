@@ -14,12 +14,14 @@ public final class HttpStorageHandler<T: Storable>: StorageHandler<T> {
         super.init();
     }
 
-    public override func Create(_ model: T) throws {
+    public override func Create(_ model: T) throws -> T {
         _lock.lock()
 
         _data[model.GetId()] = model;
 
         _lock.unlock();
+
+        return model;
     }
 
     public override func Delete(id: String) throws {
@@ -30,21 +32,31 @@ public final class HttpStorageHandler<T: Storable>: StorageHandler<T> {
         _lock.unlock();
     }
 
-    public override func Update(_ model: T) throws {
+    public override func Update(_ model: T) throws -> T {
         _lock.lock()
 
         _data[model.GetId()] = model;
 
         _lock.unlock();
+
+        return model;
     }
 
-    public override func Get(id: String) throws -> T? {
+    public override func Get(id: String) throws -> T {
         _lock.lock()
 
         let result: T? = _data[id];
 
         _lock.unlock();
 
-        return result;
+        if let result = result {
+            return result;
+        }
+
+        throw DataAccessErrors.notFound;
+    }
+
+    public override func Get() throws -> [T] {
+        return Array(_data.values);
     }
 }

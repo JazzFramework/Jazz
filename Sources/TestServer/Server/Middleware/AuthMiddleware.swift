@@ -5,8 +5,16 @@ public class AuthMiddleware: Middleware {
         for request: RequestContext,
         with next: (RequestContext) throws -> ResultContext
     ) throws -> ResultContext {
-        if Int.random(in: 1..<100) % 2 == 0 {
-            throw AuthErrors.notAuthorized(reason: "Randomly failing authorization check as an example for error handling in middlewares");
+        var isAuthorized: Bool = false;
+
+        let authorization = request.GetHeaders(key: "authorization");
+
+        if authorization.count > 0 && authorization[0] != "" {
+            isAuthorized = true;
+        }
+
+        if !isAuthorized {
+            throw AuthErrors.notAuthorized(reason: "Missing authorization header");
         }
 
         return try next(request);
