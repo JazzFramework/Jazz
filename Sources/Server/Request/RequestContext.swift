@@ -22,6 +22,13 @@ public class RequestContext: BaseContext {
     }
 
     public func GetBody<TModel>() throws -> TModel? {
+        if
+            let body = _body,
+            let model = body as? TModel
+        {
+            return model;
+        }
+
         return nil;
     }
 
