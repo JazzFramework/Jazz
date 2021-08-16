@@ -1,3 +1,4 @@
+/*
 import Foundation;
 
 internal extension Data {
@@ -26,3 +27,4 @@ internal extension Data {
         }
     }
 }
+*/

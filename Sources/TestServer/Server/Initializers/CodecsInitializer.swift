@@ -5,6 +5,6 @@ public class CodecsInitializer: Initializer {
         _ = try app
             .WireUp(transcoder: { _ in return ApiErrorV1JsonCodec(); })
             .WireUp(transcoder: { _ in return WeatherV1JsonCodec(); })
-            .WireUp(transcoder: { _ in return WeathersV1JsonCodec(); });
+            .WireUp(transcoder: { _ in return WeatherCollectionV1JsonCodec(); });
     }
 }
