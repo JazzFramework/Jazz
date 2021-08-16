@@ -2,30 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "MicroExpress",
-        "repositoryURL": "https://github.com/NozeIO/MicroExpress.git",
+        "package": "NozeIO",
+        "repositoryURL": "https://github.com/NozeIO/Noze.io.git",
         "state": {
           "branch": null,
-          "revision": "8ffbe8a446d0935b87f93a83cf92082f356bcae1",
-          "version": "0.5.3"
-        }
-      },
-      {
-        "package": "mustache",
-        "repositoryURL": "https://github.com/AlwaysRightInstitute/mustache.git",
-        "state": {
-          "branch": null,
-          "revision": "72a467f35dcbe9fb7a40b41884ae0d0821401dc3",
-          "version": "0.5.9"
-        }
-      },
-      {
-        "package": "swift-nio",
-        "repositoryURL": "https://github.com/apple/swift-nio.git",
-        "state": {
-          "branch": null,
-          "revision": "d161bf658780b209c185994528e7e24376cf7283",
-          "version": "2.29.0"
+          "revision": "d89b054f53d0f90498f4028fe6ae48bfa85f00dc",
+          "version": "0.6.7"
         }
       }
     ]
