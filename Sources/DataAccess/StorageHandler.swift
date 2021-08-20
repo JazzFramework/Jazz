@@ -13,7 +13,7 @@ open class StorageHandler<T: Storable> {
     }
 
     open func Get(id: String) throws -> T {
-        throw DataAccessErrors.notFound;
+        throw DataAccessErrors.notFound(reason: "Could not find resource for \(id).");
     }
 
     open func Get() throws -> [T] {

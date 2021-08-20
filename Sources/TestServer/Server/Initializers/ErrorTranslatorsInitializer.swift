@@ -8,6 +8,10 @@ public class ErrorTranslatorsInitializer: Initializer {
             })
 
             .WireUp(errorTranslator: { _ in
+                return DataNotFoundErrorTranslator();
+            })
+
+            .WireUp(errorTranslator: { _ in
                 return NotAcceptableErrorTranslator();
             })
 

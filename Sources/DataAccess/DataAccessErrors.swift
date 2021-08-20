@@ -1,3 +1,3 @@
 public enum DataAccessErrors: Error {
-    case notFound
+    case notFound(reason: String)
 }

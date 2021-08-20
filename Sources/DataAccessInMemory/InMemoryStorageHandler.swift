@@ -53,7 +53,7 @@ public final class InMemoryStorageHandler<T: Storable>: StorageHandler<T> {
             return result;
         }
 
-        throw DataAccessErrors.notFound;
+        throw DataAccessErrors.notFound(reason: "Could not find resource for \(id).");
     }
 
     public override func Get() throws -> [T] {
