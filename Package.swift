@@ -132,7 +132,7 @@ let package = Package(
         ),
         .target(
             name: "Server",
-            dependencies: ["Codec", "Context", "DependencyInjection"]
+            dependencies: ["Codec", "Context", "DependencyInjection", "DataAccess"]
         ),
         .target(
             name: "ServerNio",
@@ -146,8 +146,6 @@ let package = Package(
         .target(
             name: "TestServer",
             dependencies: [
-                "Context",
-                "DataAccess",
                 "DataAccessInMemory",
                 "Flow",
                 "Server",

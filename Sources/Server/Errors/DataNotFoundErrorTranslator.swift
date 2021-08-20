@@ -1,5 +1,4 @@
 import DataAccess;
-import Server;
 
 public class DataNotFoundErrorTranslator: ErrorTranslator {
     public override func CanHandle(error: Error) -> Bool {
