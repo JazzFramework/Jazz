@@ -31,7 +31,8 @@ public class WeatherCollectionV1JsonCodec: JsonCodec<[Weather]> {
         }
 
         return JsonObjectBuilder()
-            .With("data", array: arrayBuilder.Build())
+            //.With("data", array: arrayBuilder.Build())
+            .With("temp", property: JsonProperty(withData: "temp"))
             .Build();
     }
 

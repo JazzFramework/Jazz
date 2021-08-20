@@ -27,7 +27,13 @@ public class RequestContextBuilder {
     }
 
     public func With(header: String, values: [String]) -> RequestContextBuilder {
-        _headers[header] = values;
+        if var collection = _headers[header] {
+            for value in values {
+                collection.append(value);
+            }
+        } else {
+            _headers[header] = values;
+        }
 
         return self;
     }

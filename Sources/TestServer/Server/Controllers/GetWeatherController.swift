@@ -12,7 +12,7 @@ public class GetWeatherController: Controller {
     }
 
     public override func GetRoute() -> String {
-        return "/weather/{id}";
+        return "/weather/:id";
     }
 
     public override func Logic(withRequest request: RequestContext) throws -> ResultContext {

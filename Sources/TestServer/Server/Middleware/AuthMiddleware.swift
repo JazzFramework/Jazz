@@ -7,7 +7,7 @@ public class AuthMiddleware: Middleware {
     ) throws -> ResultContext {
         var isAuthorized: Bool = false;
 
-        let authorization = request.GetHeaders(key: "authorization");
+        let authorization = request.GetHeaders(key: "Authorization");
 
         if authorization.count > 0 && authorization[0] != "" {
             isAuthorized = true;

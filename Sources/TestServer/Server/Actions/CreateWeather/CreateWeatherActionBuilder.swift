@@ -11,8 +11,8 @@ public class CreateWeatherActionBuilder {
         _repository = repository;
     }
 
-    public func Build() -> CreateWeatherActionImpl {
-        return CreateWeatherActionImpl(
+    public func Build() -> CreateWeather {
+        return CreateWeatherAction(
             withFlow: BuildFlow(),
             withResultResolver: CreateWeatherActionBuilder.WEATHER_CONTEXT_RESOLVER
         );

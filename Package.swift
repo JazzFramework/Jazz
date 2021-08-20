@@ -73,7 +73,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-nio.git", from: "2.0.0"),
+        .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "0.11.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -137,7 +137,8 @@ let package = Package(
         .target(
             name: "ServerNio",
             dependencies: [
-                .product(name: "NIOHTTP1", package: "swift-nio"),
+                .product(name: "Hummingbird", package: "hummingbird"),
+                .product(name: "HummingbirdFoundation", package: "hummingbird"),
 
                 "Server"
             ]

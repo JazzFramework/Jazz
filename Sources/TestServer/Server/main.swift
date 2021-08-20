@@ -4,7 +4,7 @@ import ServerNio;
 try AppRunner(
     withApp:
         AppBuilder()
-            .With(httpProcessor: NioHttpProcessor())
+            .With(httpProcessor: HummingbirdHttpProcessor())
             .Build(),
     withInitializers: [
         ActionsInitializer(),
