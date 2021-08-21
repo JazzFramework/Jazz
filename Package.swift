@@ -67,9 +67,28 @@ let package = Package(
             name: "ServerNio",
             targets: ["ServerNio"]
         ),
+
+
+        //ExampleService
+        .library(
+            name: "ExampleServerCommon",
+            targets: ["ExampleServerCommon"]
+        ),
+        .library(
+            name: "ExampleServer",
+            targets: ["ExampleServer"]
+        ),
+        .library(
+            name: "ExampleServerActions",
+            targets: ["ExampleServerActions"]
+        ),
+        .library(
+            name: "ExampleServerDataAccess",
+            targets: ["ExampleServerDataAccess"]
+        ),
         .executable(
-            name: "TestServer",
-            targets: ["TestServer"]
+            name: "ExampleServerHosting",
+            targets: ["ExampleServerHosting"]
         ),
     ],
     dependencies: [
@@ -143,15 +162,58 @@ let package = Package(
                 "Server"
             ]
         ),
+
+
+        //ExampleService
         .target(
-            name: "TestServer",
+            name: "ExampleServerCommon",
+            dependencies: [
+                "Codec"
+            ],
+            path: "Examples/TestService/Common"
+        ),
+        .target(
+            name: "ExampleServer",
+            dependencies: [
+                "ExampleServerCommon"
+            ],
+            path: "Examples/TestService/Server/External"
+        ),
+        .target(
+            name: "ExampleServerDataAccess",
+            dependencies: [
+                "DataAccess",
+
+                "ExampleServerCommon"
+            ],
+            path: "Examples/TestService/Server/Internal/DataAccess"
+        ),
+        .target(
+            name: "ExampleServerActions",
+            dependencies: [
+                "Flow",
+
+                "ExampleServerCommon",
+                "ExampleServer",
+                "ExampleServerDataAccess"
+            ],
+            path: "Examples/TestService/Server/Internal/Actions"
+        ),
+        .target(
+            name: "ExampleServerHosting",
             dependencies: [
                 "DataAccessInMemory",
-                "Flow",
                 "Server",
-                "ServerNio"
-            ]
+                "ServerNio",
+
+                "ExampleServerCommon",
+                "ExampleServer",
+                "ExampleServerActions",
+                "ExampleServerDataAccess"
+            ],
+            path: "Examples/TestService/Server/Internal/Hosting"
         ),
+
 
         .testTarget(
             name: "CodecTests",
