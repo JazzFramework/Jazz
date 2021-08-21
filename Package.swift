@@ -71,8 +71,8 @@ let package = Package(
 
         //ExampleService
         .library(
-            name: "ExampleServerCommon",
-            targets: ["ExampleServerCommon"]
+            name: "ExampleCommon",
+            targets: ["ExampleCommon"]
         ),
         .library(
             name: "ExampleServer",
@@ -81,6 +81,10 @@ let package = Package(
         .library(
             name: "ExampleServerActions",
             targets: ["ExampleServerActions"]
+        ),
+        .library(
+            name: "ExampleServerDataAccess",
+            targets: ["ExampleServerDataAccess"]
         ),
         .executable(
             name: "ExampleServerHosting",
@@ -162,41 +166,51 @@ let package = Package(
 
         //ExampleService
         .target(
-            name: "ExampleServerCommon",
+            name: "ExampleCommon",
             dependencies: [
                 "Codec"
             ],
-            path: "Examples/TestService/Common"
+            path: "Examples/TestService/External/Common"
         ),
         .target(
             name: "ExampleServer",
             dependencies: [
-                "ExampleServerCommon"
+                "ExampleCommon"
             ],
-            path: "Examples/TestService/Server/External"
+            path: "Examples/TestService/External/Server"
         ),
         .target(
             name: "ExampleServerActions",
             dependencies: [
                 "Flow",
 
-                "ExampleServerCommon",
+                "ExampleCommon",
                 "ExampleServer"
             ],
-            path: "Examples/TestService/Server/Internal/Actions"
+            path: "Examples/TestService/Internal/Server.Actions"
+        ),
+        .target(
+            name: "ExampleServerDataAccess",
+            dependencies: [
+                "DataAccessInMemory",
+
+                "ExampleCommon",
+                "ExampleServer"
+            ],
+            path: "Examples/TestService/Internal/Server.DataAccess"
         ),
         .target(
             name: "ExampleServerHosting",
             dependencies: [
-                "DataAccessInMemory",
                 "Server",
                 "ServerNio",
 
-                "ExampleServerCommon",
+                "ExampleCommon",
                 "ExampleServer",
+                "ExampleServerDataAccess",
                 "ExampleServerActions"
             ],
-            path: "Examples/TestService/Server/Internal/Hosting"
+            path: "Examples/TestService/Internal/Server.Hosting"
         ),
 
 
