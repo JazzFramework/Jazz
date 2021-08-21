@@ -1,9 +1,9 @@
 import Server;
 
 public class GetWeatherCollectionController: Controller {
-    private let _action: GetWeathersAction;
+    private let _action: GetWeathers;
 
-    public init(with action: GetWeathersAction) {
+    public init(with action: GetWeathers) {
         _action = action;
     }
 

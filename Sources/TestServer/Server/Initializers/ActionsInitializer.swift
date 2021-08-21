@@ -11,27 +11,27 @@ public class ActionsInitializer: Initializer {
             })
 
             .WireUp(singleton: { sp in
-                return DeleteWeatherActionImpl(
+                return DeleteWeatherAction(
                     with: try sp.FetchType()
-                ) as DeleteWeatherAction;
+                ) as DeleteWeather;
             })
 
             .WireUp(singleton: { sp in
-                return GetWeatherActionImpl(
+                return GetWeatherAction(
                     with: try sp.FetchType()
-                ) as GetWeatherAction;
+                ) as GetWeather;
             })
 
             .WireUp(singleton: { sp in
-                return GetWeathersActionImpl(
+                return GetWeathersAction(
                     with: try sp.FetchType()
-                ) as GetWeathersAction;
+                ) as GetWeathers;
             })
 
             .WireUp(singleton: { sp in
-                return UpdateWeatherActionImpl(
+                return UpdateWeatherAction(
                     with: try sp.FetchType()
-                ) as UpdateWeatherAction;
+                ) as UpdateWeather;
             });
     }
 }

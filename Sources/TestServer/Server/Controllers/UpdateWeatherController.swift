@@ -1,9 +1,9 @@
 import Server;
 
 public class UpdateWeatherController: Controller {
-    private let _action: UpdateWeatherAction;
+    private let _action: UpdateWeather;
 
-    public init(with action: UpdateWeatherAction) {
+    public init(with action: UpdateWeather) {
         _action = action;
     }
 

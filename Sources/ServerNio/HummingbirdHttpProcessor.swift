@@ -51,7 +51,7 @@ public class HummingbirdHttpProcessor: HttpProcessor {
 
         do
         {
-            let requestContext: RequestContext = try BuildRequest(for: request);
+            let requestContext: RequestContext = try BuildRequest(for: request, with: controller);
 
             let result: ResultContext = try Run(controller: controller.Logic, requestContext);
 
@@ -109,7 +109,10 @@ public class HummingbirdHttpProcessor: HttpProcessor {
         _app.wait()
     }
 
-    private func BuildRequest(for request: HBRequest) throws -> RequestContext {
+    private func BuildRequest(
+        for request: HBRequest,
+        with controller: Controller
+    ) throws -> RequestContext {
         let builder: RequestContextBuilder = RequestContextBuilder()
         
         _ = builder.With(method: Convert(method: request.method));
@@ -120,8 +123,14 @@ public class HummingbirdHttpProcessor: HttpProcessor {
             _ = builder.With(header: key, values: [value]);
         }
 
-        if let id = request.parameters["id"] {
-            _ = builder.With(route: "id", value: id);
+        for part in controller.GetRoute().components(separatedBy: "/") {
+            if part.starts(with: ":") {
+                let param = String(part.dropFirst());
+
+                if let paramValue = request.parameters[param] {
+                    _ = builder.With(route: param, value: paramValue);
+                }
+            }
         }
 
         return builder.Build();
