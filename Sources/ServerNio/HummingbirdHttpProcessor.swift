@@ -49,13 +49,13 @@ public class HummingbirdHttpProcessor: HttpProcessor {
     private func ProcessRequest(for request: HBRequest, with controller: Controller) -> HBResponse {
         let acceptMediaTypes: [MediaType] = GetMediaTypes(for: "Accept", in: request);
 
-        let requestContext: RequestContext = BuildRequest(for: request);
-
         do
         {
+            let requestContext: RequestContext = try BuildRequest(for: request);
+
             let result: ResultContext = try Run(controller: controller.Logic, requestContext);
 
-            return Handle(result: result, with: acceptMediaTypes);
+            return try Handle(result: result, with: acceptMediaTypes);
         }
         catch
         {
@@ -109,22 +109,20 @@ public class HummingbirdHttpProcessor: HttpProcessor {
         _app.wait()
     }
 
-    private func BuildRequest(for request: HBRequest) -> RequestContext {
+    private func BuildRequest(for request: HBRequest) throws -> RequestContext {
         let builder: RequestContextBuilder = RequestContextBuilder()
         
         _ = builder.With(method: Convert(method: request.method));
         _ = builder.With(url: request.uri.description);
-        _ = builder.With(body: ParseBody(from: request));
+        _ = builder.With(body: try ParseBody(from: request));
 
         for (key, value) in request.headers {
             _ = builder.With(header: key, values: [value]);
         }
 
-/*
-        for key in request.parameters.Index {
-            _ = builder.With(route: key, value: key);
+        if let id = request.parameters["id"] {
+            _ = builder.With(route: "id", value: id);
         }
-*/
 
         return builder.Build();
     }
@@ -146,9 +144,8 @@ public class HummingbirdHttpProcessor: HttpProcessor {
         }
     }
 
-    private func ParseBody(from request: HBRequest) -> Any? {
+    private func ParseBody(from request: HBRequest) throws -> Any? {
         if let buffer = request.body.buffer {
-
             if let mediaType: MediaType = GetMediaType(for: "Content-Type", in: request) {
                 for transcoder in self._transcoders {
                     if
@@ -166,6 +163,8 @@ public class HummingbirdHttpProcessor: HttpProcessor {
                     }
                 }
             }
+
+            throw HttpErrors.unsupportedMediaType;
         }
 
         return nil;
@@ -173,24 +172,28 @@ public class HummingbirdHttpProcessor: HttpProcessor {
 
     private func Handle(error: Error, with mediaTypes: [MediaType]) -> HBResponse
     {
-        for errorTranslator in _errorTranslators {
-            if errorTranslator.CanHandle(error: error) {
-                let result: ApiError = errorTranslator.Handle(error: error);
+        do
+        {
+            for errorTranslator in _errorTranslators {
+                if errorTranslator.CanHandle(error: error) {
+                    let result: ApiError = errorTranslator.Handle(error: error);
 
-                return Handle(
-                    result: ResultContextBuilder()
-                        .With(statusCode: result.GetCode())
-                        .With(body: result)
-                        .Build(),
-                    with: mediaTypes
-                );
+                    return try Handle(
+                        result: ResultContextBuilder()
+                            .With(statusCode: result.GetCode())
+                            .With(body: result)
+                            .Build(),
+                        with: mediaTypes
+                    );
+                }
             }
         }
+        catch {}
 
         return HBResponse(status: .internalServerError);
     }
 
-    private func Handle(result: ResultContext, with mediaTypes: [MediaType]) -> HBResponse {
+    private func Handle(result: ResultContext, with mediaTypes: [MediaType]) throws -> HBResponse {
         let status: HTTPResponseStatus = .custom(code: result.GetStatusCode(), reasonPhrase: "");
 
         if let body = result.GetBody() {
@@ -217,7 +220,7 @@ public class HummingbirdHttpProcessor: HttpProcessor {
                 }
             }
 
-            return HBResponse(status: .notAcceptable);
+            throw HttpErrors.notAcceptable;
         }
 
         return HBResponse(status: status);
