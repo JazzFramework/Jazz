@@ -82,10 +82,6 @@ let package = Package(
             name: "ExampleServerActions",
             targets: ["ExampleServerActions"]
         ),
-        .library(
-            name: "ExampleServerDataAccess",
-            targets: ["ExampleServerDataAccess"]
-        ),
         .executable(
             name: "ExampleServerHosting",
             targets: ["ExampleServerHosting"]
@@ -180,22 +176,12 @@ let package = Package(
             path: "Examples/TestService/Server/External"
         ),
         .target(
-            name: "ExampleServerDataAccess",
-            dependencies: [
-                "DataAccess",
-
-                "ExampleServerCommon"
-            ],
-            path: "Examples/TestService/Server/Internal/DataAccess"
-        ),
-        .target(
             name: "ExampleServerActions",
             dependencies: [
                 "Flow",
 
                 "ExampleServerCommon",
-                "ExampleServer",
-                "ExampleServerDataAccess"
+                "ExampleServer"
             ],
             path: "Examples/TestService/Server/Internal/Actions"
         ),
@@ -208,8 +194,7 @@ let package = Package(
 
                 "ExampleServerCommon",
                 "ExampleServer",
-                "ExampleServerActions",
-                "ExampleServerDataAccess"
+                "ExampleServerActions"
             ],
             path: "Examples/TestService/Server/Internal/Hosting"
         ),

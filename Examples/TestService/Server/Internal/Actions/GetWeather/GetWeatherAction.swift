@@ -2,7 +2,6 @@ import DataAccess;
 
 import ExampleServerCommon;
 import ExampleServer;
-import ExampleServerDataAccess;
 
 public class GetWeatherAction: GetWeather {
     private let _repo: WeatherRepository;

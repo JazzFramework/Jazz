@@ -1,6 +1,5 @@
 import ExampleServerCommon;
 import ExampleServer;
-import ExampleServerDataAccess;
 
 public class UpdateWeatherAction: UpdateWeather {
     private let _repo: WeatherRepository;

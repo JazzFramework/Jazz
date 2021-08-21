@@ -1,5 +1,4 @@
 import ExampleServer;
-import ExampleServerDataAccess;
 
 public class DeleteWeatherAction: DeleteWeather {
     private let _repo: WeatherRepository;
