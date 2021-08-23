@@ -4,7 +4,7 @@ import Flow
 import ExampleCommon;
 import ExampleServer;
 
-internal class CreateWeatherAction: CreateWeather {
+internal final class CreateWeatherAction: CreateWeather {
     private let _flow: Flow;
     private let _resultResolver: ContextResolver<FlowContext, WeatherContext>;
 

@@ -3,17 +3,17 @@ import Flow;
 
 import ExampleServer;
 
-public class CreateWeatherActionBuilder {
+internal final class CreateWeatherActionBuilder {
     private static let WEATHER_CONTEXT_RESOLVER: ContextResolver<FlowContext, WeatherContext> =
         ContextResolver<FlowContext, WeatherContext>();
 
     private let _repository: WeatherRepository;
 
-    public init(with repository: WeatherRepository) {
+    internal init(with repository: WeatherRepository) {
         _repository = repository;
     }
 
-    public func Build() -> CreateWeather {
+    internal func Build() -> CreateWeather {
         return CreateWeatherAction(
             withFlow: BuildFlow(),
             withResultResolver: CreateWeatherActionBuilder.WEATHER_CONTEXT_RESOLVER

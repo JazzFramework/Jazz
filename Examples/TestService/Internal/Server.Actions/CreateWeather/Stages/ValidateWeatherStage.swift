@@ -3,7 +3,7 @@ import Flow;
 
 import ExampleServer;
 
-internal class ValidateWeatherStage: BaseStage {
+internal final class ValidateWeatherStage: BaseStage {
     internal static let NAME: String = "\(ValidateWeatherStage.self)"
 
     internal static let SUCCESS_RESULT: StageResult =

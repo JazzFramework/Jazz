@@ -1,7 +1,7 @@
 import ExampleCommon;
 import ExampleServer;
 
-public class UpdateWeatherAction: UpdateWeather {
+internal class UpdateWeatherAction: UpdateWeather {
     private let _repo: WeatherRepository;
 
     public init(with repo: WeatherRepository) {

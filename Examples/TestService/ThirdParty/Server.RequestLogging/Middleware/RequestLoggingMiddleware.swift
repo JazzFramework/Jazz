@@ -1,6 +1,6 @@
 import Server;
 
-public class RequestLoggingMiddleware: Middleware {
+internal final class RequestLoggingMiddleware: Middleware {
     public final override func Logic(
         for request: RequestContext,
         with next: (RequestContext) throws -> ResultContext

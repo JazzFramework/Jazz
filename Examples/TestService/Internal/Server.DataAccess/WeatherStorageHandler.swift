@@ -3,10 +3,10 @@ import DataAccessInMemory;
 
 import ExampleCommon;
 
-public final class WeatherStorageHandler: StorageHandler<Weather> {
+internal final class WeatherStorageHandler: StorageHandler<Weather> {
     private let _storageHandler: InMemoryStorageHandler<Weather>;
 
-    public override init() {        
+    internal override init() {        
         _storageHandler = InMemoryStorageHandler<Weather>();
 
         super.init();

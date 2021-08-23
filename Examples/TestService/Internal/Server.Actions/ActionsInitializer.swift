@@ -1,9 +1,10 @@
 import Server;
 
 import ExampleServer;
-import ExampleServerActions;
 
 public class ActionsInitializer: Initializer {
+    public init() {}
+
     public func Initialize(for app: App) throws {
         _ = try app
             .WireUp(singleton: { sp in

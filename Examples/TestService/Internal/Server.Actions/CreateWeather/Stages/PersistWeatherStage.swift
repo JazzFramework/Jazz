@@ -4,7 +4,7 @@ import Flow;
 import ExampleCommon;
 import ExampleServer;
 
-internal class PersistWeatherStage: BaseStage {
+internal final class PersistWeatherStage: BaseStage {
     internal static let NAME: String = "\(PersistWeatherStage.self)"
 
     internal static let SUCCESS_RESULT: StageResult =

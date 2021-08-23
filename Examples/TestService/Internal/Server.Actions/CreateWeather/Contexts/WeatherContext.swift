@@ -2,7 +2,7 @@ import Context
 
 import ExampleCommon;
 
-internal class WeatherContext: BaseContext {
+internal final class WeatherContext: BaseContext {
     internal let Value: Weather;
 
     internal init(_ value: Weather) {

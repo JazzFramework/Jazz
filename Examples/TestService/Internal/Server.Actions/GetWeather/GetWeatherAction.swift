@@ -3,10 +3,10 @@ import DataAccess;
 import ExampleCommon;
 import ExampleServer;
 
-public class GetWeatherAction: GetWeather {
+internal class GetWeatherAction: GetWeather {
     private let _repo: WeatherRepository;
 
-    public init(with repo: WeatherRepository) {
+    internal init(with repo: WeatherRepository) {
         _repo = repo;
     }
 

@@ -1,9 +1,9 @@
 import ExampleServer;
 
-public class DeleteWeatherAction: DeleteWeather {
+internal class DeleteWeatherAction: DeleteWeather {
     private let _repo: WeatherRepository;
 
-    public init(with repo: WeatherRepository) {
+    internal init(with repo: WeatherRepository) {
         _repo = repo;
     }
 

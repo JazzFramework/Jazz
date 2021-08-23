@@ -3,7 +3,7 @@ import Foundation;
 import Context;
 import Flow;
 
-internal class SetWeatherIdStage: BaseStage {
+internal final class SetWeatherIdStage: BaseStage {
     internal static let NAME: String = "\(SetWeatherIdStage.self)"
 
     internal static let SUCCESS_RESULT: StageResult =

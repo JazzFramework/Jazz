@@ -1,3 +1,3 @@
-public enum ContextErrors: Error {
+internal enum ContextErrors: Error {
     case notResolveable(reason: String)
 }

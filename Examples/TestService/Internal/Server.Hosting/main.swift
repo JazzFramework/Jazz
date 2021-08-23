@@ -1,7 +1,11 @@
 import Server;
 import ServerNio;
 
-import ExampleServerAuthentication;
+import ExampleThirdPartyServerAuthentication;
+import ExampleThirdPartyServerRequestLogging;
+
+import ExampleServerActions;
+import ExampleServerDataAccess;
 
 try AppRunner(
     withApp:
@@ -10,12 +14,15 @@ try AppRunner(
             .Build(),
     withInitializers: [
         AuthenticationInitializer(),
+        RequestLoggingInitializer(),
+
         ActionsInitializer(),
         CodecsInitializer(),
         ControllersInitializer(),
         DataAccessLayerInitializer(),
         ErrorTranslatorsInitializer(),
-        MiddlewaresInitializer()
+        MiddlewaresInitializer(),
+        WeatherStorageHandlerInitializer()
     ]
 )
     .Run();

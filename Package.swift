@@ -71,16 +71,16 @@ let package = Package(
 
         //ExampleService
         .library(
+            name: "ExampleThirdPartyServerRequestLogging",
+            targets: ["ExampleThirdPartyServerRequestLogging"]
+        ),
+        .library(
             name: "ExampleCommon",
             targets: ["ExampleCommon"]
         ),
         .library(
             name: "ExampleServer",
             targets: ["ExampleServer"]
-        ),
-        .library(
-            name: "ExampleServerAuthentication",
-            targets: ["ExampleServerAuthentication"]
         ),
         .library(
             name: "ExampleServerActions",
@@ -170,6 +170,20 @@ let package = Package(
 
         //ExampleService
         .target(
+            name: "ExampleThirdPartyServerAuthentication",
+            dependencies: [
+                "Server"
+            ],
+            path: "Examples/TestService/ThirdParty/Server.Authentication"
+        ),
+        .target(
+            name: "ExampleThirdPartyServerRequestLogging",
+            dependencies: [
+                "Server"
+            ],
+            path: "Examples/TestService/ThirdParty/Server.RequestLogging"
+        ),
+        .target(
             name: "ExampleCommon",
             dependencies: [
                 "Codec"
@@ -182,13 +196,6 @@ let package = Package(
                 "ExampleCommon"
             ],
             path: "Examples/TestService/External/Server"
-        ),
-        .target(
-            name: "ExampleServerAuthentication",
-            dependencies: [
-                "Server"
-            ],
-            path: "Examples/TestService/Internal/Server.Authentication"
         ),
         .target(
             name: "ExampleServerActions",
@@ -216,9 +223,11 @@ let package = Package(
                 "Server",
                 "ServerNio",
 
+                "ExampleThirdPartyServerAuthentication",
+                "ExampleThirdPartyServerRequestLogging",
+
                 "ExampleCommon",
                 "ExampleServer",
-                "ExampleServerAuthentication",
                 "ExampleServerDataAccess",
                 "ExampleServerActions"
             ],
