@@ -2,9 +2,9 @@ import Server;
 
 import ExampleServer;
 
-public class NotAuthorizedErrorTranslator: ErrorTranslator {
+public class WeatherInvalidTempErrorTranslator: ErrorTranslator {
     public override func CanHandle(error: Error) -> Bool {
-        if case AuthErrors.notAuthorized = error {
+        if case WeatherErrors.invalidTemp = error {
             return true;
         }
 
@@ -13,10 +13,10 @@ public class NotAuthorizedErrorTranslator: ErrorTranslator {
 
     public override func Handle(error: Error) -> ApiError {
         switch(error) {
-            case AuthErrors.notAuthorized(let reason):
+            case WeatherErrors.invalidTemp(let reason):
                 return ApiError(
-                    withCode: 401,
-                    withTitle: "Not Authorized",
+                    withCode: 400,
+                    withTitle: "Invalid Temp",
                     withDetails: "\(reason)",
                     withMetadata: [
                         "reason": reason

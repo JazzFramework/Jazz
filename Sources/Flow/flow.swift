@@ -37,7 +37,7 @@ public class Flow {
 
     - Returns: A FlowResult containing details related to the flow execution.
      */
-    public func Execute(for context: FlowContext) -> FlowResult {
+    public func Execute(for context: FlowContext) throws -> FlowResult {
         var counter: Int = 0;
         var nextStage: String? = _initialStage;
         var result: StageResult = Flow.NOT_RUN_RESULT;
@@ -49,7 +49,7 @@ public class Flow {
             }
 
             if let stage = _stages[nextStage!] {
-                result = stage.Execute(for: context);
+                result = try stage.Execute(for: context);
 
                 nextStage = stage.GetNextStage(for: result);
             }

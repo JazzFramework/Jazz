@@ -1,6 +1,8 @@
 import Context;
 import Flow;
 
+import ExampleServer;
+
 internal class ValidateWeatherStage: BaseStage {
     internal static let NAME: String = "\(ValidateWeatherStage.self)"
 
@@ -21,14 +23,13 @@ internal class ValidateWeatherStage: BaseStage {
         super.init(withTransactions: transactions);
     }
 
-    public override func Execute(for context: FlowContext) -> StageResult {
+    public override func Execute(for context: FlowContext) throws -> StageResult {
         guard let weatherContext: WeatherContext = _contextResolver.Resolve(for: context) else {
             return ValidateWeatherStage.MISSING_CONTEXT_RESULT;
         }
 
         if weatherContext.Value.Temp == "" {
-            //throw CreateWeatherErrors.invalidTemp(reason: "missing temp");
-            return ValidateWeatherStage.MISSING_CONTEXT_RESULT;
+            throw WeatherErrors.invalidTemp(reason: "missing temp");
         }
 
         return ValidateWeatherStage.SUCCESS_RESULT;

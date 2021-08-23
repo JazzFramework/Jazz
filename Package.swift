@@ -79,6 +79,10 @@ let package = Package(
             targets: ["ExampleServer"]
         ),
         .library(
+            name: "ExampleServerAuthentication",
+            targets: ["ExampleServerAuthentication"]
+        ),
+        .library(
             name: "ExampleServerActions",
             targets: ["ExampleServerActions"]
         ),
@@ -180,6 +184,13 @@ let package = Package(
             path: "Examples/TestService/External/Server"
         ),
         .target(
+            name: "ExampleServerAuthentication",
+            dependencies: [
+                "Server"
+            ],
+            path: "Examples/TestService/Internal/Server.Authentication"
+        ),
+        .target(
             name: "ExampleServerActions",
             dependencies: [
                 "Flow",
@@ -207,6 +218,7 @@ let package = Package(
 
                 "ExampleCommon",
                 "ExampleServer",
+                "ExampleServerAuthentication",
                 "ExampleServerDataAccess",
                 "ExampleServerActions"
             ],

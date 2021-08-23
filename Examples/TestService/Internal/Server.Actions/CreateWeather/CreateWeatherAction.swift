@@ -21,7 +21,7 @@ internal class CreateWeatherAction: CreateWeather {
 
         context.Adopt(subcontext: WeatherContext(weather));
 
-        _ = _flow.Execute(for: context);
+        _ = try _flow.Execute(for: context);
 
         if let weatherContext: WeatherContext = _resultResolver.Resolve(for: context) {
             return weatherContext.Value;

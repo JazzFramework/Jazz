@@ -1,3 +1,3 @@
-public enum AuthErrors: Error {
+internal enum AuthErrors: Error {
     case notAuthorized(reason: String)
 }
