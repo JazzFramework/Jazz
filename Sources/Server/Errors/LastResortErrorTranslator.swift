@@ -1,4 +1,4 @@
-public class LastResortErrorTranslator: ErrorTranslator {
+internal final class LastResortErrorTranslator: ErrorTranslator {
     public override func CanHandle(error: Error) -> Bool {
         return true;
     }

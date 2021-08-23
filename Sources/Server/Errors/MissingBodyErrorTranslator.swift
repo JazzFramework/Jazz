@@ -1,4 +1,4 @@
-public class MissingBodyErrorTranslator: ErrorTranslator {
+internal final class MissingBodyErrorTranslator: ErrorTranslator {
     public override func CanHandle(error: Error) -> Bool {
         if case ControllerErrors.missingBody = error {
             return true;

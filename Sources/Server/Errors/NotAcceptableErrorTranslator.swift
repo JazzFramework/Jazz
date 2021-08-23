@@ -1,4 +1,4 @@
-public class NotAcceptableErrorTranslator: ErrorTranslator {
+internal final class NotAcceptableErrorTranslator: ErrorTranslator {
     public override func CanHandle(error: Error) -> Bool {
         if case HttpErrors.notAcceptable = error {
             return true;

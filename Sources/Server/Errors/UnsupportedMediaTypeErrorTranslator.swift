@@ -1,4 +1,4 @@
-public class UnsupportedMediaTypeErrorTranslator: ErrorTranslator {
+internal final class UnsupportedMediaTypeErrorTranslator: ErrorTranslator {
     public override func CanHandle(error: Error) -> Bool {
         if case HttpErrors.unsupportedMediaType = error {
             return true;

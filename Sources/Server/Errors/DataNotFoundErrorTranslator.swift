@@ -1,6 +1,6 @@
 import DataAccess;
 
-public class DataNotFoundErrorTranslator: ErrorTranslator {
+internal final class DataNotFoundErrorTranslator: ErrorTranslator {
     public override func CanHandle(error: Error) -> Bool {
         if case DataAccessErrors.notFound = error {
             return true;

@@ -1,6 +1,6 @@
 import Codec;
 
-public class ApiErrorV1JsonCodec: JsonCodec<ApiError> {
+internal final class ApiErrorV1JsonCodec: JsonCodec<ApiError> {
     private static let SupportedMediaType: MediaType =
         MediaType(
             withType: "application",
