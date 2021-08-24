@@ -1,7 +1,7 @@
 import Server;
 
-import ExampleServer;
 import ExampleCommon;
+import ExampleServer;
 
 public class GetWeatherCollectionController: Controller {
     private let _action: GetWeathers;

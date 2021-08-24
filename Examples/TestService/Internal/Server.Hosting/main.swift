@@ -5,6 +5,7 @@ import ExampleThirdPartyServerAuthentication;
 import ExampleThirdPartyServerRequestLogging;
 
 import ExampleServerActions;
+import ExampleServerHelloWorldBackgroundProcess;
 import ExampleServerDataAccess;
 
 try AppRunner(
@@ -19,10 +20,10 @@ try AppRunner(
 
         //Initializers from other internal projects.
         ActionsInitializer(),
+        BackgroundProcessInitializer(),
         WeatherStorageHandlerInitializer(),
 
         //Initializers defined in this project
-        BackgroundProcessInitializer(),
         CodecsInitializer(),
         ControllersInitializer(),
         DataAccessLayerInitializer(),

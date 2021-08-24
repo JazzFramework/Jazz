@@ -87,6 +87,10 @@ let package = Package(
             targets: ["ExampleServerActions"]
         ),
         .library(
+            name: "ExampleServerHelloWorldBackgroundProcess",
+            targets: ["ExampleServerHelloWorldBackgroundProcess"]
+        ),
+        .library(
             name: "ExampleServerDataAccess",
             targets: ["ExampleServerDataAccess"]
         ),
@@ -208,6 +212,14 @@ let package = Package(
             path: "Examples/TestService/Internal/Server.Actions"
         ),
         .target(
+            name: "ExampleServerHelloWorldBackgroundProcess",
+            dependencies: [
+                "ExampleCommon",
+                "ExampleServer"
+            ],
+            path: "Examples/TestService/Internal/Server.HelloWorldBackgroundProcess"
+        ),
+        .target(
             name: "ExampleServerDataAccess",
             dependencies: [
                 "DataAccessInMemory",
@@ -228,8 +240,9 @@ let package = Package(
 
                 "ExampleCommon",
                 "ExampleServer",
-                "ExampleServerDataAccess",
-                "ExampleServerActions"
+                "ExampleServerActions",
+                "ExampleServerHelloWorldBackgroundProcess",
+                "ExampleServerDataAccess"
             ],
             path: "Examples/TestService/Internal/Server.Hosting"
         ),
