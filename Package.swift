@@ -119,7 +119,7 @@ let package = Package(
         ),
         .target(
             name: "Configuration",
-            dependencies: []
+            dependencies: ["Codec"]
         ),
         .target(
             name: "Context",
@@ -235,6 +235,7 @@ let package = Package(
         .target(
             name: "ExampleServerHosting",
             dependencies: [
+                "Configuration",
                 "Server",
                 "ServerNio",
 
