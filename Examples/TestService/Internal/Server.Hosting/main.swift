@@ -13,16 +13,20 @@ try AppRunner(
             .With(httpProcessor: HummingbirdHttpProcessor())
             .Build(),
     withInitializers: [
+        //Initializers from "Third Party" code.
         AuthenticationInitializer(),
         RequestLoggingInitializer(),
 
+        //Initializers from other internal projects.
         ActionsInitializer(),
+        WeatherStorageHandlerInitializer(),
+
+        //Initializers defined in this project
         CodecsInitializer(),
         ControllersInitializer(),
         DataAccessLayerInitializer(),
         ErrorTranslatorsInitializer(),
-        MiddlewaresInitializer(),
-        WeatherStorageHandlerInitializer()
+        MiddlewaresInitializer()
     ]
 )
     .Run();
