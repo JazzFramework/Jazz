@@ -22,6 +22,7 @@ try AppRunner(
         WeatherStorageHandlerInitializer(),
 
         //Initializers defined in this project
+        BackgroundProcessInitializer(),
         CodecsInitializer(),
         ControllersInitializer(),
         DataAccessLayerInitializer(),

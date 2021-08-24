@@ -1,3 +1,5 @@
+import Foundation;
+
 import Codec;
 import DependencyInjection;
 
@@ -6,12 +8,14 @@ public class App {
     private let _serviceProviderBuilder: ServiceProviderBuilder;
 
     private var _queuedLogic: [(HttpProcessor, ServiceProvider) throws -> Void];
+    private var _queuedBackgroundProcesses: [(ServiceProvider) throws -> Void];
 
     internal init(with httpProcessor: HttpProcessor) {
         _httpProcessor = httpProcessor;
         _serviceProviderBuilder = ServiceProviderBuilder();
 
         _queuedLogic = [];
+        _queuedBackgroundProcesses = [];
     }
 
     public func WireUp<T>(singleton: @escaping (ServiceProvider) throws -> T) throws -> App {
@@ -84,11 +88,33 @@ public class App {
         return self;
     }
 
+    public func WireUp<TBackgroundProcess: BackgroundProcess>(backgroundProcess: @escaping (ServiceProvider) throws -> TBackgroundProcess) throws -> App {
+        _ = try _serviceProviderBuilder.Register(backgroundProcess);
+
+        _queuedBackgroundProcesses.append(
+            {
+                serviceProvider in
+
+                if let backgroundProcess: TBackgroundProcess = try serviceProvider.Get() {
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        backgroundProcess.Logic();
+                    }
+                }
+            }
+        );
+
+        return self;
+    }
+
     public func Run() throws {
         let serviceProvider: ServiceProvider = _serviceProviderBuilder.Build();
 
         for logic in _queuedLogic {
             try logic(_httpProcessor, serviceProvider);
+        }
+
+        for logic in _queuedBackgroundProcesses {
+            try logic(serviceProvider);
         }
 
         try _httpProcessor.Start();
