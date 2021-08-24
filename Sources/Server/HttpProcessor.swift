@@ -7,9 +7,7 @@ public protocol HttpProcessor {
 
     func WireUp(middleware: Middleware) -> HttpProcessor;
 
-    func WireUp(encoder: Encoder) -> HttpProcessor;
-
-    func WireUp(decoder: Decoder) -> HttpProcessor;
+    func WireUp(transcoder: Transcoder) -> HttpProcessor;
 
     func Start() throws;
 }

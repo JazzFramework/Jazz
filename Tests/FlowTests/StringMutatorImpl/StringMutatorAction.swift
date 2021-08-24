@@ -18,7 +18,7 @@ internal class StringMutatorAction: StringMutator {
 
         context.Adopt(subcontext: StringContext(input));
 
-        let result = _flow.Execute(for: context);
+        let result = try _flow.Execute(for: context);
 
         return try Process(result: result, withContext: context);
     }

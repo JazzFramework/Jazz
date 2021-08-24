@@ -1,8 +1,8 @@
 public class ServiceProvider {
-    private let _types: [String: (ServiceProvider) -> Any];
+    private let _types: [String: (ServiceProvider) throws -> Any];
     private var _builtTypes: [String: Any];
 
-    internal init(withTypes types: [String: (ServiceProvider) -> Any]) {
+    internal init(withTypes types: [String: (ServiceProvider) throws -> Any]) {
         _types = types;
         _builtTypes = [:];
     }
@@ -17,7 +17,7 @@ public class ServiceProvider {
         }
 
         if let instanceBuilder = _types[key] {
-            let instance = instanceBuilder(self);
+            let instance = try instanceBuilder(self);
 
             if let instanceType = instance as? T {
                 _builtTypes[key] = instanceType;
@@ -27,5 +27,13 @@ public class ServiceProvider {
         }
 
         return nil;
+    }
+
+    public func FetchType<T>() throws -> T {
+        if let instance: T = try Get() {
+            return instance;
+        }
+
+        throw WireErrors.missingType(type: String(describing: T.self));
     }
 }

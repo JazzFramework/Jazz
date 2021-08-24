@@ -5,7 +5,7 @@ open class BaseStage {
         _transactions = transactions;
     }
 
-    open func Execute(for context: FlowContext) -> StageResult {
+    open func Execute(for context: FlowContext) throws -> StageResult {
         return StageResult(as: "success");
     }
 

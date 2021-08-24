@@ -15,6 +15,12 @@ public class JsonProperty: JsonToken {
         }
     }
 
+    public func GetUnsignedInteger() -> UInt? {
+        return GetValue() { value in
+            return UInt(value)
+        }
+    }
+
     public func GetDouble() -> Double? {
         return GetValue() { value in
             return Double(value)

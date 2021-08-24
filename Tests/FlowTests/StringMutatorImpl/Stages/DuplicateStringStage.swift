@@ -21,7 +21,7 @@ internal class DuplicateStringStage: BaseStage {
         super.init(withTransactions: transactions);
     }
 
-    public override func Execute(for context: FlowContext) -> StageResult {
+    public override func Execute(for context: FlowContext) throws -> StageResult {
         guard let stringContext: StringContext = _contextResolver.Resolve(for: context) else {
             return DuplicateStringStage.MISSING_CONTEXT_RESULT;
         }

@@ -67,18 +67,36 @@ let package = Package(
             name: "ServerNio",
             targets: ["ServerNio"]
         ),
+
+
+        //ExampleService
+        .library(
+            name: "ExampleThirdPartyServerRequestLogging",
+            targets: ["ExampleThirdPartyServerRequestLogging"]
+        ),
+        .library(
+            name: "ExampleCommon",
+            targets: ["ExampleCommon"]
+        ),
+        .library(
+            name: "ExampleServer",
+            targets: ["ExampleServer"]
+        ),
+        .library(
+            name: "ExampleServerActions",
+            targets: ["ExampleServerActions"]
+        ),
+        .library(
+            name: "ExampleServerDataAccess",
+            targets: ["ExampleServerDataAccess"]
+        ),
         .executable(
-            name: "TestServer",
-            targets: ["TestServer"]
+            name: "ExampleServerHosting",
+            targets: ["ExampleServerHosting"]
         ),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
-
-        //.package(url: "https://github.com/apple/swift-nio.git", from: "2.0.0")
-        .package(url: "https://github.com/NozeIO/MicroExpress.git", 
-             from: "0.5.3")
+        .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "0.11.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -137,23 +155,85 @@ let package = Package(
         ),
         .target(
             name: "Server",
-            dependencies: ["Codec", "Context", "DependencyInjection"]
+            dependencies: ["Codec", "Context", "DependencyInjection", "DataAccess"]
         ),
         .target(
             name: "ServerNio",
             dependencies: [
-                "MicroExpress",
+                .product(name: "Hummingbird", package: "hummingbird"),
+                .product(name: "HummingbirdFoundation", package: "hummingbird"),
 
                 "Server"
             ]
         ),
+
+
+        //ExampleService
         .target(
-            name: "TestServer",
+            name: "ExampleThirdPartyServerAuthentication",
+            dependencies: [
+                "Server"
+            ],
+            path: "Examples/TestService/ThirdParty/Server.Authentication"
+        ),
+        .target(
+            name: "ExampleThirdPartyServerRequestLogging",
+            dependencies: [
+                "Server"
+            ],
+            path: "Examples/TestService/ThirdParty/Server.RequestLogging"
+        ),
+        .target(
+            name: "ExampleCommon",
+            dependencies: [
+                "Codec"
+            ],
+            path: "Examples/TestService/External/Common"
+        ),
+        .target(
+            name: "ExampleServer",
+            dependencies: [
+                "ExampleCommon"
+            ],
+            path: "Examples/TestService/External/Server"
+        ),
+        .target(
+            name: "ExampleServerActions",
+            dependencies: [
+                "Flow",
+
+                "ExampleCommon",
+                "ExampleServer"
+            ],
+            path: "Examples/TestService/Internal/Server.Actions"
+        ),
+        .target(
+            name: "ExampleServerDataAccess",
+            dependencies: [
+                "DataAccessInMemory",
+
+                "ExampleCommon",
+                "ExampleServer"
+            ],
+            path: "Examples/TestService/Internal/Server.DataAccess"
+        ),
+        .target(
+            name: "ExampleServerHosting",
             dependencies: [
                 "Server",
-                "ServerNio"
-            ]
+                "ServerNio",
+
+                "ExampleThirdPartyServerAuthentication",
+                "ExampleThirdPartyServerRequestLogging",
+
+                "ExampleCommon",
+                "ExampleServer",
+                "ExampleServerDataAccess",
+                "ExampleServerActions"
+            ],
+            path: "Examples/TestService/Internal/Server.Hosting"
         ),
+
 
         .testTarget(
             name: "CodecTests",
