@@ -1,4 +1,6 @@
 open class ErrorMapper {
+    public init() {}
+
     open func CanMap(error: Error) -> Bool {
         return false;
     }

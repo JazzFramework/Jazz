@@ -3,7 +3,7 @@ internal final class LastResortErrorTranslator: ErrorTranslator {
         return true;
     }
 
-    public override func Handle(error: Error) -> ApiError {
+    public override func Translate(error: Error) -> ApiError {
         return BuildUnknownError();
     }
 }

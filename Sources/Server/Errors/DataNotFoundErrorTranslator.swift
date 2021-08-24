@@ -9,7 +9,7 @@ internal final class DataNotFoundErrorTranslator: ErrorTranslator {
         return false;
     }
 
-    public override func Handle(error: Error) -> ApiError {
+    public override func Translate(error: Error) -> ApiError {
         switch(error) {
             case DataAccessErrors.notFound(let reason):
                 return ApiError(

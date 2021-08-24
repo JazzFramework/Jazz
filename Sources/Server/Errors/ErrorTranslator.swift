@@ -5,7 +5,7 @@ open class ErrorTranslator {
         return false;
     }
 
-    open func Handle(error: Error) -> ApiError {
+    open func Translate(error: Error) -> ApiError {
         return BuildUnknownError();
     }
 

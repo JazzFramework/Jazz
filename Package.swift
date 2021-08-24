@@ -214,6 +214,9 @@ let package = Package(
         .target(
             name: "ExampleServerHelloWorldBackgroundProcess",
             dependencies: [
+                "ErrorHandling",
+                "Server",
+
                 "ExampleCommon",
                 "ExampleServer"
             ],

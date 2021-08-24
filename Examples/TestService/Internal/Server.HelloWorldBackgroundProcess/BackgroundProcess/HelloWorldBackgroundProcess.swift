@@ -6,19 +6,34 @@ import ExampleCommon;
 import ExampleServer;
 
 internal final class HelloWorldBackgroundProcess: BackgroundProcess {
-    private let _action: GetWeathers;
+    private let _fetchAction: GetWeathers;
+    private let _deleteAction: DeleteWeather;
 
-    internal init(with action: GetWeathers) {
-        _action = action;
+    internal init(with fetchAction: GetWeathers, with deleteAction: DeleteWeather) {
+        _fetchAction = fetchAction;
+        _deleteAction = deleteAction;
     }
 
     public override func Logic() {
         while true {
             sleep(1);
 
-            let weathers: [Weather] = try! _action.Get();
+            do {
+                let weathers: [Weather] = try _fetchAction.Get();
 
-            print("HelloWorldBackgroundProcess \(weathers.count)");
+                print("Hello, The service currently knows of \(weathers.count) weather(s).");
+
+                if weathers.count > 10 {
+                    print("The service knows too much about the weather, and will delete all of it's knowledge.");
+
+                    for weather in weathers {
+                        try _deleteAction.Delete(weatherId: weather.Id);
+                    }
+                }
+            }
+            catch {
+                print("An exception occured when trying to get the number of weathers known by the service. We'll continue to try to count because this is example code.");
+            }
         }
     }
 }

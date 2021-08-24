@@ -11,7 +11,7 @@ public class WeatherInvalidTempErrorTranslator: ErrorTranslator {
         return false;
     }
 
-    public override func Handle(error: Error) -> ApiError {
+    public override func Translate(error: Error) -> ApiError {
         switch(error) {
             case WeatherErrors.invalidTemp(let reason):
                 return ApiError(

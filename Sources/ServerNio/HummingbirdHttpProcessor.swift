@@ -185,7 +185,7 @@ public class HummingbirdHttpProcessor: HttpProcessor {
         {
             for errorTranslator in _errorTranslators {
                 if errorTranslator.CanHandle(error: error) {
-                    let result: ApiError = errorTranslator.Handle(error: error);
+                    let result: ApiError = errorTranslator.Translate(error: error);
 
                     return try Handle(
                         result: ResultContextBuilder()

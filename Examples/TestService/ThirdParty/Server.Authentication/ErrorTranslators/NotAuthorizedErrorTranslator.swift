@@ -9,7 +9,7 @@ internal final class NotAuthorizedErrorTranslator: ErrorTranslator {
         return false;
     }
 
-    public override func Handle(error: Error) -> ApiError {
+    public override func Translate(error: Error) -> ApiError {
         switch(error) {
             case AuthErrors.notAuthorized(let reason):
                 return ApiError(

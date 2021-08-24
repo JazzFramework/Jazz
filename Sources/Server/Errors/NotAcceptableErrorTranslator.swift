@@ -7,7 +7,7 @@ internal final class NotAcceptableErrorTranslator: ErrorTranslator {
         return false
     }
 
-    public override func Handle(error: Error) -> ApiError {
+    public override func Translate(error: Error) -> ApiError {
         return ApiError(
             withCode: 406,
             withTitle: "UnsupportedMediaType",
