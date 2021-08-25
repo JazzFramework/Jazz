@@ -8,7 +8,7 @@ public class CreateWeatherController: Controller {
     private let _action: CreateWeather;
     private let _config: Configuration;
 
-    public init(with action: CreateWeather, with config: Configuration) {
+    public init(with config: Configuration, with action: CreateWeather) {
         _action = action;
         _config = config;
     }
