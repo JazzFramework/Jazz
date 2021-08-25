@@ -8,6 +8,10 @@ internal final class AuthMiddleware: Middleware {
         let authorization = request.GetHeaders(key: "Authorization");
 
         if authorization.count > 0 && authorization[0] != "" {
+            let authContext = AuthorizationContext(withToken: authorization[0]);
+
+            request.Adopt(subcontext: authContext);
+
             return try next(request);
         }
         else

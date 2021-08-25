@@ -1,12 +1,15 @@
+import Configuration;
 import Server;
 
 import ExampleServer;
 import ExampleCommon;
 
 public class CreateWeatherController: Controller {
+    private let _config: Configuration;
     private let _action: CreateWeather;
 
-    public init(with action: CreateWeather) {
+    public init(with config: Configuration, with action: CreateWeather) {
+        _config = config;
         _action = action;
     }
 
@@ -19,6 +22,10 @@ public class CreateWeatherController: Controller {
     }
 
     public override func Logic(withRequest request: RequestContext) throws -> ResultContext {
+        if let appConfig: AppConfig = _config.Fetch() {
+            print(appConfig.Setting);
+        }
+
         let weather: Weather = try _action.Create(weather: try GetWeather(request));
 
         return Ok(body: weather);

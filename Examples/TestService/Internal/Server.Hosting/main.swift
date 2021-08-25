@@ -1,3 +1,6 @@
+import Foundation;
+
+import Configuration;
 import Server;
 import ServerNio;
 
@@ -25,10 +28,14 @@ try AppRunner(
 
         //Initializers defined in this project
         CodecsInitializer(),
+        ConfigurationInitializer(),
         ControllersInitializer(),
         DataAccessLayerInitializer(),
         ErrorTranslatorsInitializer(),
         MiddlewaresInitializer()
-    ]
+    ],
+    withConfiguration:
+        ConfigurationBuilder()
+            .With(bundle: Bundle.module)
 )
     .Run();
