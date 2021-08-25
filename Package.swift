@@ -159,7 +159,12 @@ let package = Package(
         ),
         .target(
             name: "Server",
-            dependencies: ["Codec", "Context", "DependencyInjection", "DataAccess"]
+            dependencies: [
+                "Codec",
+                "Configuration",
+                "Context",
+                "DependencyInjection"
+            ]
         ),
         .target(
             name: "ServerNio",
@@ -205,6 +210,7 @@ let package = Package(
             name: "ExampleServerActions",
             dependencies: [
                 "Flow",
+                "Server",
 
                 "ExampleCommon",
                 "ExampleServer"
@@ -226,6 +232,7 @@ let package = Package(
             name: "ExampleServerDataAccess",
             dependencies: [
                 "DataAccessInMemory",
+                "Server",
 
                 "ExampleCommon",
                 "ExampleServer"
@@ -235,7 +242,6 @@ let package = Package(
         .target(
             name: "ExampleServerHosting",
             dependencies: [
-                "Configuration",
                 "Server",
                 "ServerNio",
 

@@ -1,10 +1,11 @@
+import Configuration;
 import Server;
 
 public class ControllersInitializer: Initializer {
-    public func Initialize(for app: App) throws {
+    public func Initialize(for app: App, with configurationBuilder: ConfigurationBuilder) throws {
         _ = try app
             .WireUp(controller: { sp in
-                return CreateWeatherController(with: try sp.FetchType());
+                return CreateWeatherController(with: try sp.FetchType(), with: try sp.FetchType());
             })
 
             .WireUp(controller: { sp in
