@@ -35,7 +35,7 @@ public class AppRunner {
 
         _ = try _app
             .WireUp(singleton: { _ in
-                return self._configBuilder.Build();
+                return try self._configBuilder.Build();
             });
 
         try _app.Run();

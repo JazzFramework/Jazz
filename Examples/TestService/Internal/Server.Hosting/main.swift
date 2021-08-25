@@ -1,3 +1,5 @@
+import Foundation;
+
 import Configuration;
 import Server;
 import ServerNio;
@@ -26,6 +28,7 @@ try AppRunner(
 
         //Initializers defined in this project
         CodecsInitializer(),
+        ConfigurationInitializer(),
         ControllersInitializer(),
         DataAccessLayerInitializer(),
         ErrorTranslatorsInitializer(),
@@ -33,11 +36,6 @@ try AppRunner(
     ],
     withConfiguration:
         ConfigurationBuilder()
-            .With(decoder: AppConfigV1JsonCodec())
-            .With(
-                file: "/Users/nathan/Documents/Projects/swift/flow/appsettings.json",
-                for: AppConfigV1JsonCodec.SupportedMediaType
-            )
-            //.Build()
+            .With(bundle: Bundle.module)
 )
     .Run();

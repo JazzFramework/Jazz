@@ -254,7 +254,10 @@ let package = Package(
                 "ExampleServerHelloWorldBackgroundProcess",
                 "ExampleServerDataAccess"
             ],
-            path: "Examples/TestService/Internal/Server.Hosting"
+            path: "Examples/TestService/Internal/Server.Hosting",
+            resources: [
+                .process("appsettings.json")
+            ]
         ),
 
 

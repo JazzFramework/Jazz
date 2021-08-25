@@ -5,12 +5,12 @@ import ExampleServer;
 import ExampleCommon;
 
 public class CreateWeatherController: Controller {
-    private let _action: CreateWeather;
     private let _config: Configuration;
+    private let _action: CreateWeather;
 
     public init(with config: Configuration, with action: CreateWeather) {
-        _action = action;
         _config = config;
+        _action = action;
     }
 
     public override func GetMethod() -> HttpMethod {
@@ -22,16 +22,16 @@ public class CreateWeatherController: Controller {
     }
 
     public override func Logic(withRequest request: RequestContext) throws -> ResultContext {
+        if let appConfig: AppConfig = _config.Fetch() {
+            print(appConfig.Setting);
+        }
+
         let weather: Weather = try _action.Create(weather: try GetWeather(request));
 
         return Ok(body: weather);
     }
 
     private func GetWeather(_ request: RequestContext) throws -> Weather {
-        if let appConfig: AppConfig = _config.Fetch() {
-            print(appConfig.Setting);
-        }
-
         guard let weather: Weather = try request.GetBody() else {
             throw ControllerErrors.missingBody;
         }
