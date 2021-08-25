@@ -1,2 +1,3 @@
-open class Configuration {
+public protocol Configuration {
+    func Fetch<TConfig>() -> TConfig?;
 }
