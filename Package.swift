@@ -40,8 +40,8 @@ let package = Package(
             targets: ["DataAccessInMemory"]
         ),
         .library(
-            name: "DataAccessPgSql",
-            targets: ["DataAccessPgSql"]
+            name: "DataAccessSqlite",
+            targets: ["DataAccessSqlite"]
         ),
         .library(
             name: "DependencyInjection",
@@ -101,6 +101,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "0.11.0"),
+        .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.13.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -138,8 +139,12 @@ let package = Package(
             dependencies: ["DataAccess"]
         ),
         .target(
-            name: "DataAccessPgSql",
-            dependencies: ["DataAccess"]
+            name: "DataAccessSqlite",
+            dependencies: [
+                .product(name: "SQLite", package: "SQLite.swift"),
+
+                "DataAccess"
+            ]
         ),
         .target(
             name: "DependencyInjection",

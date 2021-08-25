@@ -2,7 +2,7 @@ import Foundation
 
 import DataAccess 
 
-public final class InMemoryStorageHandler<T: Storable>: StorageHandler<T> {
+open class InMemoryStorageHandler<T: Storable>: StorageHandler<T> {
     private var _data: [String: T];
     private var _lock: NSLock;
 
@@ -14,7 +14,7 @@ public final class InMemoryStorageHandler<T: Storable>: StorageHandler<T> {
         super.init();
     }
 
-    public override func Create(_ model: T) throws -> T {
+    open override func Create(_ model: T) throws -> T {
         _lock.lock()
 
         _data[model.GetId()] = model;
@@ -24,7 +24,7 @@ public final class InMemoryStorageHandler<T: Storable>: StorageHandler<T> {
         return model;
     }
 
-    public override func Delete(id: String) throws {
+    open override func Delete(id: String) throws {
         _lock.lock()
 
         _data.removeValue(forKey: id);
@@ -32,7 +32,7 @@ public final class InMemoryStorageHandler<T: Storable>: StorageHandler<T> {
         _lock.unlock();
     }
 
-    public override func Update(_ model: T) throws -> T {
+    open override func Update(_ model: T) throws -> T {
         _lock.lock()
 
         _data[model.GetId()] = model;
@@ -42,7 +42,7 @@ public final class InMemoryStorageHandler<T: Storable>: StorageHandler<T> {
         return model;
     }
 
-    public override func Get(id: String) throws -> T {
+    open override func Get(id: String) throws -> T {
         _lock.lock()
 
         let result: T? = _data[id];
@@ -56,7 +56,7 @@ public final class InMemoryStorageHandler<T: Storable>: StorageHandler<T> {
         throw DataAccessErrors.notFound(reason: "Could not find resource for \(id).");
     }
 
-    public override func Get() throws -> [T] {
+    open override func Get() throws -> [T] {
         return Array(_data.values);
     }
 }
