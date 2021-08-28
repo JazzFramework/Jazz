@@ -163,7 +163,7 @@ public class HummingbirdHttpProcessor: HttpProcessor {
                         let streams: BoundStreams = BoundStreams();
 
                         if let bytes = buffer.getBytes(at: 0, length: buffer.capacity) {
-                            streams.output.write(bytes, maxLength: buffer.capacity);
+                            _ = streams.output.write(bytes, maxLength: buffer.capacity);
 
                             if let result = transcoder.Decode(data: streams.input, for: mediaType) {
                                 return result;
