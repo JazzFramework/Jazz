@@ -1,3 +1,5 @@
+import Foundation;
+
 import Codec;
 import Configuration;
 import DependencyInjection;
@@ -5,12 +7,12 @@ import DependencyInjection;
 public class AppRunner {
     private let _app: App;
     private let _configBuilder: ConfigurationBuilder;
-    private let _initializers: [Initializer];
+    private let _initializers: [String];
     private let _builtInInitializers: [Initializer];
 
     public init(
         withApp app: App,
-        withInitializers initializers: [Initializer],
+        withInitializers initializers: [String],
         withConfiguration configurationBuilder: ConfigurationBuilder
     ) {
         _app = app;
@@ -26,7 +28,8 @@ public class AppRunner {
 
     public func Run() throws {
         for initializer in _initializers {
-            try initializer.Initialize(for: _app, with: _configBuilder);
+            try AppRunner.classFromString(initializer)
+                .Initialize(for: _app, with: _configBuilder);
         }
 
         for initializer in _builtInInitializers {
@@ -39,5 +42,11 @@ public class AppRunner {
             });
 
         try _app.Run();
+    }
+
+    private static func classFromString(_ className: String) -> Initializer {
+        let cls: Initializer.Type = NSClassFromString(className) as! Initializer.Type;
+
+        return cls.init();
     }
 }
