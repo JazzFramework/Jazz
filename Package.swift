@@ -71,6 +71,10 @@ let package = Package(
 
         //ExampleService
         .library(
+            name: "ExampleThirdPartyServerAuthentication",
+            targets: ["ExampleThirdPartyServerAuthentication"]
+        ),
+        .library(
             name: "ExampleThirdPartyServerRequestLogging",
             targets: ["ExampleThirdPartyServerRequestLogging"]
         ),
@@ -83,8 +87,24 @@ let package = Package(
             targets: ["ExampleServer"]
         ),
         .library(
-            name: "ExampleServerActions",
-            targets: ["ExampleServerActions"]
+            name: "ExampleServerActionsCreateWeather",
+            targets: ["ExampleServerActionsCreateWeather"]
+        ),
+        .library(
+            name: "ExampleServerActionsDeleteWeather",
+            targets: ["ExampleServerActionsDeleteWeather"]
+        ),
+        .library(
+            name: "ExampleServerActionsGetWeather",
+            targets: ["ExampleServerActionsGetWeather"]
+        ),
+        .library(
+            name: "ExampleServerActionsGetWeathers",
+            targets: ["ExampleServerActionsGetWeathers"]
+        ),
+        .library(
+            name: "ExampleServerActionsUpdateWeather",
+            targets: ["ExampleServerActionsUpdateWeather"]
         ),
         .library(
             name: "ExampleServerHelloWorldBackgroundProcess",
@@ -183,14 +203,14 @@ let package = Package(
             dependencies: [
                 "Server"
             ],
-            path: "Examples/TestService/ThirdParty/Server.Authentication"
+            path: "Examples/ThirdParty/Server.Authentication"
         ),
         .target(
             name: "ExampleThirdPartyServerRequestLogging",
             dependencies: [
                 "Server"
             ],
-            path: "Examples/TestService/ThirdParty/Server.RequestLogging"
+            path: "Examples/ThirdParty/Server.RequestLogging"
         ),
         .target(
             name: "ExampleCommon",
@@ -207,7 +227,7 @@ let package = Package(
             path: "Examples/TestService/External/Server"
         ),
         .target(
-            name: "ExampleServerActions",
+            name: "ExampleServerActionsCreateWeather",
             dependencies: [
                 "Flow",
                 "Server",
@@ -215,7 +235,47 @@ let package = Package(
                 "ExampleCommon",
                 "ExampleServer"
             ],
-            path: "Examples/TestService/Internal/Server.Actions"
+            path: "Examples/TestService/Internal/Server.Actions.CreateWeather"
+        ),
+        .target(
+            name: "ExampleServerActionsDeleteWeather",
+            dependencies: [
+                "Server",
+
+                "ExampleCommon",
+                "ExampleServer"
+            ],
+            path: "Examples/TestService/Internal/Server.Actions.DeleteWeather"
+        ),
+        .target(
+            name: "ExampleServerActionsGetWeather",
+            dependencies: [
+                "Server",
+
+                "ExampleCommon",
+                "ExampleServer"
+            ],
+            path: "Examples/TestService/Internal/Server.Actions.GetWeather"
+        ),
+        .target(
+            name: "ExampleServerActionsGetWeathers",
+            dependencies: [
+                "Server",
+
+                "ExampleCommon",
+                "ExampleServer"
+            ],
+            path: "Examples/TestService/Internal/Server.Actions.GetWeathers"
+        ),
+        .target(
+            name: "ExampleServerActionsUpdateWeather",
+            dependencies: [
+                "Server",
+
+                "ExampleCommon",
+                "ExampleServer"
+            ],
+            path: "Examples/TestService/Internal/Server.Actions.UpdateWeather"
         ),
         .target(
             name: "ExampleServerHelloWorldBackgroundProcess",
@@ -250,7 +310,11 @@ let package = Package(
 
                 "ExampleCommon",
                 "ExampleServer",
-                "ExampleServerActions",
+                "ExampleServerActionsCreateWeather",
+                "ExampleServerActionsDeleteWeather",
+                "ExampleServerActionsGetWeather",
+                "ExampleServerActionsGetWeathers",
+                "ExampleServerActionsUpdateWeather",
                 "ExampleServerHelloWorldBackgroundProcess",
                 "ExampleServerDataAccess"
             ],

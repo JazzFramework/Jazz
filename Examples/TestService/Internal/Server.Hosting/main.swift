@@ -7,7 +7,11 @@ import ServerNio;
 import ExampleThirdPartyServerAuthentication;
 import ExampleThirdPartyServerRequestLogging;
 
-import ExampleServerActions;
+import ExampleServerActionsCreateWeather;
+import ExampleServerActionsDeleteWeather;
+import ExampleServerActionsGetWeather;
+import ExampleServerActionsGetWeathers;
+import ExampleServerActionsUpdateWeather;
 import ExampleServerHelloWorldBackgroundProcess;
 import ExampleServerDataAccess;
 
@@ -22,7 +26,11 @@ try AppRunner(
         RequestLoggingInitializer(),
 
         //Initializers from other internal projects.
-        ActionsInitializer(),
+        CreateWeatherActionInitializer(),
+        DeleteWeatherActionInitializer(),
+        GetWeatherActionInitializer(),
+        GetWeathersActionInitializer(),
+        UpdateWeatherActionInitializer(),
         BackgroundProcessInitializer(),
         WeatherStorageHandlerInitializer(),
 
