@@ -1,7 +1,7 @@
 import Configuration;
 import Server;
 
-public class BackgroundProcessInitializer: Initializer {
+public class HelloWorldBackgroundProcessInitializer: Initializer {
     public init() {}
 
     public func Initialize(for app: App, with configurationBuilder: ConfigurationBuilder) throws {

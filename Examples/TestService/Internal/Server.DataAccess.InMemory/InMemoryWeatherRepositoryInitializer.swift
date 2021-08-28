@@ -1,17 +1,15 @@
 import Configuration;
-import DataAccess;
 import Server;
 
-import ExampleCommon;
+import ExampleServer;
 
-public class WeatherStorageHandlerInitializer: Initializer {
+public class InMemoryWeatherRepositoryInitializer: Initializer {
     public init() {}
 
     public func Initialize(for app: App, with configurationBuilder: ConfigurationBuilder) throws {
         _ = try app
             .WireUp(singleton: { _ in
-                return WeatherStorageHandler()
-                    as StorageHandler<Weather>;
+                return InMemoryWeatherRepository() as WeatherRepository;
             });
     }
 }

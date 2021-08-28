@@ -7,13 +7,14 @@ import ServerNio;
 import ExampleThirdPartyServerAuthentication;
 import ExampleThirdPartyServerRequestLogging;
 
+import ExampleServerDataAccessInMemory;
 import ExampleServerActionsCreateWeather;
 import ExampleServerActionsDeleteWeather;
 import ExampleServerActionsGetWeather;
 import ExampleServerActionsGetWeathers;
 import ExampleServerActionsUpdateWeather;
 import ExampleServerHelloWorldBackgroundProcess;
-import ExampleServerDataAccess;
+import ExampleServerErrorsWeatherErrorsWeatherInvalidTempErrorTranslator;
 
 try AppRunner(
     withApp:
@@ -26,20 +27,22 @@ try AppRunner(
         RequestLoggingInitializer(),
 
         //Initializers from other internal projects.
+        InMemoryWeatherRepositoryInitializer(),
+
         CreateWeatherActionInitializer(),
         DeleteWeatherActionInitializer(),
         GetWeatherActionInitializer(),
         GetWeathersActionInitializer(),
         UpdateWeatherActionInitializer(),
-        BackgroundProcessInitializer(),
-        WeatherStorageHandlerInitializer(),
+
+        HelloWorldBackgroundProcessInitializer(),
+
+        WeatherInvalidTempErrorTranslatorInitializer(),
 
         //Initializers defined in this project
         CodecsInitializer(),
         ConfigurationInitializer(),
         ControllersInitializer(),
-        DataAccessLayerInitializer(),
-        ErrorTranslatorsInitializer(),
         MiddlewaresInitializer()
     ],
     withConfiguration:

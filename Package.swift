@@ -32,18 +32,6 @@ let package = Package(
             targets: ["DataAccess"]
         ),
         .library(
-            name: "DataAccessHttp",
-            targets: ["DataAccessHttp"]
-        ),
-        .library(
-            name: "DataAccessInMemory",
-            targets: ["DataAccessInMemory"]
-        ),
-        .library(
-            name: "DataAccessSqlite",
-            targets: ["DataAccessSqlite"]
-        ),
-        .library(
             name: "DependencyInjection",
             targets: ["DependencyInjection"]
         ),
@@ -70,50 +58,6 @@ let package = Package(
 
 
         //ExampleService
-        .library(
-            name: "ExampleThirdPartyServerAuthentication",
-            targets: ["ExampleThirdPartyServerAuthentication"]
-        ),
-        .library(
-            name: "ExampleThirdPartyServerRequestLogging",
-            targets: ["ExampleThirdPartyServerRequestLogging"]
-        ),
-        .library(
-            name: "ExampleCommon",
-            targets: ["ExampleCommon"]
-        ),
-        .library(
-            name: "ExampleServer",
-            targets: ["ExampleServer"]
-        ),
-        .library(
-            name: "ExampleServerActionsCreateWeather",
-            targets: ["ExampleServerActionsCreateWeather"]
-        ),
-        .library(
-            name: "ExampleServerActionsDeleteWeather",
-            targets: ["ExampleServerActionsDeleteWeather"]
-        ),
-        .library(
-            name: "ExampleServerActionsGetWeather",
-            targets: ["ExampleServerActionsGetWeather"]
-        ),
-        .library(
-            name: "ExampleServerActionsGetWeathers",
-            targets: ["ExampleServerActionsGetWeathers"]
-        ),
-        .library(
-            name: "ExampleServerActionsUpdateWeather",
-            targets: ["ExampleServerActionsUpdateWeather"]
-        ),
-        .library(
-            name: "ExampleServerHelloWorldBackgroundProcess",
-            targets: ["ExampleServerHelloWorldBackgroundProcess"]
-        ),
-        .library(
-            name: "ExampleServerDataAccess",
-            targets: ["ExampleServerDataAccess"]
-        ),
         .executable(
             name: "ExampleServerHosting",
             targets: ["ExampleServerHosting"]
@@ -121,7 +65,6 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "0.11.0"),
-        .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.13.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -149,22 +92,6 @@ let package = Package(
         .target(
             name: "DataAccess",
             dependencies: []
-        ),
-        .target(
-            name: "DataAccessHttp",
-            dependencies: ["DataAccess"]
-        ),
-        .target(
-            name: "DataAccessInMemory",
-            dependencies: ["DataAccess"]
-        ),
-        .target(
-            name: "DataAccessSqlite",
-            dependencies: [
-                .product(name: "SQLite", package: "SQLite.swift"),
-
-                "DataAccess"
-            ]
         ),
         .target(
             name: "DependencyInjection",
@@ -237,7 +164,6 @@ let package = Package(
                 "Flow",
                 "Server",
 
-                "ExampleCommon",
                 "ExampleServer"
             ],
             path: "Examples/TestService/Internal/Server.Actions.CreateWeather"
@@ -247,7 +173,6 @@ let package = Package(
             dependencies: [
                 "Server",
 
-                "ExampleCommon",
                 "ExampleServer"
             ],
             path: "Examples/TestService/Internal/Server.Actions.DeleteWeather"
@@ -257,7 +182,6 @@ let package = Package(
             dependencies: [
                 "Server",
 
-                "ExampleCommon",
                 "ExampleServer"
             ],
             path: "Examples/TestService/Internal/Server.Actions.GetWeather"
@@ -267,7 +191,6 @@ let package = Package(
             dependencies: [
                 "Server",
 
-                "ExampleCommon",
                 "ExampleServer"
             ],
             path: "Examples/TestService/Internal/Server.Actions.GetWeathers"
@@ -277,7 +200,6 @@ let package = Package(
             dependencies: [
                 "Server",
 
-                "ExampleCommon",
                 "ExampleServer"
             ],
             path: "Examples/TestService/Internal/Server.Actions.UpdateWeather"
@@ -288,40 +210,46 @@ let package = Package(
                 "ErrorHandling",
                 "Server",
 
-                "ExampleCommon",
                 "ExampleServer"
             ],
             path: "Examples/TestService/Internal/Server.HelloWorldBackgroundProcess"
         ),
         .target(
-            name: "ExampleServerDataAccess",
+            name: "ExampleServerDataAccessInMemory",
             dependencies: [
-                "DataAccessInMemory",
+                "DataAccess",
                 "Server",
 
-                "ExampleCommon",
                 "ExampleServer"
             ],
-            path: "Examples/TestService/Internal/Server.DataAccess"
+            path: "Examples/TestService/Internal/Server.DataAccess.InMemory"
+        ),
+        .target(
+            name: "ExampleServerErrorsWeatherErrorsWeatherInvalidTempErrorTranslator",
+            dependencies: [
+                "Server",
+
+                "ExampleServer"
+            ],
+            path: "Examples/TestService/Internal/Server.Errors.WeatherErrors.WeatherInvalidTempErrorTranslator"
         ),
         .target(
             name: "ExampleServerHosting",
             dependencies: [
-                "Server",
                 "ServerNio",
 
                 "ExampleThirdPartyServerAuthentication",
                 "ExampleThirdPartyServerRequestLogging",
 
-                "ExampleCommon",
                 "ExampleServer",
+                "ExampleServerDataAccessInMemory",
                 "ExampleServerActionsCreateWeather",
                 "ExampleServerActionsDeleteWeather",
                 "ExampleServerActionsGetWeather",
                 "ExampleServerActionsGetWeathers",
                 "ExampleServerActionsUpdateWeather",
-                "ExampleServerHelloWorldBackgroundProcess",
-                "ExampleServerDataAccess"
+                "ExampleServerErrorsWeatherErrorsWeatherInvalidTempErrorTranslator",
+                "ExampleServerHelloWorldBackgroundProcess"
             ],
             path: "Examples/TestService/Internal/Server.Hosting",
             resources: [

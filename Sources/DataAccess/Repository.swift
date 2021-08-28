@@ -1,27 +1,28 @@
-open class Repository<TResource: Storable, THandler: StorageHandler<TResource>> {
-    private let _storageHandler: THandler;
+open class Repository<TResource: Storable> {
+    public init() {}
 
-    public init(with storageHandler: THandler) {
-        _storageHandler = storageHandler;
+    open func Open() throws {
+    }
+
+    open func Close() throws {
     }
 
     open func Create(_ model: TResource) throws -> TResource {
-        return try _storageHandler.Create(model);
+        return model;
     }
 
     open func Delete(id: String) throws {
-        try _storageHandler.Delete(id: id);
     }
 
     open func Update(_ model: TResource) throws -> TResource {
-        return try _storageHandler.Update(model);
+        return model;
     }
 
     open func Get(id: String) throws -> TResource {
-        return try _storageHandler.Get(id: id);
+        throw DataAccessErrors.notFound(reason: "Could not find resource for \(id).");
     }
 
     open func Get() throws -> [TResource] {
-        return try _storageHandler.Get();
+        return [];
     }
 }
