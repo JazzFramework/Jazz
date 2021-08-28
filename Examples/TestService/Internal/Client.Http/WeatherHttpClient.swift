@@ -1,2 +1,0 @@
-internal class WeatherHttpClient: WeatherClient {
-}
