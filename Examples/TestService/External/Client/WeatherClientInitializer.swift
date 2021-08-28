@@ -2,9 +2,10 @@ import Configuration;
 import Server;
 
 import ExampleCommon;
-import ExampleServer;
 
-public class CodecsInitializer: Initializer {
+public class WeatherClientInitializer: Initializer {
+    public init() {}
+
     public func Initialize(for app: App, with configurationBuilder: ConfigurationBuilder) throws {
         _ = try app
             .WireUp(transcoder: { _ in

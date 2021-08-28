@@ -1,15 +1,22 @@
 import Foundation;
 
+import Configuration;
 import Server;
 
 import ExampleCommon;
 import ExampleServer;
 
 internal final class HelloWorldBackgroundProcess: BackgroundProcess {
+    private let _config: Configuration;
     private let _fetchAction: GetWeathers;
     private let _deleteAction: DeleteWeather;
 
-    internal init(with fetchAction: GetWeathers, with deleteAction: DeleteWeather) {
+    internal init(
+        with config: Configuration,
+        with fetchAction: GetWeathers,
+        with deleteAction: DeleteWeather
+    ) {
+        _config = config;
         _fetchAction = fetchAction;
         _deleteAction = deleteAction;
     }
@@ -20,6 +27,10 @@ internal final class HelloWorldBackgroundProcess: BackgroundProcess {
 
             do {
                 let weathers: [Weather] = try _fetchAction.Get();
+
+                if let appConfig: AppConfig = _config.Fetch() {
+                    print(appConfig.Setting);
+                }
 
                 print("Hello, The service currently knows of \(weathers.count) weather(s).");
 

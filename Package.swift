@@ -152,6 +152,15 @@ let package = Package(
             path: "Examples/TestService/External/Common"
         ),
         .target(
+            name: "ExampleClient",
+            dependencies: [
+                "Server",
+
+                "ExampleCommon"
+            ],
+            path: "Examples/TestService/External/Client"
+        ),
+        .target(
             name: "ExampleServer",
             dependencies: [
                 "ExampleCommon"
@@ -234,6 +243,15 @@ let package = Package(
             path: "Examples/TestService/Internal/Server.Errors.WeatherErrors.WeatherInvalidTempErrorTranslator"
         ),
         .target(
+            name: "ExampleServerHostingEndpoints",
+            dependencies: [
+                "Server",
+
+                "ExampleServer"
+            ],
+            path: "Examples/TestService/Internal/Server.Hosting.Endpoints"
+        ),
+        .target(
             name: "ExampleServerHosting",
             dependencies: [
                 "ServerNio",
@@ -241,6 +259,7 @@ let package = Package(
                 "ExampleThirdPartyServerAuthentication",
                 "ExampleThirdPartyServerRequestLogging",
 
+                "ExampleClient",
                 "ExampleServer",
                 "ExampleServerDataAccessInMemory",
                 "ExampleServerActionsCreateWeather",
@@ -249,11 +268,12 @@ let package = Package(
                 "ExampleServerActionsGetWeathers",
                 "ExampleServerActionsUpdateWeather",
                 "ExampleServerErrorsWeatherErrorsWeatherInvalidTempErrorTranslator",
-                "ExampleServerHelloWorldBackgroundProcess"
+                "ExampleServerHelloWorldBackgroundProcess",
+                "ExampleServerHostingEndpoints"
             ],
             path: "Examples/TestService/Internal/Server.Hosting",
             resources: [
-                .process("appsettings.json")
+                .process("Settings/appsettings.json")
             ]
         ),
 
