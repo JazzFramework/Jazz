@@ -35,18 +35,21 @@ public class JsonObjectWriter {
     private func Write(jsonArray: JsonArray, with writer: JsonWriter) {
         writer.StartArray();
 
-        var shouldWriteDivider: Bool = false;
-        for index in 0...(jsonArray.GetCount() - 1) {
-            if let token: JsonToken = jsonArray[index] {
-                if shouldWriteDivider {
-                    writer.WriteDivider();
-                }
-                else
-                {
-                    shouldWriteDivider = true;
-                }
+        if jsonArray.GetCount() > 0 {
+            var shouldWriteDivider: Bool = false;
 
-                Write(token: token, with: writer);
+            for index in 0...(jsonArray.GetCount() - 1) {
+                if let token: JsonToken = jsonArray[index] {
+                    if shouldWriteDivider {
+                        writer.WriteDivider();
+                    }
+                    else
+                    {
+                        shouldWriteDivider = true;
+                    }
+
+                    Write(token: token, with: writer);
+                }
             }
         }
 
