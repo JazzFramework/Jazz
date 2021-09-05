@@ -36,7 +36,7 @@ public class JsonObjectWriter {
         writer.StartArray();
 
         var shouldWriteDivider: Bool = false;
-        for index in 0...jsonArray.GetCount() {
+        for index in 0...(jsonArray.GetCount() - 1) {
             if let token: JsonToken = jsonArray[index] {
                 if shouldWriteDivider {
                     writer.WriteDivider();

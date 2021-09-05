@@ -68,7 +68,7 @@ let package = Package(
         ),
         .target(
             name: "Client",
-            dependencies: ["Codec", "Context", "DataAccess"]
+            dependencies: ["Server"]
         ),
         .target(
             name: "Codec",

@@ -40,6 +40,47 @@ public class WeatherV1JsonCodec: JsonCodec<Weather> {
     }
 }
 
+public class WeatherCollectionV1JsonCodec: JsonCodec<[Weather]> {
+    private static let SupportedMediaType: MediaType =
+        MediaType(
+            withType: "application",
+            withSubtype: "json",
+            withParameters: [
+                "structure": "weather.weathers",
+                "version": "1"
+            ]
+        );
+
+    private static let WeatherCodec: WeatherV1JsonCodec =
+        WeatherV1JsonCodec();
+
+    public override func GetSupportedMediaType() -> MediaType {
+        return WeatherCollectionV1JsonCodec.SupportedMediaType;
+    }
+
+    public override func EncodeJson(data: [Weather], for mediatype: MediaType) -> JsonObject {
+        let arrayBuilder: JsonArrayBuilder = JsonArrayBuilder();
+
+        for weather in data {
+            _ = arrayBuilder.With(
+                WeatherCollectionV1JsonCodec.WeatherCodec.EncodeJson(
+                    data: weather,
+                    for: WeatherCollectionV1JsonCodec.WeatherCodec.GetSupportedMediaType()
+                )
+            );
+        }
+
+        return JsonObjectBuilder()
+            .With("data", array: arrayBuilder.Build())
+            .With("count", property: JsonProperty(withData: String(data.count)))
+            .Build();
+    }
+
+    public override func DecodeJson(data: JsonObject, for mediatype: MediaType) -> [Weather]? {
+        return [];
+    }
+}
+
 final class CodecTests: XCTestCase {
     func testExample() {
         //Arrange
@@ -60,7 +101,35 @@ final class CodecTests: XCTestCase {
         XCTAssertEqual(result.Temp, weather.Temp);
     }
 
+    func testExample2() {
+        //Arrange
+        let codec: WeatherCollectionV1JsonCodec = WeatherCollectionV1JsonCodec();
+        let weather1: Weather = Weather("data value 1");
+        let weather2: Weather = Weather("data value 2");
+        let weathers: [Weather] = [
+            weather1,
+            weather2
+        ];
+
+        let mediaType: MediaType = MediaType(
+            withType: "type",
+            withSubtype: "subtype",
+            withParameters: [:]
+        );
+
+        let streams: BoundStreams = BoundStreams();
+
+        //Act
+        _ = codec.Encode(data: weathers, for: mediaType, into: streams.output);
+        let result: [Weather] = codec.Decode(data: streams.input, for: mediaType) as! [Weather];
+
+        //Assert
+        XCTAssertEqual(result[0].Temp, weathers[0].Temp);
+        //XCTAssertEqual(result[1].Temp, weathers[1].Temp);
+    }
+
     static var allTests = [
         ("testExample", testExample),
+        ("testExample2", testExample2),
     ]
 }
