@@ -77,7 +77,24 @@ public class WeatherCollectionV1JsonCodec: JsonCodec<[Weather]> {
     }
 
     public override func DecodeJson(data: JsonObject, for mediatype: MediaType) -> [Weather]? {
-        return [];
+        var result: [Weather] = [];
+
+        let jsonArray: JsonArray = data["data"] as! JsonArray;
+
+        if jsonArray.GetCount() > 0 {
+            for index in 0...(jsonArray.GetCount() - 1) {
+                if let jsonObject = jsonArray[index] as? JsonObject {
+                    if let weather: Weather = WeatherCollectionV1JsonCodec.WeatherCodec.DecodeJson(
+                        data: jsonObject,
+                        for: WeatherCollectionV1JsonCodec.WeatherCodec.GetSupportedMediaType()
+                    ) {
+                        result.append(weather);
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 }
 
@@ -125,7 +142,7 @@ final class CodecTests: XCTestCase {
 
         //Assert
         XCTAssertEqual(result[0].Temp, weathers[0].Temp);
-        //XCTAssertEqual(result[1].Temp, weathers[1].Temp);
+        XCTAssertEqual(result[1].Temp, weathers[1].Temp);
     }
 
     static var allTests = [

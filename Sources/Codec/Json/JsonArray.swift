@@ -5,7 +5,7 @@ public class JsonArray: JsonToken {
         _data = data;
     }
 
-    subscript(index: Int) -> JsonToken? {
+    public subscript(index: Int) -> JsonToken? {
         get {
             return _data[index];
         }
