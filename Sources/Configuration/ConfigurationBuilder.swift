@@ -15,7 +15,11 @@ public final class ConfigurationBuilder {
     public func Build() throws -> Configuration {
         if let bundle = _bundle
         {
-            return ConfigurationImpl(with: _supportedFiles, with: _decoders, with: bundle);
+            return ConfigurationImplementation(
+                with: _supportedFiles,
+                with: _decoders,
+                with: bundle
+            );
         }
 
         throw ConfigurationErrors.missingBundle(reason: "Could not load configuration without bundle.");

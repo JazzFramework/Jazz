@@ -2,7 +2,7 @@ import Foundation;
 
 import Codec;
 
-internal final class ConfigurationImpl: Configuration {
+internal final class ConfigurationImplementation: Configuration {
     private let _supportedFiles: [String: MediaType];
     private let _decoders: [Decoder];
     private let _bundle: Bundle;
