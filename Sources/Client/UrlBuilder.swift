@@ -3,6 +3,7 @@ import Foundation;
 public final class UrlBuilder {
     private var _scheme: String = "https";
     private var _host: String = "";
+    private var _port: Int = 80;
     private var _path: [String] = [];
     private var _queryString: [String:String] = [:];
 
@@ -16,6 +17,12 @@ public final class UrlBuilder {
 
     public func With(host: String) -> UrlBuilder {
         _host = host;
+
+        return self;
+    }
+
+    public func With(port: Int) -> UrlBuilder {
+        _port = port;
 
         return self;
     }
@@ -36,6 +43,7 @@ public final class UrlBuilder {
         var components: URLComponents = URLComponents();
 
         components.scheme = _scheme;
+        components.port = _port;
         components.host = _host;
         components.path = _path.joined(separator: "/");
         components.queryItems = _queryString.map{ URLQueryItem(name: $0, value: $1) };

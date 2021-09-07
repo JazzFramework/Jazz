@@ -1,8 +1,12 @@
 public class JsonProperty: JsonToken {
     private let _data: String;
-        
+
     public init(withData data: String) {
         _data = data;
+    }
+
+    public init(withData data: Int) {
+        _data = "\(data)";
     }
 
     public func GetString() -> String {

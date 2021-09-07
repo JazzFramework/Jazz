@@ -9,6 +9,7 @@ public final class RequestRunner {
     private var _encoding: String.Encoding = String.Encoding.utf8;
     private var _body: Any? = nil;
     private var _acceptTypes: [MediaType] = [];
+    private var _headers: [String:[String]] = [:];
 
     public init() {}
 
@@ -42,41 +43,13 @@ public final class RequestRunner {
         return self;
     }
 
+    public func For(header: String, values: [String]) -> RequestRunner {
+        _headers[header] = values;
+
+        return self;
+    }
+
     public func Run() throws -> ProcessableResponse {
         return ProcessableResponse();
-    }
-}
-
-public final class Weather {}
-
-public final class ExampleClient {
-    private static let SupportedMediaType: MediaType =
-        MediaType(
-            withType: "application",
-            withSubtype: "json",
-            withParameters: [
-                "structure": "weather.weather",
-                "version": "1"
-            ]
-        );
-
-    private let _host: String = "localhost"
-
-    public func CreateWeather() throws -> Weather {
-        return try ResponseProcessor()
-            .ProcessResponse(
-                try RequestRunner()
-                    .For(url:
-                        try UrlBuilder()
-                            .With(host: _host)
-                            .With(path: "v1")
-                            .With(path: "weathers")
-                            .Build()
-                    )
-                    .For(body: Weather())
-                    .For(method: .post)
-                    .For(acceptType: ExampleClient.SupportedMediaType)
-                    .Run()
-            );
     }
 }
