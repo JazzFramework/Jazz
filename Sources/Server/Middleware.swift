@@ -3,8 +3,8 @@ open class Middleware {
 
     open func Logic(
         for request: RequestContext,
-        with next: (RequestContext) throws -> ResultContext
-    ) throws -> ResultContext {
-        return try next(request);
+        with next: (RequestContext) async throws -> ResultContext
+    ) async throws -> ResultContext {
+        return try await next(request);
     }
 }

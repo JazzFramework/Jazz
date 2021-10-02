@@ -20,7 +20,7 @@ open class Codec<T>: Transcoder {
     {
         return false;
     }
-
+ 
     public final func Decode(data: InputStream, for mediatype: MediaType) -> Any? {
         return DecodeType(data: data, for: mediatype);
     }

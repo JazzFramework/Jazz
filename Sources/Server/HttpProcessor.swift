@@ -9,5 +9,5 @@ public protocol HttpProcessor {
 
     func WireUp(transcoder: Transcoder) -> HttpProcessor;
 
-    func Start() throws;
+    func Start() async throws;
 }

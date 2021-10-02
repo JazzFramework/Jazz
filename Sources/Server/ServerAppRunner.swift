@@ -30,7 +30,7 @@ public class ServerAppRunner {
         ];
     }
 
-    public func Run() throws {
+    public func Run() async throws {
         for initializer in _initializers {
             if let initializer: Initializer = ServerAppRunner.initializerFromString(initializer) {
                 try initializer.Initialize(for: _app, with: _configBuilder);
@@ -56,7 +56,7 @@ public class ServerAppRunner {
                 return try self._configBuilder.Build();
             });
 
-        try _app.Run();
+        try await _app.Run();
     }
 
     private static func initializerFromString(_ className: String) -> Initializer? {

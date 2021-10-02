@@ -100,7 +100,7 @@ public class ServerApp: App {
         return self;
     }
 
-    public override func Run() throws {
+    public override func Run() async throws {
         let serviceProvider: ServiceProvider = GetServiceProviderBuilder().Build();
 
         for logic in _queuedLogic {
@@ -111,6 +111,6 @@ public class ServerApp: App {
             try logic(serviceProvider);
         }
 
-        try _httpProcessor.Start();
+         try await _httpProcessor.Start();
     }
 }

@@ -5,6 +5,40 @@ import Hummingbird
 import Codec;
 import Server;
 
+extension HBRouterMethods {
+    @discardableResult public func get<Output: HBResponseGenerator>(
+        _ path: String = "",
+        options: HBRouterMethodOptions = [],
+        use handler: @escaping (HBRequest) async throws -> Output
+    ) -> Self {
+        return self;
+    }
+
+    @discardableResult public func put<Output: HBResponseGenerator>(
+        _ path: String = "",
+        options: HBRouterMethodOptions = [],
+        use handler: @escaping (HBRequest) async throws -> Output
+    ) -> Self {
+        return self;
+    }
+
+    @discardableResult public func post<Output: HBResponseGenerator>(
+        _ path: String = "",
+        options: HBRouterMethodOptions = [],
+        use handler: @escaping (HBRequest) async throws -> Output
+    ) -> Self {
+        return self;
+    }
+
+    @discardableResult public func delete<Output: HBResponseGenerator>(
+        _ path: String = "",
+        options: HBRouterMethodOptions = [],
+        use handler: @escaping (HBRequest) async throws -> Output
+    ) -> Self {
+        return self;
+    }
+}
+
 public class HummingbirdHttpProcessor: HttpProcessor {
     private let _app: HBApplication;
 
@@ -23,22 +57,22 @@ public class HummingbirdHttpProcessor: HttpProcessor {
     public func WireUp(controller: Controller) -> HttpProcessor {
         switch controller.GetMethod() {
             case .get:
-                _app.router.get(controller.GetRoute()) { request -> HBResponse in
-                    return self.ProcessRequest(for: request, with: controller);
+                _app.router.get(controller.GetRoute(), options: HBRouterMethodOptions()) { request async -> HBResponse in
+                    return await self.ProcessRequest(for: request, with: controller);
                 }
             case .put:
-                _app.router.put(controller.GetRoute()) { request -> HBResponse in
-                    return self.ProcessRequest(for: request, with: controller);
+                _app.router.put(controller.GetRoute(), options: HBRouterMethodOptions()) { request async -> HBResponse in
+                    return await self.ProcessRequest(for: request, with: controller);
                 }
                 break;
             case .post:
-                _app.router.post(controller.GetRoute()) { request -> HBResponse in
-                    return self.ProcessRequest(for: request, with: controller);
+                _app.router.post(controller.GetRoute(), options: HBRouterMethodOptions()) { request async -> HBResponse in
+                    return await self.ProcessRequest(for: request, with: controller);
                 }
                 break;
             case .delete:
-                _app.router.delete(controller.GetRoute()) { request -> HBResponse in
-                    return self.ProcessRequest(for: request, with: controller);
+                _app.router.delete(controller.GetRoute(), options: HBRouterMethodOptions()) { request async -> HBResponse in
+                    return await self.ProcessRequest(for: request, with: controller);
                 }
                 break;
         }
@@ -46,14 +80,14 @@ public class HummingbirdHttpProcessor: HttpProcessor {
         return self;
     }
 
-    private func ProcessRequest(for request: HBRequest, with controller: Controller) -> HBResponse {
+    private func ProcessRequest(for request: HBRequest, with controller: Controller) async -> HBResponse {
         let acceptMediaTypes: [MediaType] = GetMediaTypes(for: "Accept", in: request);
 
         do
         {
             let requestContext: RequestContext = try BuildRequest(for: request, with: controller);
 
-            let result: ResultContext = try Run(controller: controller.Logic, requestContext);
+            let result: ResultContext = try await Run(controller: controller.Logic, requestContext);
 
             return try Handle(result: result, with: acceptMediaTypes);
         }
@@ -64,25 +98,25 @@ public class HummingbirdHttpProcessor: HttpProcessor {
     }
 
     private func Run(
-        controller: @escaping (RequestContext) throws -> ResultContext,
+        controller: @escaping (RequestContext) async throws -> ResultContext,
         _ request: RequestContext
-    ) throws -> ResultContext {
-        var logics: [(RequestContext) throws -> ResultContext] = [
+    ) async throws -> ResultContext {
+        var logics: [(RequestContext) async throws -> ResultContext] = [
             controller
         ];
 
         for middleware in _middlewares {
             let logic = logics[0];
 
-            let middlewareLogic: (RequestContext) throws -> ResultContext =
+            let middlewareLogic: (RequestContext) async throws -> ResultContext =
                 { req in
-                    return try middleware.Logic(for: req, with: logic);
+                    return try await middleware.Logic(for: req, with: logic);
                 };
 
             logics.insert(middlewareLogic, at: 0);
         }
 
-        return try logics[0](request);
+        return try await logics[0](request);
     }
 
     public func WireUp(errorTranslator: ErrorTranslator) -> HttpProcessor {

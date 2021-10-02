@@ -13,12 +13,12 @@ internal class StringMutatorAction: StringMutator {
         _resultResolver = resultResolver;
     }
 
-    public func Execute(withInput input: String) throws -> String {
+    public func Execute(withInput input: String) async throws -> String {
         let context = FlowContext();
 
         context.Adopt(subcontext: StringContext(input));
 
-        let result = try _flow.Execute(for: context);
+        let result = try await _flow.Execute(for: context);
 
         return try Process(result: result, withContext: context);
     }

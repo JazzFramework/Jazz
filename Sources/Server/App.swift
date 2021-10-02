@@ -16,7 +16,6 @@ public class App {
         return self;
     }
 
-
     open func WireUp<TTranscoder: Transcoder>(transcoder: @escaping (ServiceProvider) throws -> TTranscoder) throws -> App {
         _ = try WireUp(singleton: transcoder);
 
@@ -27,7 +26,7 @@ public class App {
         return _serviceProviderBuilder;
     }
 
-    open func Run() throws {
+    open func Run() async throws {
         //let serviceProvider: ServiceProvider = _serviceProviderBuilder.Build();
     }
 }

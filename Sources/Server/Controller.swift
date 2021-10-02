@@ -9,7 +9,7 @@ open class Controller {
         return "/";
     }
 
-    open func Logic(withRequest request: RequestContext) throws -> ResultContext {
+    open func Logic(withRequest request: RequestContext) async throws -> ResultContext {
         return ResultContextBuilder()
             .With(statusCode: 204)
             .Build();
