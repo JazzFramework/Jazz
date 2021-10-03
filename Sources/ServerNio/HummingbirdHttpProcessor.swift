@@ -5,40 +5,6 @@ import Hummingbird
 import Codec;
 import Server;
 
-extension HBRouterMethods {
-    @discardableResult public func get<Output: HBResponseGenerator>(
-        _ path: String = "",
-        options: HBRouterMethodOptions = [],
-        use handler: @escaping (HBRequest) async throws -> Output
-    ) -> Self {
-        return self;
-    }
-
-    @discardableResult public func put<Output: HBResponseGenerator>(
-        _ path: String = "",
-        options: HBRouterMethodOptions = [],
-        use handler: @escaping (HBRequest) async throws -> Output
-    ) -> Self {
-        return self;
-    }
-
-    @discardableResult public func post<Output: HBResponseGenerator>(
-        _ path: String = "",
-        options: HBRouterMethodOptions = [],
-        use handler: @escaping (HBRequest) async throws -> Output
-    ) -> Self {
-        return self;
-    }
-
-    @discardableResult public func delete<Output: HBResponseGenerator>(
-        _ path: String = "",
-        options: HBRouterMethodOptions = [],
-        use handler: @escaping (HBRequest) async throws -> Output
-    ) -> Self {
-        return self;
-    }
-}
-
 public class HummingbirdHttpProcessor: HttpProcessor {
     private let _app: HBApplication;
 
