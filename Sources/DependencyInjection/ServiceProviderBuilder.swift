@@ -1,11 +1,11 @@
 public class ServiceProviderBuilder {
-    private var _types: [String: (ServiceProvider) throws -> Any];
+    private var _types: [String: (ServiceProvider) async throws -> Any];
 
     public init() {
         _types = [:];
     }
 
-    public func Register<T>(_ logic: @escaping (ServiceProvider) throws -> T) throws -> ServiceProviderBuilder {
+    public func Register<T>(_ logic: @escaping (ServiceProvider) async throws -> T) throws -> ServiceProviderBuilder {
         let type: String = String(describing: T.self);
 
         _types[type] = logic;

@@ -23,18 +23,18 @@ open class JsonCodec<T>: Codec<T> {
     public final override func DecodeType(
         data: InputStream,
         for mediaType: MediaType
-    ) -> T? {
+    ) async -> T? {
         let jsonObject: JsonObject = _reader.Parse(data);
 
-        return DecodeJson(data: jsonObject, for: mediaType);
+        return await DecodeJson(data: jsonObject, for: mediaType);
     }
 
     public final override func EncodeType(
         data: T,
         into stream: OutputStream,
         for mediaType: MediaType
-    ) {
-        let jsonObject: JsonObject = EncodeJson(data: data, for: mediaType);
+    ) async {
+        let jsonObject: JsonObject = await EncodeJson(data: data, for: mediaType);
 
         _writer.Populate(jsonObject, into: stream);
     }
@@ -47,12 +47,12 @@ open class JsonCodec<T>: Codec<T> {
         );
     }
 
-    open func EncodeJson(data: T, for mediaType: MediaType) -> JsonObject {
+    open func EncodeJson(data: T, for mediaType: MediaType) async -> JsonObject {
         return JsonObjectBuilder()
             .Build();
     }
 
-    open func DecodeJson(data: JsonObject, for mediaType: MediaType) -> T? {
+    open func DecodeJson(data: JsonObject, for mediaType: MediaType) async -> T? {
         return nil;
     }
 

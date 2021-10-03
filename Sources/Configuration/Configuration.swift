@@ -1,3 +1,3 @@
 public protocol Configuration {
-    func Fetch<TConfig>() -> TConfig?;
+    func Fetch<TConfig>() async -> TConfig?;
 }

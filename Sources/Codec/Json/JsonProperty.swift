@@ -1,6 +1,9 @@
 public class JsonProperty: JsonToken {
     private let _data: String;
 
+    public static let Empty: JsonProperty =
+        JsonProperty(withData: "");
+
     public init(withData data: String) {
         _data = data;
     }

@@ -15,7 +15,7 @@ internal final class ApiErrorV1JsonCodec: JsonCodec<ApiError> {
         return ApiErrorV1JsonCodec.SupportedMediaType;
     }
 
-    public override func EncodeJson(data: ApiError, for mediatype: MediaType) -> JsonObject {
+    public override func EncodeJson(data: ApiError, for mediatype: MediaType) async -> JsonObject {
         return JsonObjectBuilder()
             .With("code", property: JsonProperty(withData: "\(data.GetCode())"))
             .With("title", property: JsonProperty(withData: data.GetTitle()))
@@ -24,7 +24,7 @@ internal final class ApiErrorV1JsonCodec: JsonCodec<ApiError> {
             .Build();
     }
 
-    public override func DecodeJson(data: JsonObject, for mediatype: MediaType) -> ApiError? {
+    public override func DecodeJson(data: JsonObject, for mediatype: MediaType) async -> ApiError? {
         return ApiError(
             withCode: Decode(unsignedInteger: "code", from: data),
             withTitle: Decode(string: "title", from: data),

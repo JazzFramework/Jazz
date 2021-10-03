@@ -6,8 +6,8 @@ import DependencyInjection;
 public class ServerApp: App {
     private let _httpProcessor: HttpProcessor;
 
-    private var _queuedLogic: [(HttpProcessor, ServiceProvider) throws -> Void];
-    private var _queuedBackgroundProcesses: [(ServiceProvider) throws -> Void];
+    private var _queuedLogic: [(HttpProcessor, ServiceProvider) async throws -> Void];
+    private var _queuedBackgroundProcesses: [(ServiceProvider) async throws -> Void];
 
     internal init(with httpProcessor: HttpProcessor) {
         _httpProcessor = httpProcessor;
@@ -18,14 +18,14 @@ public class ServerApp: App {
         super.init();
     }
 
-    public func WireUp<TController: Controller>(controller: @escaping (ServiceProvider) throws -> TController) throws -> ServerApp {
+    public func WireUp<TController: Controller>(controller: @escaping (ServiceProvider) async throws -> TController) throws -> ServerApp {
         _ = try WireUp(singleton: controller);
 
         _queuedLogic.append(
             {
                 httpProcessor, serviceProvider in
 
-                if let controller: TController = try serviceProvider.Get() {
+                if let controller: TController = try await serviceProvider.Get() {
                     _ = httpProcessor.WireUp(controller: controller);
                 }
             }
@@ -34,14 +34,14 @@ public class ServerApp: App {
         return self;
     }
 
-    public func WireUp<TErrorTranslator: ErrorTranslator>(errorTranslator: @escaping (ServiceProvider) throws -> TErrorTranslator) throws -> ServerApp {
+    public func WireUp<TErrorTranslator: ErrorTranslator>(errorTranslator: @escaping (ServiceProvider) async throws -> TErrorTranslator) throws -> ServerApp {
         _ = try WireUp(singleton: errorTranslator);
 
         _queuedLogic.append(
             {
                 httpProcessor, serviceProvider in
 
-                if let errorTranslator: TErrorTranslator = try serviceProvider.Get() {
+                if let errorTranslator: TErrorTranslator = try await serviceProvider.Get() {
                     _ = httpProcessor.WireUp(errorTranslator: errorTranslator);
                 }
             }
@@ -50,14 +50,14 @@ public class ServerApp: App {
         return self;
     }
 
-    public func WireUp<TMiddleware: Middleware>(middleware: @escaping (ServiceProvider) throws -> TMiddleware) throws -> ServerApp {
+    public func WireUp<TMiddleware: Middleware>(middleware: @escaping (ServiceProvider) async throws -> TMiddleware) throws -> ServerApp {
         _ = try WireUp(singleton: middleware);
 
         _queuedLogic.append(
             {
                 httpProcessor, serviceProvider in
 
-                if let middleware: TMiddleware = try serviceProvider.Get() {
+                if let middleware: TMiddleware = try await serviceProvider.Get() {
                     _ = httpProcessor.WireUp(middleware: middleware);
                 }
             }
@@ -66,14 +66,14 @@ public class ServerApp: App {
         return self;
     }
 
-    public override func WireUp<TTranscoder: Transcoder>(transcoder: @escaping (ServiceProvider) throws -> TTranscoder) throws -> ServerApp {
+    public override func WireUp<TTranscoder: Transcoder>(transcoder: @escaping (ServiceProvider) async throws -> TTranscoder) throws -> ServerApp {
         _ = try super.WireUp(transcoder: transcoder);
 
         _queuedLogic.append(
             {
                 httpProcessor, serviceProvider in
 
-                if let transcoder: TTranscoder = try serviceProvider.Get() {
+                if let transcoder: TTranscoder = try await serviceProvider.Get() {
                     _ = httpProcessor.WireUp(transcoder: transcoder);
                 }
             }
@@ -82,14 +82,14 @@ public class ServerApp: App {
         return self;
     }
 
-    public func WireUp<TBackgroundProcess: BackgroundProcess>(backgroundProcess: @escaping (ServiceProvider) throws -> TBackgroundProcess) throws -> ServerApp {
+    public func WireUp<TBackgroundProcess: BackgroundProcess>(backgroundProcess: @escaping (ServiceProvider) async throws -> TBackgroundProcess) throws -> ServerApp {
         _ = try WireUp(singleton: backgroundProcess);
 
         _queuedBackgroundProcesses.append(
             {
                 serviceProvider in
 
-                if let backgroundProcess: TBackgroundProcess = try serviceProvider.Get() {
+                if let backgroundProcess: TBackgroundProcess = try await serviceProvider.Get() {
                     DispatchQueue.global(qos: .background).async {
                         backgroundProcess.Logic();
                     }
@@ -104,11 +104,11 @@ public class ServerApp: App {
         let serviceProvider: ServiceProvider = GetServiceProviderBuilder().Build();
 
         for logic in _queuedLogic {
-            try logic(_httpProcessor, serviceProvider);
+            try await logic(_httpProcessor, serviceProvider);
         }
 
         for logic in _queuedBackgroundProcesses {
-            try logic(serviceProvider);
+            try await logic(serviceProvider);
         }
 
          try await _httpProcessor.Start();

@@ -21,7 +21,7 @@ internal final class ConfigurationImplementation: Configuration {
         _configCache = [:];
     }
 
-    public func Fetch<TConfig>() -> TConfig? {
+    public func Fetch<TConfig>() async -> TConfig? {
         let key: String = String(describing: TConfig.self);
 
         if let config = _configCache[key] {
@@ -39,7 +39,7 @@ internal final class ConfigurationImplementation: Configuration {
                                 stream.close();
                             }
 
-                            if let result = decoder.Decode(data: stream, for: mediaType) {
+                            if let result = await decoder.Decode(data: stream, for: mediaType) {
                                 if result is TConfig {
                                     _configCache[key] = result;
 

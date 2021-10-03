@@ -51,15 +51,15 @@ public class HummingbirdHttpProcessor: HttpProcessor {
 
         do
         {
-            let requestContext: RequestContext = try BuildRequest(for: request, with: controller);
+            let requestContext: RequestContext = try await BuildRequest(for: request, with: controller);
 
             let result: ResultContext = try await Run(controller: controller.Logic, requestContext);
 
-            return try Handle(result: result, with: acceptMediaTypes);
+            return try await Handle(result: result, with: acceptMediaTypes);
         }
         catch
         {
-            return Handle(error: error, with: acceptMediaTypes);
+            return await Handle(error: error, with: acceptMediaTypes);
         }
     }
 
@@ -112,12 +112,12 @@ public class HummingbirdHttpProcessor: HttpProcessor {
     private func BuildRequest(
         for request: HBRequest,
         with controller: Controller
-    ) throws -> RequestContext {
+    ) async throws -> RequestContext {
         let builder: RequestContextBuilder = RequestContextBuilder()
         
         _ = builder.With(method: Convert(method: request.method));
         _ = builder.With(url: request.uri.description);
-        _ = builder.With(body: try ParseBody(from: request));
+        _ = builder.With(body: try await ParseBody(from: request));
 
         for (key, value) in request.headers {
             _ = builder.With(header: key, values: [value]);
@@ -153,7 +153,7 @@ public class HummingbirdHttpProcessor: HttpProcessor {
         }
     }
 
-    private func ParseBody(from request: HBRequest) throws -> Any? {
+    private func ParseBody(from request: HBRequest) async throws -> Any? {
         if let buffer = request.body.buffer {
             if let mediaType: MediaType = GetMediaType(for: "Content-Type", in: request) {
                 for transcoder in self._transcoders {
@@ -165,7 +165,7 @@ public class HummingbirdHttpProcessor: HttpProcessor {
                         if let bytes = buffer.getBytes(at: 0, length: buffer.capacity) {
                             _ = streams.output.write(bytes, maxLength: buffer.capacity);
 
-                            if let result = transcoder.Decode(data: streams.input, for: mediaType) {
+                            if let result = await transcoder.Decode(data: streams.input, for: mediaType) {
                                 return result;
                             }
                         }
@@ -179,7 +179,7 @@ public class HummingbirdHttpProcessor: HttpProcessor {
         return nil;
     }
 
-    private func Handle(error: Error, with mediaTypes: [MediaType]) -> HBResponse
+    private func Handle(error: Error, with mediaTypes: [MediaType]) async -> HBResponse
     {
         do
         {
@@ -187,7 +187,7 @@ public class HummingbirdHttpProcessor: HttpProcessor {
                 if errorTranslator.CanHandle(error: error) {
                     let result: ApiError = errorTranslator.Translate(error: error);
 
-                    return try Handle(
+                    return try await Handle(
                         result: ResultContextBuilder()
                             .With(statusCode: result.GetCode())
                             .With(body: result)
@@ -202,7 +202,10 @@ public class HummingbirdHttpProcessor: HttpProcessor {
         return HBResponse(status: .internalServerError);
     }
 
-    private func Handle(result: ResultContext, with mediaTypes: [MediaType]) throws -> HBResponse {
+    private func Handle(
+        result: ResultContext,
+        with mediaTypes: [MediaType]
+    ) async throws -> HBResponse {
         let status: HTTPResponseStatus = .custom(code: result.GetStatusCode(), reasonPhrase: "");
 
         if let body = result.GetBody() {
@@ -214,7 +217,7 @@ public class HummingbirdHttpProcessor: HttpProcessor {
                     {
                         let streams: BoundStreams = BoundStreams();
 
-                        if transcoder.Encode(data: body, for: mediaType, into: streams.output) {
+                        if await transcoder.Encode(data: body, for: mediaType, into: streams.output) {
                             let data: Data = try! Data(reading: streams.input);
                             let string: String = String(decoding: data, as: UTF8.self);
                             let byteBuffer = ByteBuffer(string: string);

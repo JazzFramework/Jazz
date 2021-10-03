@@ -11,7 +11,8 @@ public final class MemoryCache<TKey: Hashable, TValue>: Cache<TKey, TValue> {
         _lock = NSLock();
     }
 
-    public func Start() {
+    public func Start() async {
+        /*
         DispatchQueue.global(qos: .background).async {
             while true {
                 sleep(60);
@@ -19,9 +20,10 @@ public final class MemoryCache<TKey: Hashable, TValue>: Cache<TKey, TValue> {
                 self.CleanUp();
             }
         }
+        */
     }
 
-    public final override func Fetch(for key: TKey) -> TValue? {
+    public final override func Fetch(for key: TKey) async -> TValue? {
         if let entry = _data[key] {
             return entry.GetValue();
         }
@@ -29,7 +31,7 @@ public final class MemoryCache<TKey: Hashable, TValue>: Cache<TKey, TValue> {
         return nil;
     }
 
-    public final override func Cache(for key: TKey, with value: TValue) {
+    public final override func Cache(for key: TKey, with value: TValue) async {
         _lock.lock();
 
         defer {
@@ -39,7 +41,7 @@ public final class MemoryCache<TKey: Hashable, TValue>: Cache<TKey, TValue> {
         _data[key] = MemoryCacheEntry(value);
     }
 
-    public final override func Remove(for key: TKey) {
+    public final override func Remove(for key: TKey) async {
         _lock.lock();
 
         defer {
@@ -48,8 +50,8 @@ public final class MemoryCache<TKey: Hashable, TValue>: Cache<TKey, TValue> {
 
         _data.removeValue(forKey: key);
     }
-
-    private func CleanUp()
+/*
+    private func CleanUp() async
     {
         let hour: TimeInterval = 60 * 60;
         let anHourAgo: Date = Date() - hour;
@@ -64,7 +66,7 @@ public final class MemoryCache<TKey: Hashable, TValue>: Cache<TKey, TValue> {
         }
 
         for key in keysToRemove {
-            Remove(for: key);
+            await Remove(for: key);
         }
 
         for (key, _) in _data {
@@ -77,7 +79,8 @@ public final class MemoryCache<TKey: Hashable, TValue>: Cache<TKey, TValue> {
         }
 
         for key in keysToRemove {
-            Remove(for: key);
+            await Remove(for: key);
         }
     }
+*/
 }
