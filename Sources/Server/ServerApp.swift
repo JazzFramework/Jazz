@@ -91,7 +91,9 @@ public class ServerApp: App {
 
                 if let backgroundProcess: TBackgroundProcess = try await serviceProvider.Get() {
                     DispatchQueue.global(qos: .background).async {
-                        backgroundProcess.Logic();
+                        Task {
+                            await backgroundProcess.Logic();
+                        }
                     }
                 }
             }

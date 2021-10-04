@@ -1,6 +1,6 @@
 open class BackgroundProcess {
     public init() {}
 
-    open func Logic() {
+    open func Logic() async {
     }
 }
