@@ -13,25 +13,25 @@ internal class StringMutatorAction: StringMutator {
         _resultResolver = resultResolver;
     }
 
-    public func Execute(withInput input: String) async throws -> String {
+    public func execute(withInput input: String) async throws -> String {
         let context = FlowContext();
 
-        context.Adopt(subcontext: StringContext(input));
+        context.adopt(subcontext: StringContext(input));
 
-        let result = try await _flow.Execute(for: context);
+        let result = try await _flow.execute(for: context);
 
-        return try Process(result: result, withContext: context);
+        return try process(result: result, withContext: context);
     }
 
-    private func Process(
+    private func process(
         result: FlowResult,
         withContext context: FlowContext
     ) throws -> String {
-        switch (result.GetStageResult().GetId())
+        switch (result.getStageResult().getId())
         {
-            case DuplicateStringStage.SUCCESS_RESULT.GetId():
-                if let stringContext: StringContext = _resultResolver.Resolve(for: context) {
-                    return stringContext.Value;
+            case DuplicateStringStage.SUCCESS_RESULT.getId():
+                if let stringContext: StringContext = _resultResolver.resolve(for: context) {
+                    return stringContext.value;
                 }
                 break;
             default:

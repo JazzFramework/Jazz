@@ -8,23 +8,23 @@ public class StringMutatorActionBuilder {
     public init() {
     }
 
-    public func Build() -> StringMutator {
+    public func build() -> StringMutator {
         return StringMutatorAction(
-            withFlow: BuildFlow(),
+            withFlow: buildFlow(),
             withResultResolver: StringMutatorActionBuilder.STRING_CONTEXT_RESOLVER
         );
     }
 
-    private func BuildFlow() -> Flow {
+    private func buildFlow() -> Flow {
         return FlowBuilder()
-            .With(stage: BuildToUpperStage(), withName: ToUpperStage.NAME)
-            .With(stage: BuildReverseStage(), withName: ReverseStage.NAME)
-            .With(stage: BuildDuplicateStringStage(), withName: DuplicateStringStage.NAME)
-            .With(initialStage: ToUpperStage.NAME)
-            .Build();
+            .with(stage: buildToUpperStage(), withName: ToUpperStage.NAME)
+            .with(stage: buildReverseStage(), withName: ReverseStage.NAME)
+            .with(stage: buildDuplicateStringStage(), withName: DuplicateStringStage.NAME)
+            .with(initialStage: ToUpperStage.NAME)
+            .build();
     }
 
-    private func BuildToUpperStage() -> ToUpperStage {
+    private func buildToUpperStage() -> ToUpperStage {
         return ToUpperStage(
             withContextResolver: StringMutatorActionBuilder.STRING_CONTEXT_RESOLVER,
             withTransactions: [
@@ -33,7 +33,7 @@ public class StringMutatorActionBuilder {
         );
     }
 
-    private func BuildReverseStage() -> ReverseStage {
+    private func buildReverseStage() -> ReverseStage {
         return ReverseStage(
             withContextResolver: StringMutatorActionBuilder.STRING_CONTEXT_RESOLVER,
             withTransactions: [
@@ -42,7 +42,7 @@ public class StringMutatorActionBuilder {
         );
     }
 
-    private func BuildDuplicateStringStage() -> DuplicateStringStage {
+    private func buildDuplicateStringStage() -> DuplicateStringStage {
         return DuplicateStringStage(
             withContextResolver: StringMutatorActionBuilder.STRING_CONTEXT_RESOLVER,
             withTransactions: [:]

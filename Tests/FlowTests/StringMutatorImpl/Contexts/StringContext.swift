@@ -1,9 +1,9 @@
 import Context
 
 internal class StringContext: BaseContext {
-    public let Value: String;
+    public let value: String;
 
     internal init(_ value: String) {
-        Value = value;
+        self.value = value;
     }
 }

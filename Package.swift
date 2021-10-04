@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.7
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,57 +6,89 @@ import PackageDescription
 let package = Package(
     name: "Windmill",
     platforms: [
-        .macOS(.v12),
+        .macOS(.v13),
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "Cache",
-            targets: ["Cache"]
+            name: "WindmillClient",
+            targets: ["WindmillClient"]
         ),
         .library(
-            name: "Client",
-            targets: ["Client"]
+            name: "WindmillCodec",
+            targets: ["WindmillCodec"]
         ),
         .library(
-            name: "Codec",
-            targets: ["Codec"]
+            name: "WindmillConfiguration",
+            targets: ["WindmillConfiguration"]
         ),
         .library(
-            name: "Configuration",
-            targets: ["Configuration"]
+            name: "WindmillConsole",
+            targets: ["WindmillConsole"]
         ),
         .library(
-            name: "Context",
-            targets: ["Context"]
+            name: "WindmillContext",
+            targets: ["WindmillContext"]
         ),
         .library(
-            name: "DataAccess",
-            targets: ["DataAccess"]
+            name: "WindmillCore",
+            targets: ["WindmillCore"]
         ),
         .library(
-            name: "DependencyInjection",
-            targets: ["DependencyInjection"]
+            name: "WindmillDataAccess",
+            targets: ["WindmillDataAccess"]
         ),
         .library(
-            name: "ErrorHandling",
-            targets: ["ErrorHandling"]
+            name: "WindmillDataAccessInMemory",
+            targets: ["WindmillDataAccessInMemory"]
         ),
         .library(
-            name: "Flow",
-            targets: ["Flow"]
+            name: "WindmillDataAccessSqlite",
+            targets: ["WindmillDataAccessSqlite"]
         ),
         .library(
-            name: "Messaging",
-            targets: ["Messaging"]
+            name: "WindmillDependencyInjection",
+            targets: ["WindmillDependencyInjection"]
         ),
         .library(
-            name: "Server",
-            targets: ["Server"]
+            name: "WindmillEventing",
+            targets: ["WindmillEventing"]
         ),
         .library(
-            name: "ServerNio",
-            targets: ["ServerNio"]
+            name: "WindmillFlow",
+            targets: ["WindmillFlow"]
+        ),
+        .library(
+            name: "WindmillLab",
+            targets: ["WindmillLab"]
+        ),
+        .library(
+            name: "WindmillLogging",
+            targets: ["WindmillLogging"]
+        ),
+        .library(
+            name: "WindmillMemoryCache",
+            targets: ["WindmillMemoryCache"]
+        ),
+        .library(
+            name: "WindmillMessaging",
+            targets: ["WindmillMessaging"]
+        ),
+        .library(
+            name: "WindmillMetrics",
+            targets: ["WindmillMetrics"]
+        ),
+        .library(
+            name: "WindmillServer",
+            targets: ["WindmillServer"]
+        ),
+        .library(
+            name: "WindmillServerHummingbird",
+            targets: ["WindmillServerHummingbird"]
+        ),
+        .library(
+            name: "WindmillServerNio",
+            targets: ["WindmillServerNio"]
         )
     ],
     dependencies: [
@@ -66,71 +98,136 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "Cache",
-            dependencies: []
-        ),
-        .target(
-            name: "Client",
-            dependencies: ["Server"]
-        ),
-        .target(
-            name: "Codec",
-            dependencies: []
-        ),
-        .target(
-            name: "Configuration",
-            dependencies: ["Codec"]
-        ),
-        .target(
-            name: "Context",
-            dependencies: []
-        ),
-        .target(
-            name: "DataAccess",
-            dependencies: []
-        ),
-        .target(
-            name: "DependencyInjection",
-            dependencies: []
-        ),
-        .target(
-            name: "ErrorHandling",
-            dependencies: []
-        ),
-        .target(
-            name: "Flow",
-            dependencies: ["Context"]
-        ),
-        .target(
-            name: "Messaging",
-            dependencies: []
-        ),
-        .target(
-            name: "Server",
+            name: "WindmillClient",
             dependencies: [
-                "Codec",
-                "Configuration",
-                "Context",
-                "DependencyInjection"
+                "WindmillCodec",
+                "WindmillServer"
             ]
         ),
         .target(
-            name: "ServerNio",
+            name: "WindmillCodec",
+            dependencies: []
+        ),
+        .target(
+            name: "WindmillConfiguration",
+            dependencies: ["WindmillCodec"]
+        ),
+        .target(
+            name: "WindmillConsole",
+            dependencies: ["WindmillCore"]
+        ),
+        .target(
+            name: "WindmillContext",
+            dependencies: []
+        ),
+        .target(
+            name: "WindmillCore",
+            dependencies: [
+                "WindmillCodec",
+                "WindmillConfiguration",
+                "WindmillDependencyInjection"
+            ]
+        ),
+        .target(
+            name: "WindmillDataAccess",
+            dependencies: []
+        ),
+        .target(
+            name: "WindmillDataAccessInMemory",
+            dependencies: ["WindmillDataAccess"]
+        ),
+        .target(
+            name: "WindmillDataAccessSqlite",
+            dependencies: ["WindmillDataAccess"]
+        ),
+        .target(
+            name: "WindmillDependencyInjection",
+            dependencies: []
+        ),
+        .target(
+            name: "WindmillEventing",
+            dependencies: [
+                "WindmillConfiguration",
+                "WindmillCore",
+                "WindmillDependencyInjection"
+            ]
+        ),
+        .target(
+            name: "WindmillFlow",
+            dependencies: ["WindmillContext"]
+        ),
+        .target(
+            name: "WindmillLab",
+            dependencies: [
+                "WindmillConfiguration",
+                "WindmillCore",
+                "WindmillDependencyInjection"
+            ]
+        ),
+        .target(
+            name: "WindmillLogging",
+            dependencies: [
+                "WindmillConfiguration",
+                "WindmillCore",
+                "WindmillDependencyInjection"
+            ]
+        ),
+        .target(
+            name: "WindmillMemoryCache",
+            dependencies: [
+                "WindmillConfiguration",
+                "WindmillCore",
+                "WindmillDataAccess",
+                "WindmillDependencyInjection"
+            ]
+        ),
+        .target(
+            name: "WindmillMessaging",
+            dependencies: [
+                "WindmillConfiguration",
+                "WindmillCore",
+                "WindmillDependencyInjection"
+            ]
+        ),
+        .target(
+            name: "WindmillMetrics",
+            dependencies: [
+                "WindmillConfiguration",
+                "WindmillCore",
+                "WindmillDependencyInjection"
+            ]
+        ),
+        .target(
+            name: "WindmillServer",
+            dependencies: [
+                "WindmillContext",
+                "WindmillCore"
+            ]
+        ),
+        .target(
+            name: "WindmillServerHummingbird",
             dependencies: [
                 .product(name: "Hummingbird", package: "hummingbird"),
                 .product(name: "HummingbirdFoundation", package: "hummingbird"),
-
-                "Server"
+                "WindmillServer"
+            ]
+        ),
+        .target(
+            name: "WindmillServerNio",
+            dependencies: [
+                .product(name: "Hummingbird", package: "hummingbird"),
+                .product(name: "HummingbirdFoundation", package: "hummingbird"),
+                "WindmillServer"
             ]
         ),
 
         .testTarget(
             name: "CodecTests",
-            dependencies: ["Codec"]
+            dependencies: ["WindmillCodec"]
         ),
         .testTarget(
             name: "FlowTests",
-            dependencies: ["Flow"]
+            dependencies: ["WindmillFlow"]
         ),
     ]
 )

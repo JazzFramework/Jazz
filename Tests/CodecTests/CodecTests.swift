@@ -16,11 +16,11 @@ final class CodecTests: XCTestCase {
         let streams: BoundStreams = BoundStreams();
 
         //Act
-        _ = codec.Encode(data: weather, for: mediaType, into: streams.output);
-        let result: Weather = codec.Decode(data: streams.input, for: mediaType) as! Weather;
+        _ = codec.encode(data: weather, for: mediaType, into: streams.output);
+        let result: Weather = codec.decode(data: streams.input, for: mediaType) as! Weather;
 
         //Assert
-        XCTAssertEqual(result.Temp, weather.Temp);
+        XCTAssertEqual(result.temp, weather.temp);
     }
 
     func arrayCodecRoundTrip() {
@@ -42,12 +42,12 @@ final class CodecTests: XCTestCase {
         let streams: BoundStreams = BoundStreams();
 
         //Act
-        _ = codec.Encode(data: weathers, for: mediaType, into: streams.output);
-        let result: [Weather] = codec.Decode(data: streams.input, for: mediaType) as! [Weather];
+        _ = codec.encode(data: weathers, for: mediaType, into: streams.output);
+        let result: [Weather] = codec.decode(data: streams.input, for: mediaType) as! [Weather];
 
         //Assert
-        XCTAssertEqual(result[0].Temp, weathers[0].Temp);
-        XCTAssertEqual(result[1].Temp, weathers[1].Temp);
+        XCTAssertEqual(result[0].temp, weathers[0].temp);
+        XCTAssertEqual(result[1].temp, weathers[1].temp);
     }
 
     static var allTests = [

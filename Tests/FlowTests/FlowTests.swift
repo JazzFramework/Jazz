@@ -5,7 +5,7 @@ import XCTest
 final class FlowTests: XCTestCase {
     func testExample() {
         //Arrange
-        let _: StringMutator = StringMutatorActionBuilder().Build();
+        let _: StringMutator = StringMutatorActionBuilder().build();
 
         //Act
         //let result = try await action.Execute(withInput: "custom value 2");

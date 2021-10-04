@@ -21,14 +21,14 @@ internal class DuplicateStringStage: BaseStage {
         super.init(withTransactions: transactions);
     }
 
-    public override func Execute(for context: FlowContext) async throws -> StageResult {
+    public override func execute(for context: FlowContext) async throws -> StageResult {
         guard let stringContext: StringContext = _contextResolver.Resolve(for: context) else {
             return DuplicateStringStage.MISSING_CONTEXT_RESULT;
         }
 
-        let mutatedValue: String = "\(stringContext.Value)\(stringContext.Value)";
+        let mutatedValue: String = "\(stringContext.value)\(stringContext.value)";
 
-        context.Adopt(subcontext: StringContext(mutatedValue));
+        context.adopt(subcontext: StringContext(mutatedValue));
 
         return DuplicateStringStage.SUCCESS_RESULT;
     }

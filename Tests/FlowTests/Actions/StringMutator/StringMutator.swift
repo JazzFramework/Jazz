@@ -1,3 +1,3 @@
 public protocol StringMutator {
-    func Execute(withInput input: String) async throws -> String;
+    func execute(withInput input: String) async throws -> String;
 }

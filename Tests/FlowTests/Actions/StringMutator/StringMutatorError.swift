@@ -1,3 +1,3 @@
 public enum StringMutatorError: Error {
-    case Unknown
+    case unknown
 }

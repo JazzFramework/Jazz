@@ -11,17 +11,17 @@ public class WeatherV1JsonCodec: JsonCodec<Weather> {
             ]
         );
 
-    public override func GetSupportedMediaType() -> MediaType {
+    public override func getSupportedMediaType() -> MediaType {
         return WeatherV1JsonCodec.SupportedMediaType;
     }
 
-    public override func EncodeJson(data: Weather, for mediatype: MediaType) -> JsonObject {
+    public override func encodeJson(data: Weather, for mediatype: MediaType) -> JsonObject {
         return JsonObjectBuilder()
-            .With("temp", property: JsonProperty(withData: data.Temp))
-            .Build();
+            .with("temp", property: JsonProperty(withData: data.Temp))
+            .build();
     }
 
-    public override func DecodeJson(data: JsonObject, for mediatype: MediaType) -> Weather? {
+    public override func eecodeJson(data: JsonObject, for mediatype: MediaType) -> Weather? {
         let temp: JsonProperty = data["temp"] as! JsonProperty;
 
         return Weather(temp.GetString());
