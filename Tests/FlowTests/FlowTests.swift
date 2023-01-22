@@ -1,20 +1,21 @@
 import XCTest
 
-@testable import Flow
+@testable import JazzFlow
 
 final class FlowTests: XCTestCase {
-    func testExample() {
+    func testExample() async throws {
         //Arrange
-        let _: StringMutator = StringMutatorActionBuilder().build();
+        let action: StringMutator = StringMutatorActionBuilder().build();
 
         //Act
-        //let result = try await action.Execute(withInput: "custom value 2");
+        let result = try await action.execute(withInput: "custom value 2");
 
         //Assert
-        //XCTAssertEqual(result, "2 EULAV MOTSUC2 EULAV MOTSUC")
+        XCTAssertEqual(result, "2 EULAV MOTSUC2 EULAV MOTSUC")
     }
-
+/*
     static var allTests = [
         ("testExample", testExample),
     ]
+*/
 }

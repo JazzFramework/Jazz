@@ -1,5 +1,5 @@
-import Context
-import Flow
+import JazzContext
+import JazzFlow
 
 public class StringMutatorActionBuilder {
     private static let STRING_CONTEXT_RESOLVER: ContextResolver<FlowContext, StringContext> =

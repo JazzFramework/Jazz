@@ -1,5 +1,5 @@
-import Context
-import Flow
+import JazzContext
+import JazzFlow
 
 internal class StringMutatorAction: StringMutator {
     private let _flow: Flow;
@@ -35,9 +35,9 @@ internal class StringMutatorAction: StringMutator {
                 }
                 break;
             default:
-                throw StringMutatorError.Unknown;
+                throw StringMutatorError.unknown;
         }
 
-        throw StringMutatorError.Unknown;
+        throw StringMutatorError.unknown;
     }
 }

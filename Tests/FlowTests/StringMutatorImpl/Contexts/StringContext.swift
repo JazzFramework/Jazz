@@ -1,4 +1,4 @@
-import Context
+import JazzContext
 
 internal class StringContext: BaseContext {
     public let value: String;

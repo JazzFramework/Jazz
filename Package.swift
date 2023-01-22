@@ -3,231 +3,287 @@
 
 import PackageDescription
 
+//TODO: Split out packages into multiple repos
 let package = Package(
-    name: "Windmill",
+    name: "Jazz",
     platforms: [
         .macOS(.v13),
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "WindmillClient",
-            targets: ["WindmillClient"]
+            name: "JazzClient",
+            targets: ["JazzClient"]
         ),
         .library(
-            name: "WindmillCodec",
-            targets: ["WindmillCodec"]
+            name: "JazzCodec",
+            targets: ["JazzCodec"]
         ),
         .library(
-            name: "WindmillConfiguration",
-            targets: ["WindmillConfiguration"]
+            name: "JazzConfiguration",
+            targets: ["JazzConfiguration"]
         ),
         .library(
-            name: "WindmillConsole",
-            targets: ["WindmillConsole"]
+            name: "JazzConsole",
+            targets: ["JazzConsole"]
         ),
         .library(
-            name: "WindmillContext",
-            targets: ["WindmillContext"]
+            name: "JazzContext",
+            targets: ["JazzContext"]
         ),
         .library(
-            name: "WindmillCore",
-            targets: ["WindmillCore"]
+            name: "JazzCore",
+            targets: ["JazzCore"]
         ),
         .library(
-            name: "WindmillDataAccess",
-            targets: ["WindmillDataAccess"]
+            name: "JazzDataAccess",
+            targets: ["JazzDataAccess"]
         ),
         .library(
-            name: "WindmillDataAccessInMemory",
-            targets: ["WindmillDataAccessInMemory"]
+            name: "JazzDataAccessDynamoDB",
+            targets: ["JazzDataAccessDynamoDB"]
         ),
         .library(
-            name: "WindmillDataAccessSqlite",
-            targets: ["WindmillDataAccessSqlite"]
+            name: "JazzDataAccessInMemory",
+            targets: ["JazzDataAccessInMemory"]
         ),
         .library(
-            name: "WindmillDependencyInjection",
-            targets: ["WindmillDependencyInjection"]
+            name: "JazzDataAccessSqlite",
+            targets: ["JazzDataAccessSqlite"]
         ),
         .library(
-            name: "WindmillEventing",
-            targets: ["WindmillEventing"]
+            name: "JazzDependencyInjection",
+            targets: ["JazzDependencyInjection"]
         ),
         .library(
-            name: "WindmillFlow",
-            targets: ["WindmillFlow"]
+            name: "JazzEventing",
+            targets: ["JazzEventing"]
         ),
         .library(
-            name: "WindmillLab",
-            targets: ["WindmillLab"]
+            name: "JazzFlow",
+            targets: ["JazzFlow"]
         ),
         .library(
-            name: "WindmillLogging",
-            targets: ["WindmillLogging"]
+            name: "JazzLab",
+            targets: ["JazzLab"]
         ),
         .library(
-            name: "WindmillMemoryCache",
-            targets: ["WindmillMemoryCache"]
+            name: "JazzLocalization",
+            targets: ["JazzLocalization"]
         ),
         .library(
-            name: "WindmillMessaging",
-            targets: ["WindmillMessaging"]
+            name: "JazzLogging",
+            targets: ["JazzLogging"]
         ),
         .library(
-            name: "WindmillMetrics",
-            targets: ["WindmillMetrics"]
+            name: "JazzMemoryCache",
+            targets: ["JazzMemoryCache"]
         ),
         .library(
-            name: "WindmillServer",
-            targets: ["WindmillServer"]
+            name: "JazzMessaging",
+            targets: ["JazzMessaging"]
         ),
         .library(
-            name: "WindmillServerHummingbird",
-            targets: ["WindmillServerHummingbird"]
+            name: "JazzMetrics",
+            targets: ["JazzMetrics"]
         ),
         .library(
-            name: "WindmillServerNio",
-            targets: ["WindmillServerNio"]
+            name: "JazzServer",
+            targets: ["JazzServer"]
+        ),
+        .library(
+            name: "JazzServerHummingbird",
+            targets: ["JazzServerHummingbird"]
+        ),
+        .library(
+            name: "JazzTemplatingEngineStencil",
+            targets: ["JazzTemplatingEngineStencil"]
+        ),
+        .library(
+            name: "JazzTest",
+            targets: ["JazzTest"]
         )
     ],
     dependencies: [
+        .package(url: "https://github.com/apple/swift-nio.git", from: "2.42.0"),
+        .package(url: "https://github.com/apple/swift-nio-ssl.git", from: "2.6.0"),
+        .package(url: "https://github.com/apple/swift-nio-http2.git", from: "1.9.0"),
+
+        .package(url: "https://github.com/stencilproject/Stencil.git", from: "0.15.1"),
+        .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "0.9.2"),
+
+
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "0.13.1"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "WindmillClient",
+            name: "JazzClient",
             dependencies: [
-                "WindmillCodec",
-                "WindmillServer"
+                "JazzCodec",
+                "JazzServer"
             ]
         ),
         .target(
-            name: "WindmillCodec",
+            name: "JazzCodec",
             dependencies: []
         ),
         .target(
-            name: "WindmillConfiguration",
-            dependencies: ["WindmillCodec"]
+            name: "JazzConfiguration",
+            dependencies: ["JazzCodec"]
         ),
         .target(
-            name: "WindmillConsole",
-            dependencies: ["WindmillCore"]
+            name: "JazzConsole",
+            dependencies: ["JazzCore"]
         ),
         .target(
-            name: "WindmillContext",
+            name: "JazzContext",
             dependencies: []
         ),
         .target(
-            name: "WindmillCore",
+            name: "JazzCore",
             dependencies: [
-                "WindmillCodec",
-                "WindmillConfiguration",
-                "WindmillDependencyInjection"
+                "JazzCodec",
+                "JazzConfiguration",
+                "JazzDependencyInjection"
             ]
         ),
         .target(
-            name: "WindmillDataAccess",
+            name: "JazzDataAccess",
             dependencies: []
         ),
         .target(
-            name: "WindmillDataAccessInMemory",
-            dependencies: ["WindmillDataAccess"]
+            name: "JazzDataAccessDynamoDB",
+            dependencies: [
+                .product(name: "AWSDynamoDB", package: "aws-sdk-swift"),
+
+                "JazzDataAccess"
+            ]
         ),
         .target(
-            name: "WindmillDataAccessSqlite",
-            dependencies: ["WindmillDataAccess"]
+            name: "JazzDataAccessInMemory",
+            dependencies: ["JazzDataAccess"]
         ),
         .target(
-            name: "WindmillDependencyInjection",
+            name: "JazzDataAccessSqlite",
+            dependencies: ["JazzDataAccess"]
+        ),
+        .target(
+            name: "JazzDependencyInjection",
             dependencies: []
         ),
         .target(
-            name: "WindmillEventing",
+            name: "JazzEventing",
             dependencies: [
-                "WindmillConfiguration",
-                "WindmillCore",
-                "WindmillDependencyInjection"
+                "JazzConfiguration",
+                "JazzCore",
+                "JazzDependencyInjection"
             ]
         ),
         .target(
-            name: "WindmillFlow",
-            dependencies: ["WindmillContext"]
+            name: "JazzFlow",
+            dependencies: ["JazzContext"]
         ),
         .target(
-            name: "WindmillLab",
+            name: "JazzLab",
             dependencies: [
-                "WindmillConfiguration",
-                "WindmillCore",
-                "WindmillDependencyInjection"
+                "JazzConfiguration",
+                "JazzCore",
+                "JazzDependencyInjection"
             ]
         ),
         .target(
-            name: "WindmillLogging",
+            name: "JazzLocalization",
             dependencies: [
-                "WindmillConfiguration",
-                "WindmillCore",
-                "WindmillDependencyInjection"
+                "JazzConfiguration",
+                "JazzCore",
+                "JazzDependencyInjection"
             ]
         ),
         .target(
-            name: "WindmillMemoryCache",
+            name: "JazzLogging",
             dependencies: [
-                "WindmillConfiguration",
-                "WindmillCore",
-                "WindmillDataAccess",
-                "WindmillDependencyInjection"
+                "JazzConfiguration",
+                "JazzCore",
+                "JazzDependencyInjection"
             ]
         ),
         .target(
-            name: "WindmillMessaging",
+            name: "JazzMemoryCache",
             dependencies: [
-                "WindmillConfiguration",
-                "WindmillCore",
-                "WindmillDependencyInjection"
+                "JazzConfiguration",
+                "JazzCore",
+                "JazzDataAccess",
+                "JazzDependencyInjection"
             ]
         ),
         .target(
-            name: "WindmillMetrics",
+            name: "JazzMessaging",
             dependencies: [
-                "WindmillConfiguration",
-                "WindmillCore",
-                "WindmillDependencyInjection"
+                "JazzConfiguration",
+                "JazzCore",
+                "JazzDependencyInjection"
             ]
         ),
         .target(
-            name: "WindmillServer",
+            name: "JazzMetrics",
             dependencies: [
-                "WindmillContext",
-                "WindmillCore"
+                "JazzConfiguration",
+                "JazzCore",
+                "JazzDependencyInjection"
             ]
         ),
         .target(
-            name: "WindmillServerHummingbird",
+            name: "JazzServer",
+            dependencies: [
+                "JazzContext",
+                "JazzCore",
+                "JazzDataAccess"
+            ]
+        ),
+        .target(
+            name: "JazzServerHummingbird",
             dependencies: [
                 .product(name: "Hummingbird", package: "hummingbird"),
                 .product(name: "HummingbirdFoundation", package: "hummingbird"),
-                "WindmillServer"
+
+                .product(name: "NIOCore", package: "swift-nio"),
+                .product(name: "NIOPosix", package: "swift-nio"),
+                .product(name: "NIOHTTP1", package: "swift-nio"),
+                .product(name: "NIOHTTP2", package: "swift-nio-http2"),
+                .product(name: "NIOSSL", package: "swift-nio-ssl"),
+
+                "JazzServer"
             ]
         ),
         .target(
-            name: "WindmillServerNio",
+            name: "JazzTemplatingEngineStencil",
             dependencies: [
-                .product(name: "Hummingbird", package: "hummingbird"),
-                .product(name: "HummingbirdFoundation", package: "hummingbird"),
-                "WindmillServer"
+                .product(name: "Stencil", package: "Stencil"),
+
+                "JazzServer"
+            ]
+        ),
+        .target(
+            name: "JazzTest",
+            dependencies: [
+                "JazzContext",
+                "JazzCore"
             ]
         ),
 
         .testTarget(
-            name: "CodecTests",
-            dependencies: ["WindmillCodec"]
+            name: "FlowTests",
+            dependencies: [
+                "JazzFlow"
+            ]
         ),
         .testTarget(
-            name: "FlowTests",
-            dependencies: ["WindmillFlow"]
-        ),
+            name: "ServerTests",
+            dependencies: [
+                "JazzServer"
+            ]
+        )
     ]
 )

@@ -1,5 +1,5 @@
-import Context
-import Flow
+import JazzContext
+import JazzFlow
 
 internal class ReverseStage: BaseStage {
     internal static let NAME: String = "\(ReverseStage.self)"
@@ -10,19 +10,19 @@ internal class ReverseStage: BaseStage {
     internal static let MISSING_CONTEXT_RESULT: StageResult =
         StageResult(as: "\(ReverseStage.NAME) missing context");
 
-    private let _contextResolver: ContextResolver<FlowContext, StringContext>;
+    private final let contextResolver: ContextResolver<FlowContext, StringContext>;
 
     internal init(
         withContextResolver contextResolver: ContextResolver<FlowContext, StringContext>,
         withTransactions transactions: [StageResult:String]
     ) {
-        _contextResolver = contextResolver;
+        self.contextResolver = contextResolver;
 
         super.init(withTransactions: transactions);
     }
 
     public override func execute(for context: FlowContext) async throws -> StageResult {
-        guard let stringContext: StringContext = _contextResolver.Resolve(for: context) else {
+        guard let stringContext: StringContext = contextResolver.resolve(for: context) else {
             return ReverseStage.MISSING_CONTEXT_RESULT;
         }
 
