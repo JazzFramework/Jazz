@@ -284,7 +284,7 @@ let package = Package(
         .testTarget(
             name: "ServerTests",
             dependencies: [
-                "Mockingbird",
+                .product(name: "Mockingbird", package: "Mockingbird"),
 
                 "JazzServer"
             ]
