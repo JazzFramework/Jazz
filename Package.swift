@@ -114,6 +114,8 @@ let package = Package(
 
 
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "0.13.1"),
+
+        .package(name: "Mockingbird", url: "https://github.com/birdrides/mockingbird.git", .upToNextMinor(from: "0.20.0")),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -282,6 +284,8 @@ let package = Package(
         .testTarget(
             name: "ServerTests",
             dependencies: [
+                "Mockingbird",
+
                 "JazzServer"
             ]
         )
