@@ -115,7 +115,7 @@ let package = Package(
 
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "0.13.1"),
 
-        .package(name: "Mockingbird", url: "https://github.com/birdrides/mockingbird.git", .upToNextMinor(from: "0.20.0")),
+        .package(url: "https://github.com/birdrides/mockingbird.git", .upToNextMinor(from: "0.20.0")),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -276,15 +276,121 @@ let package = Package(
         ),
 
         .testTarget(
+            name: "CodecTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzCodec"
+            ]
+        ),
+        .testTarget(
+            name: "ConfigurationTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzConfiguration"
+            ]
+        ),
+        .testTarget(
+            name: "ConsoleTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzConsole"
+            ]
+        ),
+        .testTarget(
+            name: "ContextTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzContext"
+            ]
+        ),
+        .testTarget(
+            name: "CoreTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzCore"
+            ]
+        ),
+        .testTarget(
+            name: "DataAccessTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzDataAccess"
+            ]
+        ),
+        .testTarget(
+            name: "DependencyInjectionTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzDependencyInjection"
+            ]
+        ),
+        .testTarget(
+            name: "EventingTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzEventing"
+            ]
+        ),
+        .testTarget(
             name: "FlowTests",
             dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
                 "JazzFlow"
+            ]
+        ),
+        .testTarget(
+            name: "LabTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzLab"
+            ]
+        ),
+        .testTarget(
+            name: "LocalizationTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzLocalization"
+            ]
+        ),
+        .testTarget(
+            name: "LoggingTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzLogging"
+            ]
+        ),
+        .testTarget(
+            name: "MessagingTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzMessaging"
+            ]
+        ),
+        .testTarget(
+            name: "MetricsTests",
+            dependencies: [
+                .product(name: "Mockingbird", package: "mockingbird"),
+
+                "JazzMetrics"
             ]
         ),
         .testTarget(
             name: "ServerTests",
             dependencies: [
-                .product(name: "Mockingbird", package: "Mockingbird"),
+                .product(name: "Mockingbird", package: "mockingbird"),
 
                 "JazzServer"
             ]
