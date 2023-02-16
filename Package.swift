@@ -40,18 +40,6 @@ let package = Package(
             targets: ["JazzDataAccess"]
         ),
         .library(
-            name: "JazzDataAccessDynamoDB",
-            targets: ["JazzDataAccessDynamoDB"]
-        ),
-        .library(
-            name: "JazzDataAccessInMemory",
-            targets: ["JazzDataAccessInMemory"]
-        ),
-        .library(
-            name: "JazzDataAccessSqlite",
-            targets: ["JazzDataAccessSqlite"]
-        ),
-        .library(
             name: "JazzDependencyInjection",
             targets: ["JazzDependencyInjection"]
         ),
@@ -70,10 +58,6 @@ let package = Package(
         .library(
             name: "JazzLogging",
             targets: ["JazzLogging"]
-        ),
-        .library(
-            name: "JazzMemoryCache",
-            targets: ["JazzMemoryCache"]
         ),
         .library(
             name: "JazzMetrics",
@@ -96,9 +80,6 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.42.0"),
         .package(url: "https://github.com/apple/swift-nio-ssl.git", from: "2.6.0"),
         .package(url: "https://github.com/apple/swift-nio-http2.git", from: "1.9.0"),
-
-        .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "0.9.2"),
-
 
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "0.13.1"),
 
@@ -143,22 +124,6 @@ let package = Package(
             dependencies: []
         ),
         .target(
-            name: "JazzDataAccessDynamoDB",
-            dependencies: [
-                .product(name: "AWSDynamoDB", package: "aws-sdk-swift"),
-
-                "JazzDataAccess"
-            ]
-        ),
-        .target(
-            name: "JazzDataAccessInMemory",
-            dependencies: ["JazzDataAccess"]
-        ),
-        .target(
-            name: "JazzDataAccessSqlite",
-            dependencies: ["JazzDataAccess"]
-        ),
-        .target(
             name: "JazzDependencyInjection",
             dependencies: []
         ),
@@ -187,15 +152,6 @@ let package = Package(
             dependencies: [
                 "JazzConfiguration",
                 "JazzCore",
-                "JazzDependencyInjection"
-            ]
-        ),
-        .target(
-            name: "JazzMemoryCache",
-            dependencies: [
-                "JazzConfiguration",
-                "JazzCore",
-                "JazzDataAccess",
                 "JazzDependencyInjection"
             ]
         ),
