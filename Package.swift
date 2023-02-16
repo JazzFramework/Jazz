@@ -88,10 +88,6 @@ let package = Package(
             targets: ["JazzServerHummingbird"]
         ),
         .library(
-            name: "JazzTemplatingEngineStencil",
-            targets: ["JazzTemplatingEngineStencil"]
-        ),
-        .library(
             name: "JazzTest",
             targets: ["JazzTest"]
         )
@@ -101,7 +97,6 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-nio-ssl.git", from: "2.6.0"),
         .package(url: "https://github.com/apple/swift-nio-http2.git", from: "1.9.0"),
 
-        .package(url: "https://github.com/stencilproject/Stencil.git", from: "0.15.1"),
         .package(url: "https://github.com/awslabs/aws-sdk-swift", from: "0.9.2"),
 
 
@@ -231,14 +226,6 @@ let package = Package(
                 .product(name: "NIOHTTP1", package: "swift-nio"),
                 .product(name: "NIOHTTP2", package: "swift-nio-http2"),
                 .product(name: "NIOSSL", package: "swift-nio-ssl"),
-
-                "JazzServer"
-            ]
-        ),
-        .target(
-            name: "JazzTemplatingEngineStencil",
-            dependencies: [
-                .product(name: "Stencil", package: "Stencil"),
 
                 "JazzServer"
             ]
