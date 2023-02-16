@@ -1,6 +1,6 @@
 import XCTest;
 
-final class ExampleTests: XCTestCase {
+final class MetricManagerImplTests: XCTestCase {
     func testExample() async throws {
         //Arrange
         //Act

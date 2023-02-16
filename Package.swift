@@ -68,20 +68,12 @@ let package = Package(
             targets: ["JazzLab"]
         ),
         .library(
-            name: "JazzLocalization",
-            targets: ["JazzLocalization"]
-        ),
-        .library(
             name: "JazzLogging",
             targets: ["JazzLogging"]
         ),
         .library(
             name: "JazzMemoryCache",
             targets: ["JazzMemoryCache"]
-        ),
-        .library(
-            name: "JazzMessaging",
-            targets: ["JazzMessaging"]
         ),
         .library(
             name: "JazzMetrics",
@@ -196,14 +188,6 @@ let package = Package(
             ]
         ),
         .target(
-            name: "JazzLocalization",
-            dependencies: [
-                "JazzConfiguration",
-                "JazzCore",
-                "JazzDependencyInjection"
-            ]
-        ),
-        .target(
             name: "JazzLogging",
             dependencies: [
                 "JazzConfiguration",
@@ -217,14 +201,6 @@ let package = Package(
                 "JazzConfiguration",
                 "JazzCore",
                 "JazzDataAccess",
-                "JazzDependencyInjection"
-            ]
-        ),
-        .target(
-            name: "JazzMessaging",
-            dependencies: [
-                "JazzConfiguration",
-                "JazzCore",
                 "JazzDependencyInjection"
             ]
         ),
@@ -356,27 +332,11 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "LocalizationTests",
-            dependencies: [
-                .product(name: "Mockingbird", package: "mockingbird"),
-
-                "JazzLocalization"
-            ]
-        ),
-        .testTarget(
             name: "LoggingTests",
             dependencies: [
                 .product(name: "Mockingbird", package: "mockingbird"),
 
                 "JazzLogging"
-            ]
-        ),
-        .testTarget(
-            name: "MessagingTests",
-            dependencies: [
-                .product(name: "Mockingbird", package: "mockingbird"),
-
-                "JazzMessaging"
             ]
         ),
         .testTarget(

@@ -1,6 +1,6 @@
 import XCTest;
 
-final class ExampleTests: XCTestCase {
+final class ConsoleAppRunnerTests: XCTestCase {
     func testExample() async throws {
         //Arrange
         //Act
