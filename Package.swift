@@ -68,21 +68,11 @@ let package = Package(
             targets: ["JazzServer"]
         ),
         .library(
-            name: "JazzServerHummingbird",
-            targets: ["JazzServerHummingbird"]
-        ),
-        .library(
             name: "JazzTest",
             targets: ["JazzTest"]
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-nio.git", from: "2.42.0"),
-        .package(url: "https://github.com/apple/swift-nio-ssl.git", from: "2.6.0"),
-        .package(url: "https://github.com/apple/swift-nio-http2.git", from: "1.9.0"),
-
-        .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "0.13.1"),
-
         .package(url: "https://github.com/birdrides/mockingbird.git", .upToNextMinor(from: "0.20.0")),
     ],
     targets: [
@@ -169,21 +159,6 @@ let package = Package(
                 "JazzContext",
                 "JazzCore",
                 "JazzDataAccess"
-            ]
-        ),
-        .target(
-            name: "JazzServerHummingbird",
-            dependencies: [
-                .product(name: "Hummingbird", package: "hummingbird"),
-                .product(name: "HummingbirdFoundation", package: "hummingbird"),
-
-                .product(name: "NIOCore", package: "swift-nio"),
-                .product(name: "NIOPosix", package: "swift-nio"),
-                .product(name: "NIOHTTP1", package: "swift-nio"),
-                .product(name: "NIOHTTP2", package: "swift-nio-http2"),
-                .product(name: "NIOSSL", package: "swift-nio-ssl"),
-
-                "JazzServer"
             ]
         ),
         .target(
