@@ -31,10 +31,10 @@ final class HtmlControllerTests: XCTestCase {
                 .with(acceptMediaTypes: acceptMediaTypes)
                 .build();
 
-        given(try await templatingEngine.run(template: "template", any()))
+        given(await templatingEngine.run(template: "template", any()))
             .willReturn(EmptyHtmlStream());
 
-        given(try await transcoderCollection.encode(any(HtmlStream.self), for: any(), to: any()))
+        given(await transcoderCollection.encode(any(HtmlStream.self), for: any(), to: any()))
             .willReturn(MediaType(withType: "text", withSubtype: "html"));
 
         //Act
@@ -51,7 +51,7 @@ final class HtmlControllerTests: XCTestCase {
         let templatingEngine = mock(TemplatingEngine.self);
         let data: [String:Any] = [:];
 
-        given(try await templatingEngine.run(template: "template", data))
+        given(await templatingEngine.run(template: "template", data))
             .willReturn(EmptyHtmlStream());
 
         //Act
@@ -69,7 +69,7 @@ final class HtmlControllerTests: XCTestCase {
         let templatingEngine = mock(TemplatingEngine.self);
         let data: [String:Any] = [:];
 
-        given(try await templatingEngine.run(template: "template", data))
+        given(await templatingEngine.run(template: "template", data))
             .willReturn(EmptyHtmlStream());
 
         //Act

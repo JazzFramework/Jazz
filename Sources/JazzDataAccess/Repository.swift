@@ -17,8 +17,8 @@ open class Repository<TResource: Storable> {
 
     open func delete(for criteria: [QueryCriterion], with hints: [QueryHint]) async throws {}
 
-    open func get(for criteria: [QueryCriterion], with hints: [QueryHint]) async throws -> [TResource] {
-        return [];
+    open func get(for criteria: [QueryCriterion], with hints: [QueryHint]) async throws -> PaginationResult<TResource> {
+        return PaginationResult(data: [], page: 0, total: 0);
     }
 
     public final func create(_ model: TResource, with hints: [QueryHint]) async throws -> TResource {
@@ -52,15 +52,15 @@ open class Repository<TResource: Storable> {
     }
 
     public final func get(id: String, with hints: [QueryHint]) async throws -> TResource {
-        let results: [TResource] = try await get(for: [IdQueryCriterion(id)], with: hints);
+        let results: PaginationResult<TResource> = try await get(for: [IdQueryCriterion(id)], with: hints);
 
         //TODO: update errors
-        if results.isEmpty {
+        if results.getData().isEmpty {
             throw DataAccessErrors.notFound(reason: "Could not find resource for \(id).");
-        } else if results.count > 1 {
+        } else if results.getData().count > 1 {
             throw DataAccessErrors.notFound(reason: "Could not find resource for \(id), because multiple were found.");
         }
 
-        return results[0];
+        return results.getData()[0];
     }
 }

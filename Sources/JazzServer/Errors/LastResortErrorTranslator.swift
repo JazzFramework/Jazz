@@ -4,6 +4,8 @@ internal final class LastResortErrorTranslator: ErrorTranslator {
     }
 
     public override func translate(error: Error) -> ServerError {
+        print("\(error)");
+
         return buildUnknownError();
     }
 }

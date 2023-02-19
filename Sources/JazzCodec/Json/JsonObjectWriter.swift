@@ -1,13 +1,13 @@
-public class JsonObjectWriter {
+public final class JsonObjectWriter {
     public init() {}
 
-    public func populate(_ jsonObject: JsonObject, into stream: ResultStream) {
+    public final func populate(_ jsonObject: JsonObject, into stream: ResultStream) {
         let writer = JsonWriter(into: stream);
 
         write(jsonObject: jsonObject, with: writer);
     }
 
-    private func write(jsonObject: JsonObject, with writer: JsonWriter) {
+    private final func write(jsonObject: JsonObject, with writer: JsonWriter) {
         writer.startObject();
 
         var shouldWriteDivider: Bool = false;
@@ -30,7 +30,7 @@ public class JsonObjectWriter {
         writer.endObject();
     }
 
-    private func write(jsonArray: JsonArray, with writer: JsonWriter) {
+    private final func write(jsonArray: JsonArray, with writer: JsonWriter) {
         writer.startArray();
 
         if jsonArray.getCount() > 0 {
@@ -54,11 +54,11 @@ public class JsonObjectWriter {
         writer.endArray();
     }
 
-    private func write(jsonProperty: JsonProperty, with writer: JsonWriter) {
+    private final func write(jsonProperty: JsonProperty, with writer: JsonWriter) {
         writer.write(value: jsonProperty.getString());
     }
 
-    private func write(token: JsonToken, with writer: JsonWriter) {
+    private final func write(token: JsonToken, with writer: JsonWriter) {
         if let jsonObject: JsonObject = token as? JsonObject {
             write(jsonObject: jsonObject, with: writer);
         }

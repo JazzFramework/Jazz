@@ -1,31 +1,31 @@
-public class JsonWriter {
+public final class JsonWriter {
     private var stream: ResultStream;
 
     public init(into stream: ResultStream) {
         self.stream = stream;
     }
 
-    public func startObject() {
+    public final func startObject() {
         write(stream, "{");
     }
 
-    public func endObject() {
+    public final func endObject() {
         write(stream, "}");
     }
 
-    public func startArray() {
+    public final func startArray() {
         write(stream, "[");
     }
 
-    public func endArray() {
+    public final func endArray() {
         write(stream, "]");
     }
 
-    public func writeDivider() {
+    public final func writeDivider() {
         write(stream, ",");
     }
 
-    public func write(key: String) {
+    public final func write(key: String) {
         write(stream, "\"");
 
         write(stream, escape(string: key));
@@ -35,7 +35,7 @@ public class JsonWriter {
         write(stream, ":");
     }
 
-    public func write(value: String) {
+    public final func write(value: String) {
         write(stream, "\"");
 
         write(stream, escape(string: value));
@@ -43,11 +43,11 @@ public class JsonWriter {
         write(stream, "\"");
     }
 
-    private func write(_ stream: ResultStream, _ data: String) {
+    private final func write(_ stream: ResultStream, _ data: String) {
         stream.write(data);
     }
 
-    private func escape(string: String) -> String {
+    private final func escape(string: String) -> String {
         return string.replacingOccurrences(of: "\"", with:"\\\"") 
     }
 }

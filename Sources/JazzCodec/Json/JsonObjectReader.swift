@@ -1,10 +1,10 @@
 import Foundation;
 
-public class JsonObjectReader {
+public final class JsonObjectReader {
     public init() {
     }
 
-    public func parse(_ data: RequestStream) -> JsonObject {
+    public final func parse(_ data: RequestStream) -> JsonObject {
         let builder: JsonObjectBuilder = JsonObjectBuilder();
         let content: Data = try! Data(reading: data);
 
@@ -16,7 +16,7 @@ public class JsonObjectReader {
         return builder.build();
     }
 
-    private func read(jsonObject: [String: Any], to builder: JsonObjectBuilder) {
+    private final func read(jsonObject: [String: Any], to builder: JsonObjectBuilder) {
         for key in jsonObject.keys {
             let token: JsonToken = read(json: jsonObject[key] as Any);
 
@@ -24,7 +24,7 @@ public class JsonObjectReader {
         }
     }
 
-    private func read(jsonArray: [Any]) -> JsonArray {
+    private final func read(jsonArray: [Any]) -> JsonArray {
         var tokenArray: [JsonToken] = [];
 
         for json in jsonArray {
@@ -36,7 +36,7 @@ public class JsonObjectReader {
         return JsonArray(withData: tokenArray);
     }
 
-    private func read(json: Any) -> JsonToken
+    private final func read(json: Any) -> JsonToken
     {
         if let object = json as? [String: Any] {
             let childBuilder: JsonObjectBuilder = JsonObjectBuilder();

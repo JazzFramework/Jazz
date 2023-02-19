@@ -14,9 +14,9 @@ open class BaseCriterionHandler<TResource: Storable, TQuery: Query<TResource>, T
     public override final func handle(for query: Query<TResource>, with criterion: QueryCriterion) throws {
         if let typedQuery = query as? TQuery, let typedCriterion = criterion as? TCriterion {
             process(for: typedQuery, with: typedCriterion);
+        } else {
+            throw DataAccessErrors.notProcessableQuery(reason: "");
         }
-
-        throw DataAccessErrors.notProcessableQuery(reason: "");
     }
 
     open func process(for query: TQuery, with criterion: TCriterion) {}

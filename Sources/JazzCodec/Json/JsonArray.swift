@@ -1,17 +1,17 @@
-public class JsonArray: JsonToken {
+public final class JsonArray: JsonToken {
     private var data: [JsonToken];
 
     internal init(withData data: [JsonToken]) {
         self.data = data;
     }
 
-    public subscript(index: Int) -> JsonToken? {
+    public final subscript(index: Int) -> JsonToken? {
         get {
             return data[index];
         }
     }
 
-    public func getCount() -> Int {
+    public final func getCount() -> Int {
         return data.count;
     }
 }

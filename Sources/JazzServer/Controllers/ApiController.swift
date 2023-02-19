@@ -26,7 +26,7 @@ open class ApiController: Controller {
     }
 
     public final func ok(body: Any, headers: [String:[String]] = [:]) -> ApiControllerResult {
-         ApiControllerResultBuilder()
+         return ApiControllerResultBuilder()
             .with(statusCode: 200)
             .with(headers: headers)
             .with(body: body)

@@ -14,9 +14,9 @@ open class BaseHintHandler<TResource: Storable, TQuery: Query<TResource>, THint:
     public override final func handle(for query: Query<TResource>, with hint: QueryHint) throws {
         if let typedQuery = query as? TQuery, let typedHint = hint as? THint {
             return process(for: typedQuery, with: typedHint);
+        } else {
+            throw DataAccessErrors.notProcessableQuery(reason: "");
         }
-
-        throw DataAccessErrors.notProcessableQuery(reason: "");
     }
 
     open func process(for query: TQuery, with hint: THint) {}

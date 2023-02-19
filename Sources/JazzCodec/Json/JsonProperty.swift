@@ -1,4 +1,4 @@
-public class JsonProperty: JsonToken {
+public final class JsonProperty: JsonToken {
     private let data: String;
 
     public static let Empty: JsonProperty =
@@ -12,35 +12,43 @@ public class JsonProperty: JsonToken {
         self.data = "\(data)";
     }
 
-    public func getString() -> String {
+    public init(withData data: Bool) {
+        self.data = "\(data)";
+    }
+
+    public final func isEmpty() -> Bool {
+        return data == "";
+    }
+
+    public final func getString() -> String {
         return data;
     }
 
-    public func getInteger() -> Int? {
+    public final func getInteger() -> Int? {
         return getValue() { value in
             return Int(value)
         }
     }
 
-    public func getUnsignedInteger() -> UInt? {
+    public final func getUnsignedInteger() -> UInt? {
         return getValue() { value in
             return UInt(value)
         }
     }
 
-    public func getDouble() -> Double? {
+    public final func getDouble() -> Double? {
         return getValue() { value in
             return Double(value)
         }
     }
 
-    public func getBool() -> Bool? {
+    public final func getBool() -> Bool? {
         return getValue() { value in
             return Bool(value)
         }
     }
 
-    public func getValue<TType>(_ logic: (String) -> TType?) -> TType? {
+    public final func getValue<TType>(_ logic: (String) -> TType?) -> TType? {
         return logic(data);
     }
 }
