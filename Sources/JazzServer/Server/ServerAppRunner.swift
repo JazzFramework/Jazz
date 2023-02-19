@@ -33,12 +33,7 @@ public final class ServerAppRunner {
             }
         }
 
-        _ = try app
-            .wireUp(singleton: { _ in
-                return try self.configBuilder.build();
-            });
-
-        try await app.run();
+        try await app.run(configuration: try configBuilder.build());
     }
 
     private static func initializerFromString(_ className: String) -> Initializer? {

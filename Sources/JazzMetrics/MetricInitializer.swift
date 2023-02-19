@@ -6,7 +6,7 @@ public final class MetricInitializer: Initializer {
 
     public override final func initialize(for app: App, with configurationBuilder: ConfigurationBuilder) throws {
         _ = try app
-            .wireUp(singleton: { _ in return NoopMetricManagerProvider() as MetricManagerProvider; })
-            .wireUp(singleton: { sp in return MetricManagerImpl(metricManagerProvider: try await sp.fetchType()) as MetricManager; });
+            .wireUp(singleton: { _, _ in return NoopMetricManagerProvider() as MetricManagerProvider; })
+            .wireUp(singleton: { _, sp in return MetricManagerImpl(metricManagerProvider: try await sp.fetchType()) as MetricManager; });
     }
 }

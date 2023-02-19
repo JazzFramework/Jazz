@@ -1,10 +1,11 @@
 import Foundation;
 
 import JazzCodec;
+import JazzConfiguration;
 import JazzDependencyInjection;
 
 open class App {
-    private var queuedBackgroundProcesses: [(ServiceProvider) async throws -> Void];
+    private var queuedBackgroundProcesses: [(Configuration, ServiceProvider) async throws -> Void];
     private let serviceProviderBuilder: ServiceProviderBuilder;
 
     public init() {
@@ -12,20 +13,20 @@ open class App {
         serviceProviderBuilder = ServiceProviderBuilder();
     }
 
-    open func wireUp<T>(singleton: @escaping (ServiceProvider) async throws -> T) throws -> App {
-        _ = try serviceProviderBuilder.register(singleton);
+    open func wireUp<T>(singleton: @escaping (Configuration, ServiceProvider) async throws -> T) throws -> App {
+        _ = serviceProviderBuilder.register(singleton);
 
         return self;
     }
 
     open func wireUp<TBackgroundProcess: BackgroundProcess>(
-        backgroundProcess: @escaping (ServiceProvider) async throws -> TBackgroundProcess
+        backgroundProcess: @escaping (Configuration, ServiceProvider) async throws -> TBackgroundProcess
     ) throws -> App {
         _ = try wireUp(singleton: backgroundProcess);
 
         queuedBackgroundProcesses.append(
             {
-                serviceProvider in
+                _, serviceProvider in
 
                 let backgroundProcess: TBackgroundProcess = try await serviceProvider.fetchType();
 
@@ -40,15 +41,15 @@ open class App {
         return self;
     }
 
-    open func run() async throws {
-        let serviceProvider: ServiceProvider = serviceProviderBuilder.build();
+    open func run(configuration: Configuration) async throws {
+        let serviceProvider: ServiceProvider = serviceProviderBuilder.build(configuration: configuration);
 
-        try await initialize(serviceProvider: serviceProvider);
+        try await initialize(configuration: configuration, serviceProvider: serviceProvider);
     }
 
-    open func initialize(serviceProvider: ServiceProvider) async throws {
+    open func initialize(configuration: Configuration, serviceProvider: ServiceProvider) async throws {
         for logic in queuedBackgroundProcesses {
-            try await logic(serviceProvider);
+            try await logic(configuration, serviceProvider);
         }
     }
 }

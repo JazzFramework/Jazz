@@ -5,31 +5,31 @@ internal final class DefaultErrorTranslatorsInitializer: ServerInitializer {
 
     public override final func initialize(for app: ServerApp, with configurationBuilder: ConfigurationBuilder) throws {
         _ = try app
-            .wireUp(errorTranslator: { _ in
+            .wireUp(errorTranslator: { _, _ in
                 return DataNotFoundErrorTranslator();
             })
 
-            .wireUp(errorTranslator: { _ in
+            .wireUp(errorTranslator: { _, _ in
                 return NotAcceptableErrorTranslator();
             })
 
-            .wireUp(errorTranslator: { _ in
+            .wireUp(errorTranslator: { _, _ in
                 return NotAuthorizedErrorTranslator();
             })
 
-            .wireUp(errorTranslator: { _ in
+            .wireUp(errorTranslator: { _, _ in
                 return NotAuthenticatedErrorTranslator();
             })
 
-            .wireUp(errorTranslator: { _ in
+            .wireUp(errorTranslator: { _, _ in
                 return UnsupportedMediaTypeErrorTranslator();
             })
 
-            .wireUp(errorTranslator: { _ in
+            .wireUp(errorTranslator: { _, _ in
                 return MissingBodyErrorTranslator();
             })
 
-            .wireUp(errorTranslator: { _ in
+            .wireUp(errorTranslator: { _, _ in
                 return LastResortErrorTranslator();
             });
     }

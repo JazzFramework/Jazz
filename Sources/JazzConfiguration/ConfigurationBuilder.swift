@@ -6,6 +6,7 @@ public final class ConfigurationBuilder {
     private var supportedFiles: [String: MediaType];
     private var decoders: [Decoder];
     private var bundle: Bundle?;
+    private var environment: Environment = EnvironmentImpl();
 
     public init() {
         supportedFiles = [:];
@@ -30,11 +31,17 @@ public final class ConfigurationBuilder {
         return self;
     }
 
+    public func with(environment: Environment) -> ConfigurationBuilder {
+        self.environment = environment;
+
+        return self;
+    }
+
     public func build() throws -> Configuration {
-        if let bundle = bundle {
-            return ConfigurationImplementation(with: supportedFiles, with: decoders, with: bundle);
+        guard let bundle else {
+            throw ConfigurationErrors.missingBundle(reason: "Could not load configuration without bundle and environment.");
         }
 
-        throw ConfigurationErrors.missingBundle(reason: "Could not load configuration without bundle.");
+        return ConfigurationImpl(with: supportedFiles, with: decoders, with: bundle, with: environment);
     }
 }

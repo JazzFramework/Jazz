@@ -6,6 +6,6 @@ public final class LabInitializer: Initializer {
 
     public override final func initialize(for app: App, with configurationBuilder: ConfigurationBuilder) throws {
         _ = try app
-            .wireUp(singleton: { _ in return LabManagerImpl() as LabManager; });
+            .wireUp(singleton: { _, _ in return LabManagerImpl() as LabManager; });
     }
 }
